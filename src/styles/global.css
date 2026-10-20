@@ -5,6 +5,7 @@
   --fg: #eae6f2;
   --muted: #9c95ac;
   --line: #332c42;
+  --line-strong: #6b5f86;
   --accent: #f5a524;
   --accent-strong: #ffbe55;
   --ring: #ffc86b;
@@ -166,7 +167,7 @@ footer {
 }
 
 .cta--ghost {
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-strong);
   color: var(--fg);
 }
 

@@ -1,8 +1,9 @@
 # Portfólio pessoal: especificação inicial
 
-- **Revisão:** r4
+- **Revisão:** r5
 - **Data:** 2026-10-19
 - **Etapa:** revisão do desenho, antes da implementação
+- **Alterações da r5:** o site passa a ter duas versões, `pt-BR` em `/` e `en-US` em `/en/`, com alternância por link no cabeçalho. O rótulo do menu continua "Stack", por decisão de Jonas.
 - **Alterações da r4:** o destaque passa de roxo (r3) para âmbar `#F5A524`, por decisão de Jonas em 2026-10-19, após comparação de contraste e de tom. Os demais requisitos da r2 seguem válidos.
 
 ## Objetivo
@@ -29,7 +30,8 @@ Este primeiro marco comprova a estrutura e a execução do site. A composição 
 - Astro com HTML, CSS e JavaScript, sem React e sem tema pronto.
 - Desenvolvimento em `/home/jonask/Projects/portfolio`, no WSL.
 - Node `v24.22.0` pelo nvm, com a versão registrada em `.nvmrc`; dependências reproduzíveis pelo `package-lock.json`.
-- Uma página em `src/pages/index.astro` e estilos em `src/styles/global.css`. Arquivos estáticos ficam em `public/` quando forem necessários.
+- Estilos em `src/styles/global.css`. Arquivos estáticos ficam em `public/` quando forem necessários.
+- Duas rotas estáticas: `src/pages/index.astro` para `pt-BR` e `src/pages/en/index.astro` para `en-US`. O conteúdo traduzido fica em módulos de idioma, consumidos por um componente único, para que as duas versões não divirjam.
 - Extrair componentes quando houver uma responsabilidade que justifique a separação; não criar uma biblioteca de componentes antes de existir essa necessidade.
 - Configurar scripts de desenvolvimento e build, além de ignorar dependências, arquivos gerados e segredos no Git.
 
@@ -37,11 +39,17 @@ Os textos serão editados localmente nos arquivos do Astro. O build gera HTML e 
 
 ## Comportamento e limites
 
+### Idiomas
+
+A versão em português fica na raiz; a inglesa, em `/en/`. O cabeçalho traz um controle de idioma que é um link para a outra versão, sem depender de JavaScript: quem abre `/` vê o link para `/en/`, e quem abre `/en/` vê o link para `/`.
+
+A troca leva ao topo da outra versão, não à mesma seção, porque as âncoras são as mesmas nas duas e o retorno previsível é mais simples de verificar. Cada página declara seu próprio `lang` e traduz títulos, navegação e conteúdo provisório. O verificador de build precisa passar nas duas páginas.
+
 O menu usa âncoras nativas do HTML, com identificadores correspondentes nas seções. A página terá idioma declarado, um título principal e estrutura semântica de navegação e conteúdo, permitindo uso por teclado.
 
 A ausência de conteúdo definitivo será apresentada explicitamente, sem falhas silenciosas nem dados fictícios tratados como fatos. Credenciais nunca serão colocadas em arquivos entregues ao navegador.
 
-Nome em quadradinhos, ilustrações, animações, dados do GitHub e eventual alternância de idioma serão detalhados em incrementos posteriores. Estarem fora deste marco não significa excluí-los da experiência final desejada.
+Nome em quadradinhos, ilustrações, animações e dados do GitHub serão detalhados em incrementos posteriores. Estarem fora deste marco não significa excluí-los da experiência final desejada.
 
 ## Critérios de aceite do primeiro marco
 
