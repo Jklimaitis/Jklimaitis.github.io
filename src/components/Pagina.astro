@@ -21,7 +21,9 @@ const { d } = Astro.props;
   <body>
     <header>
       <nav aria-label={d.navRotulo}>
-        {d.nav.map((item) => <a href={item.href}>{item.rotulo}</a>)}
+        {d.nav.map((item) => (
+          <a href={item.href}>{item.rotulo}</a>
+        ))}
       </nav>
       <a
         class="idioma"
@@ -29,7 +31,9 @@ const { d } = Astro.props;
         hreflang={d.troca.idioma}
         lang={d.troca.idioma}
         aria-label={d.troca.rotuloAcessivel}
-      >{d.troca.rotulo}</a>
+      >
+        {d.troca.rotulo}
+      </a>
     </header>
 
     <main>
@@ -38,7 +42,9 @@ const { d } = Astro.props;
         <p class="lead">{d.inicio.lead}</p>
         <div class="ctas">
           {d.inicio.acoes.map((acao) => (
-            <a class={`cta cta--${acao.variante}`} href={acao.href}>{acao.rotulo}</a>
+            <a class={`cta cta--${acao.variante}`} href={acao.href}>
+              {acao.rotulo}
+            </a>
           ))}
         </div>
       </section>
@@ -70,9 +76,15 @@ const { d } = Astro.props;
               </div>
               <p class="projeto__resumo">{p.resumo}</p>
               <ul class="projeto__stack">
-                {p.stack.map((t) => <li>{t}</li>)}
+                {p.stack.map((t) => (
+                  <li>{t}</li>
+                ))}
               </ul>
-              {p.href && <a class="projeto__link" href={p.href}>{d.projetos.linkRotulo}</a>}
+              {p.href && (
+                <a class="projeto__link" href={p.href}>
+                  {d.projetos.linkRotulo}
+                </a>
+              )}
             </article>
           ))}
         </div>
@@ -94,7 +106,9 @@ const { d } = Astro.props;
               </div>
               <p class="linha__empresa">{exp.empresa}</p>
               <ul class="linha__itens">
-                {exp.itens.map((item) => <li>{item}</li>)}
+                {exp.itens.map((item) => (
+                  <li>{item}</li>
+                ))}
               </ul>
             </li>
           ))}
@@ -109,14 +123,20 @@ const { d } = Astro.props;
           ))}
         </ul>
 
-
         <h3 class="bloco__titulo">{d.trajetoria.idiomasTitulo}</h3>
         <p>{d.trajetoria.idiomas}</p>
       </section>
 
       <section id="contato">
         <h2>{d.contato.titulo}</h2>
-        <p>{d.contato.provisorio}</p>
+        <p>{d.contato.texto}</p>
+        <div class="ctas">
+          {d.contato.acoes.map((acao) => (
+            <a class={`cta cta--${acao.variante}`} href={acao.href}>
+              {acao.rotulo}
+            </a>
+          ))}
+        </div>
       </section>
     </main>
 

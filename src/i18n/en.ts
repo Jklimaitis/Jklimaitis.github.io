@@ -3,7 +3,12 @@ import type { Dicionario } from './types';
 export const en: Dicionario = {
   idioma: 'en',
   titulo: 'Portfolio · Jonas Klimaitis',
-  troca: { rotulo: 'PT', href: '/', idioma: 'pt-BR', rotuloAcessivel: 'Mudar para português' },
+  troca: {
+    rotulo: 'PT',
+    href: '/',
+    idioma: 'pt-BR',
+    rotuloAcessivel: 'Mudar para português',
+  },
   navRotulo: 'Sections',
   nav: [
     { rotulo: 'Home', href: '#inicio' },
@@ -18,19 +23,74 @@ export const en: Dicionario = {
     lead: 'Backend engineer working in Python, focused on automation and system integration.',
     acoes: [
       { rotulo: 'See projects', href: '#projetos', variante: 'primary' },
-      { rotulo: 'GitHub', href: 'https://github.com/Jklimaitis', variante: 'ghost' },
+      {
+        rotulo: 'GitHub',
+        href: 'https://github.com/Jklimaitis',
+        variante: 'ghost',
+      },
     ],
   },
   stack: {
     titulo: 'What I work with',
     grupos: [
-      { nome: 'Backend', itens: ['Python', 'FastAPI', 'Django', 'REST APIs', 'JWT with refresh', 'bcrypt with pepper'] },
-      { nome: 'Architecture', itens: ['layered architecture', 'SOLID', 'Clean Code', 'decoupled services'] },
-      { nome: 'Data', itens: ['PostgreSQL', 'MySQL', 'Oracle', 'SQL', 'relational modeling'] },
-      { nome: 'Infrastructure and DevOps', itens: ['Docker', 'Linux (WSL and Ubuntu)', 'Git and GitHub', 'systemd', 'nginx', 'Proxmox'] },
-      { nome: 'Testing and quality', itens: ['pytest', 'API testing', 'code review', 'verification by execution'] },
-      { nome: 'Other languages', itens: ['Java', 'JavaScript', 'Node.js', 'React', 'Bash'] },
-      { nome: 'Automation and AI', itens: ['process automation', 'API integration', 'agent orchestration', 'multi-agent on Slack', 'LLM as an engineering tool'] },
+      {
+        nome: 'Backend',
+        itens: [
+          'Python',
+          'FastAPI',
+          'Django',
+          'REST APIs',
+          'JWT with refresh',
+          'bcrypt with pepper',
+        ],
+      },
+      {
+        nome: 'Architecture',
+        itens: [
+          'layered architecture',
+          'SOLID',
+          'Clean Code',
+          'decoupled services',
+        ],
+      },
+      {
+        nome: 'Data',
+        itens: ['PostgreSQL', 'MySQL', 'Oracle', 'SQL', 'relational modeling'],
+      },
+      {
+        nome: 'Infrastructure and DevOps',
+        itens: [
+          'Docker',
+          'Linux (WSL and Ubuntu)',
+          'Git and GitHub',
+          'systemd',
+          'nginx',
+          'Proxmox',
+        ],
+      },
+      {
+        nome: 'Testing and quality',
+        itens: [
+          'pytest',
+          'API testing',
+          'code review',
+          'verification by execution',
+        ],
+      },
+      {
+        nome: 'Other languages',
+        itens: ['Java', 'JavaScript', 'Node.js', 'React', 'Bash'],
+      },
+      {
+        nome: 'Automation and AI',
+        itens: [
+          'process automation',
+          'API integration',
+          'agent orchestration',
+          'multi-agent on Slack',
+          'LLM as an engineering tool',
+        ],
+      },
     ],
     estudoTitulo: 'Learning',
     estudo: ['OAuth2', 'MongoDB', 'AWS', 'microservices', 'TDD', 'UiPath'],
@@ -41,25 +101,29 @@ export const en: Dicionario = {
     itens: [
       {
         nome: 'Projeto Carros',
-        resumo: 'Django application for registering and managing cars, with authentication, search and image upload.',
+        resumo:
+          'Django application for registering and managing cars, with authentication, search and image upload.',
         stack: ['Django', 'Python', 'ORM', 'Model forms'],
         href: 'https://github.com/Jklimaitis/Projeto_Carros',
       },
       {
         nome: 'home_shopper',
-        resumo: 'FastAPI API on PostgreSQL for a product catalog and cross-store price comparison, loaded from Brazilian fiscal receipts (NFC-e).',
+        resumo:
+          'FastAPI API on PostgreSQL for a product catalog and cross-store price comparison, loaded from Brazilian fiscal receipts (NFC-e).',
         stack: ['FastAPI', 'PostgreSQL', 'pytest', 'ETL'],
         nota: 'private repository',
       },
       {
         nome: 'Pimp My Commander',
-        resumo: 'FastAPI application that analyses and builds Commander decks from the player collection, integrating Scryfall, EDHREC and ManaBox with LLM support.',
+        resumo:
+          'FastAPI application that analyses and builds Commander decks from the player collection, integrating Scryfall, EDHREC and ManaBox with LLM support.',
         stack: ['FastAPI', 'Pydantic', 'Docker', 'LLM'],
         href: 'https://github.com/Jklimaitis/pimp-my-commander',
       },
       {
         nome: 'Central de Operações',
-        resumo: 'Local portal to publish and browse reports, routines and incidents, with search, filters and authentication.',
+        resumo:
+          'Local portal to publish and browse reports, routines and incidents, with search, filters and authentication.',
         stack: ['HTML, CSS and JS', 'Nginx', 'basic auth', 'Python'],
         nota: 'private repository',
       },
@@ -96,11 +160,18 @@ export const en: Dicionario = {
     ],
     formacaoTitulo: 'Education',
     formacao: [
-      { curso: 'Postgraduate in Software Engineering', instituicao: 'Descomplica', periodo: 'Nov 2025 to Nov 2026' },
+      {
+        curso: 'Postgraduate in Software Engineering',
+        instituicao: 'Descomplica',
+        periodo: 'Nov 2025 to Nov 2026',
+      },
     ],
     cursosTitulo: 'Courses',
     cursos: [
-      { nome: 'Python Master (Logic, Django and Integration)', instituicao: 'PyCodeBR' },
+      {
+        nome: 'Python Master (Logic, Django and Integration)',
+        instituicao: 'PyCodeBR',
+      },
       { nome: 'AI Master', instituicao: 'PyCodeBR' },
       { nome: 'AI Master Elite, mentoring group 3', instituicao: 'PyCodeBR' },
       { nome: 'AI Builders', instituicao: 'PyCodeBR' },
@@ -110,6 +181,21 @@ export const en: Dicionario = {
     idiomasTitulo: 'Languages',
     idiomas: 'Portuguese native, English fluent, Spanish basic.',
   },
-  contato: { titulo: 'Contact', provisorio: 'Under construction.' },
+  contato: {
+    titulo: 'Contact',
+    texto: 'Connect with me on LinkedIn and explore my projects on GitHub.',
+    acoes: [
+      {
+        rotulo: 'LinkedIn',
+        href: 'https://www.linkedin.com/in/jonasklimaitis/',
+        variante: 'ghost',
+      },
+      {
+        rotulo: 'GitHub',
+        href: 'https://github.com/Jklimaitis',
+        variante: 'primary',
+      },
+    ],
+  },
   rodape: 'Portfolio of Jonas Klimaitis.',
 };

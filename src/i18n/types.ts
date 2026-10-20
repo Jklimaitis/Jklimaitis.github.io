@@ -49,7 +49,12 @@ export type Dicionario = {
   navRotulo: string;
   nav: { rotulo: string; href: string }[];
   inicio: { nome: string; lead: string; acoes: Acao[] };
-  stack: { titulo: string; grupos: Grupo[]; estudoTitulo: string; estudo: string[] };
+  stack: {
+    titulo: string;
+    grupos: Grupo[];
+    estudoTitulo: string;
+    estudo: string[];
+  };
   projetos: { titulo: string; linkRotulo: string; itens: Projeto[] };
   github: { titulo: string; provisorio: string };
   trajetoria: {
@@ -62,6 +67,10 @@ export type Dicionario = {
     idiomasTitulo: string;
     idiomas: string;
   };
-  contato: { titulo: string; provisorio: string };
+  contato: {
+    titulo: string;
+    texto: string;
+    acoes: Acao[];
+  };
   rodape: string;
 };

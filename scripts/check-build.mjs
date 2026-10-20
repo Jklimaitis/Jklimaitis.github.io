@@ -13,14 +13,38 @@ const paginas = [
 const problemas = [];
 
 for (const { arquivo, outroIdioma } of paginas) {
-  const html = readFileSync(new URL(`../dist/${arquivo}`, import.meta.url), 'utf8');
+  const html = readFileSync(
+    new URL(`../dist/${arquivo}`, import.meta.url),
+    'utf8',
+  );
   const marca = `${arquivo}: `;
 
-  if (!/lang="[a-z]{2}(-[A-Z]{2})?"/.test(html)) problemas.push(marca + 'atributo lang ausente');
-  if (!/charset="utf-8"/i.test(html)) problemas.push(marca + 'meta charset utf-8 ausente');
+  const contato =
+    html.match(
+      /<section\b[^>]*\bid="contato"[^>]*>([\s\S]*?)<\/section>/,
+    )?.[1] ?? '';
+
+  const linksContato = [
+    'https://www.linkedin.com/in/jonasklimaitis/',
+    'https://github.com/Jklimaitis',
+  ];
+
+  for (const href of linksContato) {
+    if (!contato.includes(`href="${href}"`)) {
+      problemas.push(`${marca}link de contato ausente: ${href}`);
+    }
+  }
+
+  if (!/lang="[a-z]{2}(-[A-Z]{2})?"/.test(html))
+    problemas.push(marca + 'atributo lang ausente');
+  if (!/charset="utf-8"/i.test(html))
+    problemas.push(marca + 'meta charset utf-8 ausente');
 
   const h1 = html.match(/<h1[\s>]/g) ?? [];
-  if (h1.length !== 1) problemas.push(`${marca}h1 deve aparecer uma vez (encontrado: ${h1.length})`);
+  if (h1.length !== 1)
+    problemas.push(
+      `${marca}h1 deve aparecer uma vez (encontrado: ${h1.length})`,
+    );
 
   const ids = [...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
   const ancoras = [...html.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
@@ -28,14 +52,17 @@ for (const { arquivo, outroIdioma } of paginas) {
   if (new Set(ids).size !== ids.length) problemas.push(marca + 'id duplicado');
 
   for (const ancora of ancoras) {
-    if (!ids.includes(ancora)) problemas.push(`${marca}ancora sem destino: #${ancora}`);
+    if (!ids.includes(ancora))
+      problemas.push(`${marca}ancora sem destino: #${ancora}`);
   }
 
   for (const id of required) {
-    if (!ids.includes(id)) problemas.push(`${marca}id obrigatorio ausente: #${id}`);
+    if (!ids.includes(id))
+      problemas.push(`${marca}id obrigatorio ausente: #${id}`);
   }
 
-  if (!html.includes(`hreflang="${outroIdioma}"`)) problemas.push(marca + 'link de idioma ausente');
+  if (!html.includes(`hreflang="${outroIdioma}"`))
+    problemas.push(marca + 'link de idioma ausente');
 
   if (arquivo.startsWith('en/') && html.includes('Em construção')) {
     problemas.push(marca + 'texto em portugues na versao inglesa');
@@ -50,4 +77,6 @@ if (problemas.length) {
   process.exit(1);
 }
 
-console.log(`OK: ${paginas.length} paginas, ${required.length} ids obrigatorios em cada`);
+console.log(
+  `OK: ${paginas.length} paginas, ${required.length} ids obrigatorios em cada`,
+);
