@@ -9,9 +9,17 @@ export type Grupo = {
   itens: string[];
 };
 
+export type Troca = {
+  rotulo: string;
+  href: string;
+  idioma: string;
+  rotuloAcessivel: string;
+};
+
 export type Dicionario = {
   idioma: string;
   titulo: string;
+  troca: Troca;
   navRotulo: string;
   nav: { rotulo: string; href: string }[];
   inicio: { nome: string; lead: string; acoes: Acao[] };

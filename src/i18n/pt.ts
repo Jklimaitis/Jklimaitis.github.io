@@ -3,6 +3,7 @@ import type { Dicionario } from './types';
 export const pt: Dicionario = {
   idioma: 'pt-BR',
   titulo: 'Portfólio · Jonas Klimaitis',
+  troca: { rotulo: 'EN', href: '/en/', idioma: 'en', rotuloAcessivel: 'Mudar para inglês' },
   navRotulo: 'Seções',
   nav: [
     { rotulo: 'Início', href: '#inicio' },

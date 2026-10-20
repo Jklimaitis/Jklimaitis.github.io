@@ -23,6 +23,13 @@ const { d } = Astro.props;
       <nav aria-label={d.navRotulo}>
         {d.nav.map((item) => <a href={item.href}>{item.rotulo}</a>)}
       </nav>
+      <a
+        class="idioma"
+        href={d.troca.href}
+        hreflang={d.troca.idioma}
+        lang={d.troca.idioma}
+        aria-label={d.troca.rotuloAcessivel}
+      >{d.troca.rotulo}</a>
     </header>
 
     <main>

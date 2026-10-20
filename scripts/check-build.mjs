@@ -1,33 +1,53 @@
 #!/usr/bin/env node
-// Valida o HTML gerado em dist/ antes de publicar.
+// Valida as duas paginas geradas em dist/ antes de publicar.
 // Uso: node scripts/check-build.mjs [id-obrigatorio ...]
 import { readFileSync } from 'node:fs';
 
 const required = process.argv.slice(2);
-const html = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
-const ids = [...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-const anchors = [...html.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
-const problems = [];
 
-if (!/lang="[a-z]{2}(-[A-Z]{2})?"/.test(html)) problems.push('atributo lang ausente');
+const paginas = [
+  { arquivo: 'index.html', outroIdioma: 'en' },
+  { arquivo: 'en/index.html', outroIdioma: 'pt-BR' },
+];
 
-if (!/charset="utf-8"/i.test(html)) problems.push('meta charset utf-8 ausente');
+const problemas = [];
 
-const h1 = html.match(/<h1[\s>]/g) ?? [];
-if (h1.length !== 1) problems.push(`h1 deve aparecer uma vez (encontrado: ${h1.length})`);
+for (const { arquivo, outroIdioma } of paginas) {
+  const html = readFileSync(new URL(`../dist/${arquivo}`, import.meta.url), 'utf8');
+  const marca = `${arquivo}: `;
 
-if (new Set(ids).size !== ids.length) problems.push('id duplicado');
+  if (!/lang="[a-z]{2}(-[A-Z]{2})?"/.test(html)) problemas.push(marca + 'atributo lang ausente');
+  if (!/charset="utf-8"/i.test(html)) problemas.push(marca + 'meta charset utf-8 ausente');
 
-for (const anchor of anchors) {
-  if (!ids.includes(anchor)) problems.push(`ancora sem destino: #${anchor}`);
+  const h1 = html.match(/<h1[\s>]/g) ?? [];
+  if (h1.length !== 1) problemas.push(`${marca}h1 deve aparecer uma vez (encontrado: ${h1.length})`);
+
+  const ids = [...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
+  const ancoras = [...html.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
+
+  if (new Set(ids).size !== ids.length) problemas.push(marca + 'id duplicado');
+
+  for (const ancora of ancoras) {
+    if (!ids.includes(ancora)) problemas.push(`${marca}ancora sem destino: #${ancora}`);
+  }
+
+  for (const id of required) {
+    if (!ids.includes(id)) problemas.push(`${marca}id obrigatorio ausente: #${id}`);
+  }
+
+  if (!html.includes(`hreflang="${outroIdioma}"`)) problemas.push(marca + 'link de idioma ausente');
+
+  if (arquivo.startsWith('en/') && html.includes('Em construção')) {
+    problemas.push(marca + 'texto em portugues na versao inglesa');
+  }
+  if (!arquivo.startsWith('en/') && html.includes('Under construction')) {
+    problemas.push(marca + 'texto em ingles na versao portuguesa');
+  }
 }
 
-for (const id of required) {
-  if (!ids.includes(id)) problems.push(`id obrigatorio ausente: #${id}`);
-}
-
-if (problems.length) {
-  console.error('FALHOU:\n- ' + problems.join('\n- '));
+if (problemas.length) {
+  console.error('FALHOU:\n- ' + problemas.join('\n- '));
   process.exit(1);
 }
-console.log(`OK: ${ids.length} ids, ${anchors.length} ancoras resolvidas`);
+
+console.log(`OK: ${paginas.length} paginas, ${required.length} ids obrigatorios em cada`);
