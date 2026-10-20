@@ -40,6 +40,11 @@ footer {
 }
 
 header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -50,7 +55,6 @@ header {
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
-
 
 main {
   display: block;
@@ -203,4 +207,90 @@ footer {
 
 .stack__grupo--estudando h3 {
   color: var(--accent);
+}
+
+.idioma {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding-inline: 0.7rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.idioma:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.linha {
+  display: grid;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.linha__item {
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--line-strong);
+}
+
+.linha__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+}
+
+.linha__topo h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+.linha__periodo {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.linha__empresa {
+  margin: 0.15rem 0 0.6rem;
+  color: var(--accent);
+  font-size: 0.9375rem;
+  font-weight: 600;
+}
+
+.linha__itens {
+  display: grid;
+  gap: 0.3rem;
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.bloco__titulo {
+  margin: 2.25rem 0 0.75rem;
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+.lista {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
 }

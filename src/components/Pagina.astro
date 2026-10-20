@@ -71,7 +71,34 @@ const { d } = Astro.props;
 
       <section id="trajetoria">
         <h2>{d.trajetoria.titulo}</h2>
-        <p>{d.trajetoria.provisorio}</p>
+        <ol class="linha">
+          {d.trajetoria.experiencias.map((exp) => (
+            <li class="linha__item">
+              <div class="linha__topo">
+                <h3>{exp.cargo}</h3>
+                <p class="linha__periodo">{exp.periodo}</p>
+              </div>
+              <p class="linha__empresa">{exp.empresa}</p>
+              <ul class="linha__itens">
+                {exp.itens.map((item) => <li>{item}</li>)}
+              </ul>
+            </li>
+          ))}
+        </ol>
+
+        <h3 class="bloco__titulo">{d.trajetoria.cursosTitulo}</h3>
+        <ul class="lista">
+          {d.trajetoria.cursos.map((c) => (
+            <li>
+              <strong>{c.nome}</strong>, {c.instituicao}
+              {c.situacao && <span class="lista__situacao"> ({c.situacao})</span>}
+            </li>
+          ))}
+        </ul>
+
+
+        <h3 class="bloco__titulo">{d.trajetoria.idiomasTitulo}</h3>
+        <p>{d.trajetoria.idiomas}</p>
       </section>
 
       <section id="contato">

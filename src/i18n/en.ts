@@ -37,7 +37,49 @@ export const en: Dicionario = {
   },
   projetos: { titulo: 'Projects', provisorio: 'Under construction.' },
   github: { titulo: 'GitHub activity', provisorio: 'Under construction.' },
-  trajetoria: { titulo: 'Journey', provisorio: 'Under construction.' },
+  trajetoria: {
+    titulo: 'Journey',
+    experiencias: [
+      {
+        cargo: 'Automation Analyst',
+        empresa: 'Netbiis',
+        periodo: 'Jan 2025 to May 2026',
+        itens: [
+          'Customer journeys and marketing automation with segmentation, personalization and campaign rules.',
+          'Communication channels: email, SMS, push notifications and social media.',
+          'Integrations with Customer Data Platforms (CDP) and CRM systems.',
+          'Worked with Marketing, CRM and Technology teams to organize customer data and campaign requirements.',
+        ],
+      },
+      {
+        cargo: 'Ads Technical Support Specialist',
+        empresa: 'Atento Brasil',
+        periodo: '2023 to Oct 2024',
+        itens: [
+          'Specialized technical support for Meta Ads campaigns.',
+          'Campaign performance analysis based on data reports.',
+          'Tracking setup with the Meta Pixel.',
+          'Resolution of complex technical issues in ads and campaign implementation.',
+          'Translation of technical information for non-specialist users.',
+        ],
+      },
+    ],
+    formacaoTitulo: 'Education',
+    formacao: [
+      { curso: 'Postgraduate in Software Engineering', instituicao: 'Descomplica', periodo: 'Nov 2025 to Nov 2026' },
+    ],
+    cursosTitulo: 'Courses',
+    cursos: [
+      { nome: 'Python Master (Logic, Django and Integration)', instituicao: 'PyCodeBR' },
+      { nome: 'AI Master', instituicao: 'PyCodeBR' },
+      { nome: 'AI Master Elite, mentoring group 3', instituicao: 'PyCodeBR' },
+      { nome: 'AI Builders', instituicao: 'PyCodeBR' },
+      { nome: 'Autonomous Agents Immersion', instituicao: 'PyCodeBR' },
+      { nome: 'FastAPI Workshop', instituicao: 'PyCodeBR' },
+    ],
+    idiomasTitulo: 'Languages',
+    idiomas: 'Portuguese native, English fluent, Spanish basic.',
+  },
   contato: { titulo: 'Contact', provisorio: 'Under construction.' },
   rodape: 'Portfolio of Jonas Klimaitis.',
 };

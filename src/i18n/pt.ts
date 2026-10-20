@@ -37,7 +37,49 @@ export const pt: Dicionario = {
   },
   projetos: { titulo: 'Projetos', provisorio: 'Em construção.' },
   github: { titulo: 'Atividade no GitHub', provisorio: 'Em construção.' },
-  trajetoria: { titulo: 'Trajetória', provisorio: 'Em construção.' },
+  trajetoria: {
+    titulo: 'Trajetória',
+    experiencias: [
+      {
+        cargo: 'Analista de Automação',
+        empresa: 'Netbiis',
+        periodo: 'jan 2025 a mai 2026',
+        itens: [
+          'Jornadas de cliente e automação de marketing com segmentação, personalização e regras de campanha.',
+          'Canais de comunicação: e-mail, SMS, push e redes sociais.',
+          'Integrações com plataformas de dados de cliente (CDP) e sistemas de CRM.',
+          'Trabalho conjunto com times de Marketing, CRM e Tecnologia para organizar dados e requisitos de campanha.',
+        ],
+      },
+      {
+        cargo: 'Ads Technical Support Specialist',
+        empresa: 'Atento Brasil',
+        periodo: '2023 a out 2024',
+        itens: [
+          'Suporte técnico especializado em campanhas no Meta Ads.',
+          'Análise de desempenho de anúncios a partir de relatórios de dados.',
+          'Configuração de rastreamento com o Pixel da Meta.',
+          'Resolução de problemas técnicos complexos de anúncios e implementação de campanhas.',
+          'Tradução de informação técnica para usuários não especialistas.',
+        ],
+      },
+    ],
+    formacaoTitulo: 'Formação',
+    formacao: [
+      { curso: 'Pós-graduação em Engenharia de Software', instituicao: 'Descomplica', periodo: 'nov 2025 a nov 2026' },
+    ],
+    cursosTitulo: 'Cursos',
+    cursos: [
+      { nome: 'Python Master (Logic, Django e Integration)', instituicao: 'PyCodeBR' },
+      { nome: 'IA Master', instituicao: 'PyCodeBR' },
+      { nome: 'IA Master Elite, grupo numero 3 de mentorados', instituicao: 'PyCodeBR', },
+      { nome: 'AI Builders', instituicao: 'PyCodeBR' },
+      { nome: 'Imersão de Agentes Autônomos', instituicao: 'PyCodeBR' },
+      { nome: 'Workshop FastAPI', instituicao: 'PyCodeBR' },
+    ],
+    idiomasTitulo: 'Idiomas',
+    idiomas: 'Português nativo, inglês fluente, espanhol básico.',
+  },
   contato: { titulo: 'Contato', provisorio: 'Em construção.' },
   rodape: 'Portfólio de Jonas Klimaitis.',
 };
