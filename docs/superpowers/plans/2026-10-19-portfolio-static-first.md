@@ -22,11 +22,11 @@
 
 Comportamentos que a spec não fixa e que costumam quebrar primeiro:
 
-1. **Âncora sem destino** — link do menu aponta para `#algumacoes` que não existe e o clique não faz nada. Testado na Tarefa 4.
-2. **`id` duplicado** — dois elementos com o mesmo `id` fazem a âncora ir para o lugar errado. Testado na Tarefa 4.
-3. **JavaScript desativado** — a página estática precisa renderizar por completo sem JS. Garantido pelo build na Tarefa 2 (nenhum conteúdo depende de script).
-4. **Tela estreita ou zoom alto** — texto longo deve quebrar linha sem criar rolagem horizontal. Conferido na Tarefa 3.
-5. **Abrir `index.html` com duplo clique** — `file://` não carrega os recursos do Astro; a página é servida por `npm run dev` ou `npm run preview`. Declarado na Tarefa 1.
+1. **Acento virando “OlÃ¡”** — sem `charset` declarado, o navegador lê UTF-8 como windows-1252. Testado na Tarefa 4.
+2. **Âncora sem destino** — link do menu aponta para `#algumacoes` que não existe e o clique não faz nada. Testado na Tarefa 4.
+3. **`id` duplicado** — dois elementos com o mesmo `id` fazem a âncora ir para o lugar errado. Testado na Tarefa 4.
+4. **JavaScript desativado** — a página estática precisa renderizar por completo sem JS. Garantido pelo build na Tarefa 2 (nenhum conteúdo depende de script).
+5. **Tela estreita ou zoom alto** — texto longo deve quebrar linha sem criar rolagem horizontal. Conferido na Tarefa 3.
 
 ---
 
@@ -107,6 +107,10 @@ export default defineConfig({});
 
 ```astro
 <html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <title>Portfólio</title>
+  </head>
   <body>
     <h1>Olá, portfólio</h1>
   </body>
@@ -170,19 +174,24 @@ git commit -m "chore: cria projeto Astro minimo"
 Estrutura obrigatória, com um único `<h1>` e um `<h2>` por seção:
 
 ```text
-header
-  nav  → links #inicio #stack #projetos #github #trajetoria #contato
-main
-  section#inicio      h1 "Jonas Klimaitis" + parágrafo "Em construção"
-  section#stack       h2 + parágrafo "Em construção"
-  section#projetos    h2 + parágrafo "Em construção"
-  section#github      h2 + parágrafo "Em construção"
-  section#trajetoria  h2 + parágrafo "Em construção"
-  section#contato     h2 + parágrafo "Em construção"
-footer
+html lang="pt-BR"
+  head   meta charset="utf-8" · meta viewport · title
+  body
+    header
+      nav  → links #inicio #stack #projetos #github #trajetoria #contato
+    main
+      section#inicio      h1 "Jonas Klimaitis" + parágrafo "Em construção"
+      section#stack       h2 + parágrafo "Em construção"
+      section#projetos    h2 + parágrafo "Em construção"
+      section#github      h2 + parágrafo "Em construção"
+      section#trajetoria  h2 + parágrafo "Em construção"
+      section#contato     h2 + parágrafo "Em construção"
+    footer
 ```
 
 Regras: cada `href="#x"` do menu possui um `id="x"` correspondente; nenhum `id` se repete; o texto provisório diz “Em construção” e não inventa experiência, métrica ou projeto.
+
+O `<head>` precisa declarar `charset="utf-8"`. O servidor de desenvolvimento do Astro responde `content-type: text/html` **sem** charset, então sem essa meta o navegador interpreta acentos como windows-1252 e “Olá” aparece como “OlÃ¡”. Também entrarão `viewport` (largura correta em celular) e `title` (texto da aba).
 
 - [ ] **Passo 2: conferir no navegador**
 
@@ -287,6 +296,8 @@ const anchors = [...html.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
 const problems = [];
 
 if (!/lang="[a-z]{2}(-[A-Z]{2})?"/.test(html)) problems.push('atributo lang ausente');
+
+if (!/charset="utf-8"/i.test(html)) problems.push('meta charset utf-8 ausente');
 
 const h1 = html.match(/<h1[\s>]/g) ?? [];
 if (h1.length !== 1) problems.push(`h1 deve aparecer uma vez (encontrado: ${h1.length})`);
