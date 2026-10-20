@@ -275,23 +275,37 @@ git commit -m "style: base tipografica e espacamento"
 `scripts/check-build.mjs`:
 
 ```js
+#!/usr/bin/env node
+// Valida o HTML gerado em dist/ antes de publicar.
+// Uso: node scripts/check-build.mjs [id-obrigatorio ...]
 import { readFileSync } from 'node:fs';
 
+const required = process.argv.slice(2);
 const html = readFileSync(new URL('../dist/index.html', import.meta.url), 'utf8');
 const ids = [...html.matchAll(/id="([^"]+)"/g)].map((m) => m[1]);
-const links = [...html.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
+const anchors = [...html.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]);
 const problems = [];
 
-if (!html.includes('lang="pt-BR"')) problems.push('idioma pt-BR ausente');
-if ((html.match(/<h1[\s>]/g) ?? []).length !== 1) problems.push('h1 deve aparecer exatamente uma vez');
-for (const id of links) if (!ids.includes(id)) problems.push(`ancora sem destino: #${id}`);
+if (!/lang="[a-z]{2}(-[A-Z]{2})?"/.test(html)) problems.push('atributo lang ausente');
+
+const h1 = html.match(/<h1[\s>]/g) ?? [];
+if (h1.length !== 1) problems.push(`h1 deve aparecer uma vez (encontrado: ${h1.length})`);
+
 if (new Set(ids).size !== ids.length) problems.push('id duplicado');
+
+for (const anchor of anchors) {
+  if (!ids.includes(anchor)) problems.push(`ancora sem destino: #${anchor}`);
+}
+
+for (const id of required) {
+  if (!ids.includes(id)) problems.push(`id obrigatorio ausente: #${id}`);
+}
 
 if (problems.length) {
   console.error('FALHOU:\n- ' + problems.join('\n- '));
   process.exit(1);
 }
-console.log('OK: idioma, h1 unico e ancoras resolvidas');
+console.log(`OK: ${ids.length} ids, ${anchors.length} ancoras resolvidas`);
 ```
 
 - [ ] **Passo 2: registrar o script no `package.json`**
@@ -302,14 +316,14 @@ Acrescentar em `"scripts"`: `"check": "node scripts/check-build.mjs"`.
 
 ```bash
 npm run build
-npm run check
+node scripts/check-build.mjs inicio stack projetos github trajetoria contato
 ```
 
-Esperado: `OK: idioma, h1 unico e ancoras resolvidas`.
+Esperado: `OK: 6 ids, 6 ancoras resolvidas`.
 
 - [ ] **Passo 4: provar que a checagem reprova de verdade**
 
-Trocar temporariamente um `href="#stack"` por `href="#stak"`, rodar `npm run build && npm run check` e confirmar a mensagem `ancora sem destino: #stak` com código de saída 1. Depois desfazer a troca e repetir: `OK`.
+Trocar temporariamente um `href="#stack"` por `href="#stak"`, rodar `npm run build && node scripts/check-build.mjs inicio stack projetos github trajetoria contato` e confirmar a mensagem `ancora sem destino: #stak` com código de saída 1. Depois desfazer a troca e repetir o comando: `OK: 6 ids, 6 ancoras resolvidas`.
 
 - [ ] **Passo 5: commit**
 
