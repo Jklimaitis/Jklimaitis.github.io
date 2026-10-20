@@ -31,7 +31,6 @@ body {
   line-height: 1.65;
 }
 
-header,
 main,
 footer {
   max-width: 68ch;
@@ -40,8 +39,17 @@ footer {
 }
 
 header {
-  padding-top: 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  max-width: 68ch;
+  margin: 0 auto;
+  padding: 0.9rem 1.25rem;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
 }
+
 
 main {
   display: block;
@@ -88,8 +96,6 @@ nav {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--line);
 }
 
 nav a {
@@ -105,8 +111,9 @@ nav a:hover {
 section {
   padding-block: 2.75rem;
   border-bottom: 1px solid var(--line);
-  scroll-margin-top: 1.5rem;
+  scroll-margin-top: 5rem;
 }
+
 
 section:last-child {
   border-bottom: 0;
