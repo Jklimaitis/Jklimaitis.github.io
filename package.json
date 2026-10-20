@@ -7,16 +7,19 @@
     "doc": "docs"
   },
   "scripts": {
-  "check": "node scripts/check-build.mjs inicio stack projetos github trajetoria contato",
-  "dev": "astro dev",
-  "build": "astro build",
-  "preview": "astro preview"
-},
+    "check": "node scripts/check-build.mjs inicio stack projetos github trajetoria contato",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/space-grotesk": "^5.3.0",
     "astro": "^7.4.1"
   }
 }
