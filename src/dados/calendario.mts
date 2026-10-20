@@ -64,3 +64,49 @@ export function validarCalendario(json: unknown): Resultado<Dia[]> {
 
   return { ok: true, dados: dias };
 }
+
+export type Indicadores = {
+  total: number;
+  diasAtivos: number;
+  sequenciaAtual: number;
+  maiorSequencia: number;
+  melhorDia: Dia | null;
+};
+
+export function calcularIndicadores(dias: Dia[]): Indicadores {
+  let total = 0;
+  let diasAtivos = 0;
+  let maiorSequencia = 0;
+  let corrente = 0;
+  let melhorDia: Dia | null = null;
+
+  for (const dia of dias) {
+    total += dia.contagem;
+
+    if (dia.contagem > 0) {
+      diasAtivos += 1;
+      corrente += 1;
+      if (corrente > maiorSequencia) maiorSequencia = corrente;
+      if (melhorDia === null || dia.contagem >= melhorDia.contagem)
+        melhorDia = dia;
+    } else {
+      corrente = 0;
+    }
+  }
+
+  let sequenciaAtual = 0;
+  let i = dias.length - 1;
+  if (i >= 0 && dias[i].contagem === 0) i -= 1;
+  while (i >= 0 && dias[i].contagem > 0) {
+    sequenciaAtual += 1;
+    i -= 1;
+  }
+
+  return {
+    total,
+    diasAtivos,
+    sequenciaAtual,
+    maiorSequencia,
+    melhorDia,
+  };
+}
