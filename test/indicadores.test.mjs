@@ -24,7 +24,12 @@ test('sequência atual conta a partir do último dia ativo', () => {
 
 test('maior sequência atravessa virada de mês e de ano sem deslocar o dia', () => {
   const r = calcularIndicadores(
-    dias(['2025-12-30', 1], ['2025-12-31', 1], ['2026-01-01', 1], ['2026-01-02', 0]),
+    dias(
+      ['2025-12-30', 1],
+      ['2025-12-31', 1],
+      ['2026-01-01', 1],
+      ['2026-01-02', 0],
+    ),
   );
   assert.equal(r.maiorSequencia, 3);
   assert.equal(r.sequenciaAtual, 3);
@@ -53,7 +58,12 @@ test('período sem contribuições devolve zeros válidos e melhor dia nulo', ()
 
 test('intervalo interrompido não infla a maior sequência', () => {
   const r = calcularIndicadores(
-    dias(['2026-10-17', 1], ['2026-10-18', 0], ['2026-10-19', 1], ['2026-10-20', 1]),
+    dias(
+      ['2026-10-17', 1],
+      ['2026-10-18', 0],
+      ['2026-10-19', 1],
+      ['2026-10-20', 1],
+    ),
   );
   assert.equal(r.maiorSequencia, 2);
   assert.equal(r.sequenciaAtual, 2);

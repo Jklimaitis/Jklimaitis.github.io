@@ -2,8 +2,34 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { formatarMesAno } from '../src/dados/formato.mts';
 
-const PT = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
-const EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const PT = [
+  'jan',
+  'fev',
+  'mar',
+  'abr',
+  'mai',
+  'jun',
+  'jul',
+  'ago',
+  'set',
+  'out',
+  'nov',
+  'dez',
+];
+const EN = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];
 
 test('mostra mês e ano com a data completa em datetime', () => {
   assert.deepEqual(formatarMesAno('2026-10-20T06:41:44Z', PT), {
@@ -24,7 +50,14 @@ test('não desloca o dia quando a hora UTC é madrugada', () => {
 });
 
 test('devolve nulo para valor ausente ou inválido', () => {
-  for (const entrada of [null, '', 'lixo', '2026-13-01', '2026-00-10', '2026-02-30']) {
+  for (const entrada of [
+    null,
+    '',
+    'lixo',
+    '2026-13-01',
+    '2026-00-10',
+    '2026-02-30',
+  ]) {
     assert.equal(formatarMesAno(entrada, PT), null);
   }
 });
