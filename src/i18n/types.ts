@@ -56,7 +56,26 @@ export type Dicionario = {
     estudo: string[];
   };
   projetos: { titulo: string; linkRotulo: string; itens: Projeto[] };
-  github: { titulo: string; provisorio: string };
+  github: {
+    titulo: string;
+    fallback: string;
+    linkPerfil: string;
+    carregando: string;
+    indisponivel: string;
+    limite: string;
+    listaVazia: string;
+    incompleto: string;
+    periodo: string;
+    repositoriosPublicos: string;
+    indicadores: {
+      contribuicoes: string;
+      diasAtivos: string;
+      sequenciaAtual: string;
+      maiorSequencia: string;
+      melhorDia: string;
+    };
+    semContribuicoes: string;
+  };
   trajetoria: {
     titulo: string;
     experiencias: Experiencia[];

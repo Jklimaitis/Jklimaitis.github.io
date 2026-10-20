@@ -134,7 +134,28 @@ export const pt: Dicionario = {
       },
     ],
   },
-  github: { titulo: 'Atividade no GitHub', provisorio: 'Em construção.' },
+  github: {
+    titulo: 'Atividade no GitHub',
+    fallback:
+      'Os dados abaixo são carregados no navegador a partir das APIs públicas do GitHub. Sem JavaScript, veja o perfil completo no link.',
+    linkPerfil: 'Ver perfil no GitHub',
+    carregando: 'Carregando dados do GitHub…',
+    indisponivel: 'Dados indisponíveis no momento.',
+    limite:
+      'Limite de consultas do GitHub atingido. Tente novamente em alguns minutos.',
+    listaVazia: 'Nenhum repositório elegível no momento.',
+    incompleto: 'Lista parcial: não foi possível concluir a consulta.',
+    periodo: 'Período',
+    repositoriosPublicos: 'repositórios públicos',
+    indicadores: {
+      contribuicoes: 'contribuições no último ano',
+      diasAtivos: 'dias ativos',
+      sequenciaAtual: 'sequência atual',
+      maiorSequencia: 'maior sequência',
+      melhorDia: 'melhor dia',
+    },
+    semContribuicoes: 'sem contribuições no período',
+  },
   trajetoria: {
     titulo: 'Trajetória',
     experiencias: [

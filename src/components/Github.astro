@@ -1,0 +1,231 @@
+---
+import type { Dicionario } from '../i18n/types';
+
+interface Props {
+  d: Dicionario;
+}
+
+const { d } = Astro.props;
+---
+
+<section id="github">
+  <h2>{d.github.titulo}</h2>
+
+  <p data-papel="fallback">
+    {d.github.fallback}
+    <a
+      href="https://github.com/Jklimaitis"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      {d.github.linkPerfil}
+    </a>
+  </p>
+
+  <div data-bloco="perfil" aria-busy="true" hidden>
+    <p data-papel="estado">{d.github.carregando}</p>
+  </div>
+
+  <div data-bloco="repositorios" aria-busy="true" hidden>
+    <p data-papel="estado">{d.github.carregando}</p>
+  </div>
+
+  <div data-bloco="calendario" aria-busy="true" hidden>
+    <p data-papel="estado">{d.github.carregando}</p>
+  </div>
+</section>
+
+<script>
+  import { formatarMesAno } from '../dados/formato.mts';
+  import { carregarSecao } from '../dados/secao.mts';
+  import { en } from '../i18n/en';
+  import { pt } from '../i18n/pt';
+
+  const textos = document.documentElement.lang.startsWith('en') ? en : pt;
+  const t = textos.github;
+
+  const secao = document.getElementById('github');
+  if (!secao) throw new Error('secao github ausente');
+
+  const buscarBloco = (nome: string) =>
+    secao.querySelector<HTMLElement>(`[data-bloco="${nome}"]`);
+
+  function iniciar(nome: string): HTMLElement | null {
+    const el = buscarBloco(nome);
+    if (!el) return null;
+    el.removeAttribute('hidden');
+    el.setAttribute('aria-busy', 'true');
+    const estado = el.querySelector('[data-papel="estado"]');
+    if (estado) estado.remove();
+    return el;
+  }
+
+  function concluir(el: HTMLElement) {
+    el.setAttribute('aria-busy', 'false');
+  }
+
+  function aviso(el: HTMLElement, texto: string) {
+    const p = document.createElement('p');
+    p.className = 'github__aviso';
+    p.textContent = texto;
+    el.append(p);
+  }
+
+  function textoFalha(motivo: string): string {
+    return motivo === 'limite' ? t.limite : t.indisponivel;
+  }
+
+  secao.querySelector('[data-papel="fallback"]')?.setAttribute('hidden', '');
+
+  const perfil = iniciar('perfil');
+  const repos = iniciar('repositorios');
+  const calendario = iniciar('calendario');
+
+  const estado = await carregarSecao({
+    buscar: window.fetch.bind(window),
+    armazenamento: window.localStorage,
+    agora: () => Date.now(),
+  });
+
+  if (perfil) {
+    if (estado.perfil.ok) {
+      const p = document.createElement('p');
+      p.className = 'perfil__numero';
+      const forte = document.createElement('strong');
+      forte.textContent = String(estado.perfil.dados.repositoriosPublicos);
+      p.append(forte, ` ${t.repositoriosPublicos}`);
+      perfil.append(p);
+    } else {
+      aviso(perfil, textoFalha(estado.perfil.motivo));
+    }
+    concluir(perfil);
+  }
+
+  if (repos) {
+    if (!estado.repositorios.ok) {
+      aviso(repos, textoFalha(estado.repositorios.motivo));
+    } else if (estado.repositorios.dados.itens.length === 0) {
+      aviso(repos, t.listaVazia);
+    } else {
+      const grade = document.createElement('div');
+      grade.className = 'cartoes';
+
+      for (const item of estado.repositorios.dados.itens) {
+        const artigo = document.createElement('article');
+        artigo.className = 'cartao';
+
+        const titulo = document.createElement('h3');
+        titulo.className = 'cartao__nome';
+        const link = document.createElement('a');
+        link.href = item.url;
+        link.rel = 'noopener noreferrer';
+        link.target = '_blank';
+        link.textContent = item.nome;
+        titulo.append(link);
+        artigo.append(titulo);
+
+        if (item.descricao) {
+          const p = document.createElement('p');
+          p.className = 'cartao__resumo';
+          p.textContent = item.descricao;
+          artigo.append(p);
+        }
+
+        const meta = document.createElement('p');
+        meta.className = 'cartao__meta';
+
+        if (item.linguagem) {
+          const span = document.createElement('span');
+          span.className = 'cartao__lingua';
+          span.textContent = item.linguagem;
+          meta.append(span);
+        }
+
+        if (item.estrelas > 0) {
+          const span = document.createElement('span');
+          span.className = 'cartao__estrelas';
+          span.textContent = `★ ${item.estrelas}`;
+          meta.append(span);
+        }
+
+        const data = formatarMesAno(item.ultimoEnvio, textos.meses);
+        if (data) {
+          const tempo = document.createElement('time');
+          tempo.dateTime = data.datetime;
+          tempo.textContent = data.rotulo;
+          meta.append(tempo);
+        }
+
+        if (meta.childElementCount > 0) artigo.append(meta);
+        grade.append(artigo);
+      }
+
+      repos.append(grade);
+      if (estado.repositorios.dados.incompleto) aviso(repos, t.incompleto);
+    }
+    concluir(repos);
+  }
+
+  if (calendario) {
+    if (!estado.calendario.ok || !estado.indicadores) {
+      aviso(
+        calendario,
+        textoFalha(estado.calendario.ok ? 'rede' : estado.calendario.motivo),
+      );
+    } else {
+      const dias = estado.calendario.dados;
+
+      const periodo = document.createElement('p');
+      periodo.className = 'calendario__periodo';
+      const inicio = document.createElement('time');
+      inicio.dateTime = dias[0].data;
+      inicio.textContent = dias[0].data;
+      const fim = document.createElement('time');
+      fim.dateTime = dias[dias.length - 1].data;
+      fim.textContent = dias[dias.length - 1].data;
+      periodo.append(`${t.periodo}: `, inicio, ' — ', fim);
+      calendario.append(periodo);
+
+      const lista = document.createElement('ol');
+      lista.className = 'calendario';
+      for (const dia of dias) {
+        const li = document.createElement('li');
+        li.className = 'calendario__dia';
+        li.dataset.nivel = String(dia.nivel);
+        li.setAttribute('aria-label', `${dia.data}: ${dia.contagem}`);
+        lista.append(li);
+      }
+      calendario.append(lista);
+
+      const ind = estado.indicadores;
+      const dl = document.createElement('dl');
+      dl.className = 'indicadores';
+
+      const pares: [string, string][] = [
+        [t.indicadores.contribuicoes, String(ind.total)],
+        [t.indicadores.diasAtivos, String(ind.diasAtivos)],
+        [t.indicadores.sequenciaAtual, String(ind.sequenciaAtual)],
+        [t.indicadores.maiorSequencia, String(ind.maiorSequencia)],
+        [
+          t.indicadores.melhorDia,
+          ind.melhorDia
+            ? `${ind.melhorDia.data} · ${ind.melhorDia.contagem}`
+            : t.semContribuicoes,
+        ],
+      ];
+
+      for (const [rotulo, valor] of pares) {
+        const div = document.createElement('div');
+        const dt = document.createElement('dt');
+        dt.textContent = rotulo;
+        const dd = document.createElement('dd');
+        dd.textContent = valor;
+        div.append(dt, dd);
+        dl.append(div);
+      }
+
+      calendario.append(dl);
+    }
+    concluir(calendario);
+  }
+</script>
