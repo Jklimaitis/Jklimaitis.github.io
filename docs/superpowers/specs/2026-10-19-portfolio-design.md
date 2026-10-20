@@ -10,7 +10,7 @@
 
 Construir um portfólio próprio de Jonas Klimaitis, com fundo escuro, destaques em âmbar, navegação no topo e elementos visuais relacionados ao GitHub. O código, a identidade e o conteúdo serão próprios.
 
-A construção será guiada: Jonas escreve e executa os incrementos; o agente explica e revisa. Não haverá geração automática do site completo.
+Construção incremental: cada incremento é implementado e verificado antes do seguinte, sem geração automática do site completo.
 
 ## Primeiro marco: estrutura estática funcionando
 
@@ -64,9 +64,9 @@ Nome em quadradinhos, ilustrações, animações e dados do GitHub serão detalh
 
 Depois da revisão desta especificação, será apresentado um plano curto para configurar o Astro, criar a primeira página, verificar sua execução e registrar o resultado no Git. O plano também será revisado antes de iniciar esses passos.
 
-Nas lições de implementação, apresentar somente o incremento atual e revisar sua saída antes de avançar. A sequência seguinte será aparência e responsividade, interações, dados externos e publicação, com o escopo de cada incremento definido antes de executá-lo.
+Cada incremento é implementado e revisado antes de avançar para o seguinte. A sequência seguinte será aparência e responsividade, interações, dados externos e publicação, com o escopo de cada incremento definido antes de executá-lo.
 
-Esta revisão não autoriza criação de repositório remoto, push, publicação ou execução pelo agente das etapas que Jonas está aprendendo.
+Esta revisão não autoriza criação de repositório remoto, push nem publicação.
 
 ## Fontes técnicas
 
