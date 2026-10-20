@@ -1,33 +1,110 @@
+:root {
+  --bg: #0c0a12;
+  --surface: #15121d;
+  --raise: #1c1826;
+  --fg: #eae6f2;
+  --muted: #9c95ac;
+  --line: #332c42;
+  --accent: #f5a524;
+  --accent-strong: #ffbe55;
+  --ring: #ffc86b;
+  --on-accent: #1a1206;
+
+  --font-display: "Space Grotesk Variable", system-ui, sans-serif;
+  --font-body: "Manrope Variable", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+
+  --radius: 12px;
+  color-scheme: dark;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+}
+
+header,
+main,
+footer {
   max-width: 68ch;
   margin: 0 auto;
-  padding: 2rem 1.25rem 4rem;
-  font-family: system-ui, sans-serif;
-  font-size: 1.0625rem;
-  line-height: 1.6;
+  padding-inline: 1.25rem;
 }
 
-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-nav a {
-  text-decoration: none;
+header {
+  padding-top: 2rem;
 }
 
 main {
   display: block;
 }
 
+h1,
+h2 {
+  font-family: var(--font-display);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+h1 {
+  font-size: clamp(2.25rem, 6vw, 3.5rem);
+}
+
+h2 {
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+}
+
+p {
+  max-width: 62ch;
+  color: var(--muted);
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+a:hover {
+  color: var(--accent-strong);
+}
+
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--line);
+}
+
+nav a {
+  color: var(--muted);
+  font-size: 0.9375rem;
+  text-decoration: none;
+}
+
+nav a:hover {
+  color: var(--accent);
+}
+
 section {
-  padding-block: 2.5rem;
-  border-bottom: 1px solid #d4d4d4;
+  padding-block: 2.75rem;
+  border-bottom: 1px solid var(--line);
   scroll-margin-top: 1.5rem;
 }
 
@@ -35,25 +112,9 @@ section:last-child {
   border-bottom: 0;
 }
 
-h1,
-h2 {
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-  overflow-wrap: anywhere;
-}
-
-h1 {
-  font-size: clamp(2rem, 6vw, 3rem);
-}
-
-h2 {
-  font-size: 1.5rem;
-}
-
-p {
-  max-width: 60ch;
-}
-
 footer {
-  font-size: 0.9375rem;
+  padding-block: 2rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.875rem;
 }
