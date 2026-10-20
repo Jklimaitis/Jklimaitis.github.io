@@ -7,6 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
+  "check": "node scripts/check-build.mjs inicio stack projetos github trajetoria contato",
   "dev": "astro dev",
   "build": "astro build",
   "preview": "astro preview"
