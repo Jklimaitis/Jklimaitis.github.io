@@ -52,16 +52,16 @@ export const en: Dicionario = {
         nota: 'private repository',
       },
       {
+        nome: 'Pimp My Commander',
+        resumo: 'FastAPI application that analyses and builds Commander decks from the player collection, integrating Scryfall, EDHREC and ManaBox with LLM support.',
+        stack: ['FastAPI', 'Pydantic', 'Docker', 'LLM'],
+        href: 'https://github.com/Jklimaitis/pimp-my-commander',
+      },
+      {
         nome: 'Central de Operações',
         resumo: 'Local portal to publish and browse reports, routines and incidents, with search, filters and authentication.',
         stack: ['HTML, CSS and JS', 'Nginx', 'basic auth', 'Python'],
         nota: 'private repository',
-      },
-      {
-        nome: 'This portfolio',
-        resumo: 'Bilingual static site with a build check that fails on broken anchors, duplicated headings or a missing charset.',
-        stack: ['Astro', 'CSS', 'JavaScript', 'Node'],
-        nota: 'in progress',
       },
     ],
   },

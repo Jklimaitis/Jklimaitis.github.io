@@ -52,16 +52,16 @@ export const pt: Dicionario = {
         nota: 'repositório privado',
       },
       {
+        nome: 'Pimp My Commander',
+        resumo: 'Aplicação FastAPI que analisa e monta decks de Commander a partir da coleção do jogador, integrando Scryfall, EDHREC e ManaBox com apoio de um LLM.',
+        stack: ['FastAPI', 'Pydantic', 'Docker', 'LLM'],
+        href: 'https://github.com/Jklimaitis/pimp-my-commander',
+      },
+      {
         nome: 'Central de Operações',
         resumo: 'Portal local para publicar e consultar relatórios, rotinas e incidentes, com busca, filtros e autenticação.',
         stack: ['HTML, CSS e JS', 'Nginx', 'autenticação básica', 'Python'],
         nota: 'repositório privado',
-      },
-      {
-        nome: 'Este portfólio',
-        resumo: 'Site estático bilíngue com verificação automática que reprova build com âncora quebrada, título duplicado ou charset ausente.',
-        stack: ['Astro', 'CSS', 'JavaScript', 'Node'],
-        nota: 'em desenvolvimento',
       },
     ],
   },
