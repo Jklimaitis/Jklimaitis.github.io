@@ -125,3 +125,52 @@ footer {
   color: var(--muted);
   font-size: 0.875rem;
 }
+
+#inicio {
+  padding-block: 4rem 3rem;
+  border-bottom: 0;
+}
+
+.lead {
+  font-size: 1.1875rem;
+  max-width: 46ch;
+  color: var(--muted);
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding-inline: 1.1rem;
+  border-radius: 8px;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.cta--primary {
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.cta--primary:hover {
+  background: var(--accent-strong);
+}
+
+.cta--ghost {
+  border: 1px solid var(--line);
+  color: var(--fg);
+}
+
+.cta--ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
