@@ -28,6 +28,11 @@ export const en: Dicionario = {
         href: 'https://github.com/Jklimaitis',
         variante: 'ghost',
       },
+      {
+        rotulo: 'LinkedIn',
+        href: 'https://www.linkedin.com/in/jonasklimaitis/',
+        variante: 'ghost',
+      },
     ],
   },
   stack: {

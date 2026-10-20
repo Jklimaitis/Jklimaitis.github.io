@@ -28,6 +28,11 @@ export const pt: Dicionario = {
         href: 'https://github.com/Jklimaitis',
         variante: 'ghost',
       },
+      {
+        rotulo: 'LinkedIn',
+        href: 'https://www.linkedin.com/in/jonasklimaitis/',
+        variante: 'ghost',
+      },
     ],
   },
   stack: {
@@ -145,7 +150,7 @@ export const pt: Dicionario = {
         ],
       },
       {
-        cargo: 'Ads Technical Support Specialist',
+        cargo: 'Especialista em Suporte Técnico Meta Ads',
         empresa: 'Atento Brasil',
         periodo: '2023 a out 2024',
         itens: [
