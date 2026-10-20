@@ -73,4 +73,5 @@ export type Dicionario = {
     acoes: Acao[];
   };
   rodape: string;
+  meses: string[];
 };
