@@ -1,0 +1,80 @@
+---
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/global.css';
+import type { Dicionario } from '../i18n/types';
+
+interface Props {
+  d: Dicionario;
+}
+
+const { d } = Astro.props;
+---
+
+<html lang={d.idioma}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{d.titulo}</title>
+  </head>
+  <body>
+    <header>
+      <nav aria-label={d.navRotulo}>
+        {d.nav.map((item) => <a href={item.href}>{item.rotulo}</a>)}
+      </nav>
+    </header>
+
+    <main>
+      <section id="inicio">
+        <h1>{d.inicio.nome}</h1>
+        <p class="lead">{d.inicio.lead}</p>
+        <div class="ctas">
+          {d.inicio.acoes.map((acao) => (
+            <a class={`cta cta--${acao.variante}`} href={acao.href}>{acao.rotulo}</a>
+          ))}
+        </div>
+      </section>
+
+      <section id="stack">
+        <h2>{d.stack.titulo}</h2>
+        <div class="stack">
+          {d.stack.grupos.map((grupo) => (
+            <div class="stack__grupo">
+              <h3>{grupo.nome}</h3>
+              <p>{grupo.itens.join(', ')}</p>
+            </div>
+          ))}
+          <div class="stack__grupo stack__grupo--estudando">
+            <h3>{d.stack.estudoTitulo}</h3>
+            <p>{d.stack.estudo.join(', ')}</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="projetos">
+        <h2>{d.projetos.titulo}</h2>
+        <p>{d.projetos.provisorio}</p>
+      </section>
+
+      <section id="github">
+        <h2>{d.github.titulo}</h2>
+        <p>{d.github.provisorio}</p>
+      </section>
+
+      <section id="trajetoria">
+        <h2>{d.trajetoria.titulo}</h2>
+        <p>{d.trajetoria.provisorio}</p>
+      </section>
+
+      <section id="contato">
+        <h2>{d.contato.titulo}</h2>
+        <p>{d.contato.provisorio}</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>{d.rodape}</p>
+    </footer>
+  </body>
+</html>
