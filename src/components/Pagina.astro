@@ -61,7 +61,21 @@ const { d } = Astro.props;
 
       <section id="projetos">
         <h2>{d.projetos.titulo}</h2>
-        <p>{d.projetos.provisorio}</p>
+        <div class="projetos">
+          {d.projetos.itens.map((p) => (
+            <article class="projeto">
+              <div class="projeto__topo">
+                <h3 class="projeto__nome">{p.nome}</h3>
+                {p.nota && <p class="projeto__nota">{p.nota}</p>}
+              </div>
+              <p class="projeto__resumo">{p.resumo}</p>
+              <ul class="projeto__stack">
+                {p.stack.map((t) => <li>{t}</li>)}
+              </ul>
+              {p.href && <a class="projeto__link" href={p.href}>{d.projetos.linkRotulo}</a>}
+            </article>
+          ))}
+        </div>
       </section>
 
       <section id="github">
@@ -91,7 +105,6 @@ const { d } = Astro.props;
           {d.trajetoria.cursos.map((c) => (
             <li>
               <strong>{c.nome}</strong>, {c.instituicao}
-              {c.situacao && <span class="lista__situacao"> ({c.situacao})</span>}
             </li>
           ))}
         </ul>

@@ -34,6 +34,14 @@ export type Curso = {
   instituicao: string;
 };
 
+export type Projeto = {
+  nome: string;
+  resumo: string;
+  stack: string[];
+  href?: string;
+  nota?: string;
+};
+
 export type Dicionario = {
   idioma: string;
   titulo: string;
@@ -42,7 +50,7 @@ export type Dicionario = {
   nav: { rotulo: string; href: string }[];
   inicio: { nome: string; lead: string; acoes: Acao[] };
   stack: { titulo: string; grupos: Grupo[]; estudoTitulo: string; estudo: string[] };
-  projetos: { titulo: string; provisorio: string };
+  projetos: { titulo: string; linkRotulo: string; itens: Projeto[] };
   github: { titulo: string; provisorio: string };
   trajetoria: {
     titulo: string;

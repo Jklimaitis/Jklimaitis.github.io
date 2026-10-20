@@ -35,7 +35,37 @@ export const en: Dicionario = {
     estudoTitulo: 'Learning',
     estudo: ['OAuth2', 'MongoDB', 'AWS', 'microservices', 'TDD', 'UiPath'],
   },
-  projetos: { titulo: 'Projects', provisorio: 'Under construction.' },
+  projetos: {
+    titulo: 'Projects',
+    linkRotulo: 'View repository',
+    itens: [
+      {
+        nome: 'Projeto Carros',
+        resumo: 'Django application for registering and managing cars, with authentication, search and image upload.',
+        stack: ['Django', 'Python', 'ORM', 'Model forms'],
+        href: 'https://github.com/Jklimaitis/Projeto_Carros',
+      },
+      {
+        nome: 'home_shopper',
+        resumo: 'FastAPI API on PostgreSQL for a product catalog and cross-store price comparison, loaded from Brazilian fiscal receipts (NFC-e).',
+        stack: ['FastAPI', 'PostgreSQL', 'pytest', 'ETL'],
+        nota: 'private repository',
+      },
+      {
+        nome: 'Central de Operações',
+        resumo: 'Local portal to publish and browse reports, routines and incidents, with search, filters and authentication.',
+        stack: ['HTML, CSS and JS', 'Nginx', 'basic auth', 'Python'],
+        nota: 'private repository',
+      },
+      {
+        nome: 'This portfolio',
+        resumo: 'Bilingual static site with a build check that fails on broken anchors, duplicated headings or a missing charset.',
+        stack: ['Astro', 'CSS', 'JavaScript', 'Node'],
+        nota: 'in progress',
+      },
+    ],
+  },
+
   github: { titulo: 'GitHub activity', provisorio: 'Under construction.' },
   trajetoria: {
     titulo: 'Journey',

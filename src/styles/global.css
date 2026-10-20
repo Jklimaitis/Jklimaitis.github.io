@@ -294,3 +294,68 @@ footer {
   color: var(--muted);
   font-size: 0.9375rem;
 }
+
+.projetos {
+  display: grid;
+  gap: 1rem;
+}
+
+.projeto {
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.projeto:hover {
+  border-color: var(--line-strong);
+}
+
+.projeto__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem 1rem;
+}
+
+.projeto__nome {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.projeto__nota {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--muted);
+}
+
+.projeto__resumo {
+  margin: 0.5rem 0 0.9rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.projeto__stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.projeto__stack li {
+  padding: 0.15rem 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.projeto__link {
+  display: inline-block;
+  margin-top: 0.9rem;
+  font-size: 0.875rem;
+}

@@ -35,7 +35,36 @@ export const pt: Dicionario = {
     estudoTitulo: 'Estudando',
     estudo: ['OAuth2', 'MongoDB', 'AWS', 'microsserviços', 'TDD', 'UiPath'],
   },
-  projetos: { titulo: 'Projetos', provisorio: 'Em construção.' },
+  projetos: {
+    titulo: 'Projetos',
+    linkRotulo: 'Ver repositório',
+    itens: [
+      {
+        nome: 'Projeto Carros',
+        resumo: 'Aplicação Django para cadastro e gestão de carros, com autenticação, busca e upload de imagens.',
+        stack: ['Django', 'Python', 'ORM', 'Model forms'],
+        href: 'https://github.com/Jklimaitis/Projeto_Carros',
+      },
+      {
+        nome: 'home_shopper',
+        resumo: 'API em FastAPI sobre PostgreSQL para catálogo de produtos e comparação de preços entre lojas, com carga a partir de cupons fiscais NFC-e.',
+        stack: ['FastAPI', 'PostgreSQL', 'pytest', 'ETL'],
+        nota: 'repositório privado',
+      },
+      {
+        nome: 'Central de Operações',
+        resumo: 'Portal local para publicar e consultar relatórios, rotinas e incidentes, com busca, filtros e autenticação.',
+        stack: ['HTML, CSS e JS', 'Nginx', 'autenticação básica', 'Python'],
+        nota: 'repositório privado',
+      },
+      {
+        nome: 'Este portfólio',
+        resumo: 'Site estático bilíngue com verificação automática que reprova build com âncora quebrada, título duplicado ou charset ausente.',
+        stack: ['Astro', 'CSS', 'JavaScript', 'Node'],
+        nota: 'em desenvolvimento',
+      },
+    ],
+  },
   github: { titulo: 'Atividade no GitHub', provisorio: 'Em construção.' },
   trajetoria: {
     titulo: 'Trajetória',
