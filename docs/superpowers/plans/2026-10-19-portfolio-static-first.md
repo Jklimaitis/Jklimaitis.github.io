@@ -321,20 +321,24 @@ console.log(`OK: ${ids.length} ids, ${anchors.length} ancoras resolvidas`);
 
 - [ ] **Passo 2: registrar o script no `package.json`**
 
-Acrescentar em `"scripts"`: `"check": "node scripts/check-build.mjs"`.
+Acrescentar em `"scripts"`, com os seis `id` obrigatórios embutidos:
+
+```json
+"check": "node scripts/check-build.mjs inicio stack projetos github trajetoria contato"
+```
 
 - [ ] **Passo 3: rodar a checagem contra o build atual**
 
 ```bash
 npm run build
-node scripts/check-build.mjs inicio stack projetos github trajetoria contato
+npm run check
 ```
 
 Esperado: `OK: 6 ids, 6 ancoras resolvidas`.
 
 - [ ] **Passo 4: provar que a checagem reprova de verdade**
 
-Trocar temporariamente um `href="#stack"` por `href="#stak"`, rodar `npm run build && node scripts/check-build.mjs inicio stack projetos github trajetoria contato` e confirmar a mensagem `ancora sem destino: #stak` com código de saída 1. Depois desfazer a troca e repetir o comando: `OK: 6 ids, 6 ancoras resolvidas`.
+Trocar temporariamente um `href="#stack"` por `href="#stak"`, rodar `npm run build && npm run check` e confirmar a mensagem `ancora sem destino: #stak` com código de saída 1. Depois desfazer a troca e repetir o comando: `OK: 6 ids, 6 ancoras resolvidas`.
 
 - [ ] **Passo 5: commit**
 
