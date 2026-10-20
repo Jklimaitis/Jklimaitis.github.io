@@ -1,12 +1,13 @@
 # Portfólio pessoal: especificação inicial
 
-- **Revisão:** r2
+- **Revisão:** r3
 - **Data:** 2026-10-19
 - **Etapa:** revisão do desenho, antes da implementação
+- **Alterações da r3:** o destaque passa de verde para roxo, por decisão de Jonas em 2026-10-19. Os demais requisitos da r2 seguem válidos.
 
 ## Objetivo
 
-Construir um portfólio próprio de Jonas Klimaitis, com fundo escuro, destaques verdes, navegação no topo e elementos visuais relacionados ao GitHub. O código, a identidade e o conteúdo serão próprios.
+Construir um portfólio próprio de Jonas Klimaitis, com fundo escuro, destaques em roxo, navegação no topo e elementos visuais relacionados ao GitHub. O código, a identidade e o conteúdo serão próprios.
 
 A construção será guiada: Jonas escreve e executa os incrementos; o agente explica e revisa. Não haverá geração automática do site completo.
 
