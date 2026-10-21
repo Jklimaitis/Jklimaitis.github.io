@@ -259,6 +259,7 @@ export const en: Dicionario = {
     limite: 'GitHub request limit reached. Try again in a few minutes.',
     listaVazia: 'No eligible repository at the moment.',
     incompleto: 'Partial list: the query could not be completed.',
+    hoje: 'today',
     periodo: 'Period',
     repositoriosPublicos: 'public repositories',
     indicadores: {

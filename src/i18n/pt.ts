@@ -260,6 +260,7 @@ export const pt: Dicionario = {
       'Limite de consultas do GitHub atingido. Tente novamente em alguns minutos.',
     listaVazia: 'Nenhum repositório elegível no momento.',
     incompleto: 'Lista parcial: não foi possível concluir a consulta.',
+    hoje: 'hoje',
     periodo: 'Período',
     repositoriosPublicos: 'repositórios públicos',
     indicadores: {

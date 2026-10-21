@@ -1,13 +1,14 @@
 # Atualizar a atividade do GitHub automaticamente
 
-- **Revisão:** r6
+- **Revisão:** r7
 - **Data:** 2026-10-20
-- **Estado:** decisões aprovadas em 2026-10-20; esta r6 aguarda aceite
+- **Estado:** decisões aprovadas em 2026-10-20; esta r7 aguarda aceite
 - **Tipo:** especificação técnica do próximo incremento
 - **Alterações da r2:** campos e regras dos cartões de repositório; formato da data do último envio e tratamento de campos ausentes; mensagem própria para limite de consultas; contrato do HTML gerado sem JavaScript; risco da fonte do calendário; formato dos módulos de lógica e comando de teste
 - **Alterações da r3:** estrelas confirmadas como exibição apenas acima de zero; a data do último envio passa a mês e ano, sem dia nem hora, com a data completa preservada no atributo `datetime`
 - **Alterações da r4:** o escopo da checagem de formatação passa a incluir `test`, onde vivem os testes automatizados do incremento
 - **Alterações da r5:** a lista de repositórios também exclui o repositório de README de perfil, cujo nome é igual ao do usuário; ele não é um projeto
+- **Alterações da r7:** o dia de hoje recebe uma marca de contorno na grade e uma legenda "hoje" no rodapé do calendário
 - **Alterações da r6:** o calendário passa a alinhar cada linha da grade a um dia da semana fixo, com células de preenchimento invisíveis no início, e os indicadores passam a um bloco de total destacado sobre uma grade 2×2 separada por linhas de 1 px
 
 ## Objetivo e escopo aprovado
@@ -66,6 +67,8 @@ Calcular os indicadores sobre o mesmo conjunto validado de dias:
 ### Grade do calendário e indicadores
 
 O calendário é uma grade de sete linhas, com cada linha fixa em um dia da semana e a primeira linha no domingo. O deslocamento inicial vem do dia da semana da primeira data fornecida: quando o período não começa no domingo, o início da grade recebe células de preenchimento invisíveis. Célula de preenchimento ocupa espaço, é marcada como decorativa e não entra em cálculo nenhum; ela não é dia sem contribuição.
+
+A célula do dia de hoje recebe um contorno visível, para localizar o fim do período na grade. A data é comparada no fuso do visitante, não em UTC, senão à noite no Brasil a marca cairia no dia seguinte. Quando a data de hoje não estiver no período retornado pela fonte, nenhum contorno é aplicado — não se inventa posição. O rodapé do calendário traz a legenda "hoje" acompanhada do mesmo contorno.
 
 Os indicadores são apresentados como um bloco: o total de contribuições em número grande e destacado, e os outros quatro em grade de duas colunas cujas bordas são as linhas de 1 px entre as células. Contagens usam `font-variant-numeric: tabular-nums`, para o valor não mudar de largura ao trocar de dígito.
 
@@ -129,6 +132,7 @@ A implementação só está concluída quando houver evidência destes resultado
 9. `npm test`, `npx --no-install prettier --check src scripts test`, `npm run build` e `npm run check` passam, com o Node indicado em `.nvmrc`.
 10. A inspeção no navegador confirma os dados públicos, os destinos dos links, o uso por teclado, os estados de falha e a ausência de rolagem horizontal da página em desktop e celular.
 11. A revisão do diff confirma a ausência de credenciais e de alterações não relacionadas, preservando o conteúdo local preexistente.
+12. A célula do dia de hoje, e somente ela, recebe o contorno, comparada no fuso do visitante, e a legenda "hoje" acompanha o mesmo contorno.
 
 ## Fora do escopo e aprovação
 

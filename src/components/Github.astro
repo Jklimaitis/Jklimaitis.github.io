@@ -208,8 +208,23 @@ const { d } = Astro.props;
       const fim = document.createElement('time');
       fim.dateTime = dias[dias.length - 1].data;
       fim.textContent = dias[dias.length - 1].data;
-      periodo.append(`${t.periodo}: `, inicio, ' — ', fim);
+      const legenda = document.createElement('span');
+      legenda.className = 'calendario__hoje';
+      legenda.textContent = t.hoje;
+
+      const marca = document.createElement('i');
+      marca.setAttribute('aria-hidden', 'true');
+      legenda.append(marca);
+
+      periodo.append(`${t.periodo}: `, inicio, ' — ', fim, legenda);
       calendario.append(periodo);
+
+      const hojeLocal = (() => {
+        const agora = new Date();
+        const mes = String(agora.getMonth() + 1).padStart(2, '0');
+        const dia = String(agora.getDate()).padStart(2, '0');
+        return `${agora.getFullYear()}-${mes}-${dia}`;
+      })();
 
       const lista = document.createElement('ol');
       lista.className = 'calendario';
@@ -221,6 +236,7 @@ const { d } = Astro.props;
           li.setAttribute('aria-hidden', 'true');
         } else {
           li.dataset.nivel = String(dia.nivel);
+          if (dia.data === hojeLocal) li.dataset.hoje = 'sim';
           li.setAttribute('aria-label', `${dia.data}: ${dia.contagem}`);
         }
         lista.append(li);

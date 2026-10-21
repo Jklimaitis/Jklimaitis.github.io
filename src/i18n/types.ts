@@ -78,6 +78,7 @@ export type Dicionario = {
     limite: string;
     listaVazia: string;
     incompleto: string;
+    hoje: string;
     periodo: string;
     repositoriosPublicos: string;
     indicadores: {

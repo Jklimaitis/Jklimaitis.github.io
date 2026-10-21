@@ -282,7 +282,13 @@ footer {
 
 /* Seção GitHub */
 #github [data-bloco] {
+  position: relative;
+  isolation: isolate;
   margin-top: 1.25rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
 }
 
 .perfil__numero {
@@ -822,13 +828,15 @@ footer {
 
 /* Holofote no cursor dos cartoes e paineis */
 .cartao,
-.painel {
+.painel,
+#github [data-bloco] {
   position: relative;
   isolation: isolate;
 }
 
 .cartao::after,
-.painel::after {
+.painel::after,
+#github [data-bloco]::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -845,7 +853,8 @@ footer {
 }
 
 .cartao.ponta::after,
-.painel.ponta::after {
+.painel.ponta::after,
+#github [data-bloco].ponta::after {
   opacity: 1;
 }
 
@@ -906,4 +915,32 @@ footer {
   .pulso {
     animation: none;
   }
+}
+
+/* Marca do dia de hoje na grade do calendario */
+.calendario__dia[data-hoje] {
+  outline: 1.5px solid var(--fg);
+  outline-offset: 1px;
+}
+
+.calendario__periodo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+}
+
+.calendario__hoje {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-left: auto;
+}
+
+.calendario__hoje i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 2px;
+  outline: 1.5px solid var(--fg);
+  outline-offset: 1px;
 }
