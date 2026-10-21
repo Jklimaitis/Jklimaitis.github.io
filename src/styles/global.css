@@ -1431,7 +1431,21 @@ footer {
 
 @container github (min-width: 48rem) {
   .cartoes {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+  }
+
+  /* O número de repositórios vem da API e muda. Em vez de deixar buraco na
+     última linha, o último cartão ocupa as colunas que sobrarem. */
+  .cartoes > .cartao:last-child:nth-child(4n + 1) {
+    grid-column: span 4;
+  }
+
+  .cartoes > .cartao:last-child:nth-child(4n + 2) {
+    grid-column: span 3;
+  }
+
+  .cartoes > .cartao:last-child:nth-child(4n + 3) {
+    grid-column: span 2;
   }
 }
 
