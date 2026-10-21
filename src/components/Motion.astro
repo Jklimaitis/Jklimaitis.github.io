@@ -5,6 +5,8 @@
 ---
 
 <script>
+  import { deslocamentoDoPonteiro } from '../dados/motion.mts';
+
   const reduzido = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   if (!reduzido.matches) {
@@ -73,5 +75,57 @@
     }
 
     observar();
+
+    // Holofote: só onde existe ponteiro fino e de verdade
+    const ponteiroFino = window.matchMedia(
+      '(hover: hover) and (pointer: fine)',
+    );
+
+    if (ponteiroFino.matches) {
+      let emFoco: HTMLElement | null = null;
+      let quadro = 0;
+      let pendente: { alvo: HTMLElement; x: number; y: number } | null = null;
+
+      const pintar = () => {
+        quadro = 0;
+        if (!pendente) return;
+
+        const { alvo, x, y } = pendente;
+        pendente = null;
+
+        const caixa = alvo.getBoundingClientRect();
+        const ponto = deslocamentoDoPonteiro(x, y, caixa);
+        alvo.style.setProperty('--mx', `${ponto.x}%`);
+        alvo.style.setProperty('--my', `${ponto.y}%`);
+      };
+
+      const soltar = () => {
+        if (emFoco) emFoco.classList.remove('ponta');
+        emFoco = null;
+      };
+
+      document
+        .querySelector('main')
+        ?.addEventListener('pointermove', (evento) => {
+          const alvo = (
+            evento.target as HTMLElement | null
+          )?.closest<HTMLElement>('.cartao, .painel');
+          if (!alvo) {
+            soltar();
+            return;
+          }
+
+          if (alvo !== emFoco) {
+            soltar();
+            alvo.classList.add('ponta');
+            emFoco = alvo;
+          }
+
+          pendente = { alvo, x: evento.clientX, y: evento.clientY };
+          if (!quadro) quadro = requestAnimationFrame(pintar);
+        });
+
+      document.querySelector('main')?.addEventListener('pointerleave', soltar);
+    }
   }
 </script>
