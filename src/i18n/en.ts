@@ -102,34 +102,139 @@ export const en: Dicionario = {
   },
   projetos: {
     titulo: 'Projects',
-    linkRotulo: 'View repository',
+    listaRotulo: 'Projects',
+    arquiteturaRotulo: 'Architecture',
+    destaquesRotulo: 'Highlights',
+    tecnologiasRotulo: 'Technologies',
     itens: [
       {
         nome: 'Projeto Carros',
-        resumo:
-          'Django application for registering and managing cars, with authentication, search and image upload.',
-        stack: ['Django', 'Python', 'ORM', 'Model forms'],
-        href: 'https://github.com/Jklimaitis/Projeto_Carros',
+        tags: ['monolith', 'web'],
+        descricao:
+          'Web application for registering and managing vehicles, built with Python and Django on the Model-View-Template architecture. Access control and authentication protect the administrative and operational routes. Dynamic filters search vehicles by several criteria, and file upload stores the photos. Persistence and business rules rely on the Django ORM and strictly validated forms.',
+        arquitetura: [
+          'Templates (HTML5/CSS)',
+          'Django Views (MVT)',
+          'ModelForms (validation)',
+          'Django ORM',
+          'Database (PostgreSQL)',
+        ],
+        destaques: [
+          'Python and Django backend with the MVT pattern, separating presentation from models and rules.',
+          'Native authentication flow that restricts access and protects the editing forms.',
+          'Static file upload and management tied to the model lifecycle.',
+          'Search and filtering backed by optimized Django ORM queries.',
+        ],
+        tecnologias: [
+          'Python',
+          'Django',
+          'Django ORM',
+          'ModelForms',
+          'HTML5',
+          'CSS3',
+          'PostgreSQL',
+        ],
+        meta: 'Python · updated Sep 2026',
+        links: [
+          {
+            rotulo: 'Repository source',
+            href: 'https://github.com/Jklimaitis/Projeto_Carros',
+          },
+        ],
       },
       {
         nome: 'home_shopper',
-        resumo:
-          'FastAPI API on PostgreSQL for a product catalog and cross-store price comparison, loaded from Brazilian fiscal receipts (NFC-e).',
-        stack: ['FastAPI', 'PostgreSQL', 'pytest', 'ETL'],
+        tags: ['rest api', 'data'],
+        descricao:
+          'Asynchronous catalogue and shopping intelligence API on FastAPI and PostgreSQL, organised in decoupled service layers. It processes raw data from Brazilian electronic fiscal receipts (NFC-e) into a cross-store price history. Pydantic schemas validate inbound contracts and serialise responses. A pytest suite keeps the data pipeline stable.',
+        arquitetura: [
+          'NFC-e payload',
+          'FastAPI Routers',
+          'Pydantic Schemas',
+          'ETL service',
+          'PostgreSQL',
+        ],
+        destaques: [
+          'Layered FastAPI architecture with asynchronous I/O operations.',
+          'Dedicated ETL pipeline for normalising, deduplicating and storing NFC-e receipts.',
+          'Inbound and outbound contracts typed and validated with Pydantic at the edge.',
+          'pytest suite covering endpoints and transformation rules.',
+        ],
+        tecnologias: [
+          'FastAPI',
+          'Python',
+          'PostgreSQL',
+          'Pydantic',
+          'pytest',
+          'ETL',
+          'AsyncIO',
+        ],
+        meta: 'Python',
+        links: [],
         nota: 'private repository',
       },
       {
         nome: 'Pimp My Commander',
-        resumo:
-          'FastAPI application that analyses and builds Commander decks from the player collection, integrating Scryfall, EDHREC and ManaBox with LLM support.',
-        stack: ['FastAPI', 'Pydantic', 'Docker', 'LLM'],
-        href: 'https://github.com/Jklimaitis/pimp-my-commander',
+        tags: ['rest api', 'AI'],
+        descricao:
+          'Asynchronous FastAPI application for recommending and building Commander decks in Magic: The Gathering. It integrates the Scryfall, EDHREC and ManaBox APIs to map the player collection and find statistical card synergies. Language models analyse archetypes and justify card swaps with context. Everything runs in Docker containers, which keeps the environment reproducible.',
+        arquitetura: [
+          'FastAPI Routers',
+          'ManaBox Parser',
+          'Gateways (Scryfall / EDHREC)',
+          'LLM engine',
+          'Docker',
+        ],
+        destaques: [
+          'Resilient external integration with Scryfall, EDHREC and ManaBox exports.',
+          'LLM orchestration to analyse context and recommend card substitutions.',
+          'Response contracts validated end to end with Pydantic.',
+          'Containerised environment with Docker for local and production runs.',
+        ],
+        tecnologias: [
+          'Python',
+          'FastAPI',
+          'Pydantic',
+          'Docker',
+          'LLM',
+          'HTTPX',
+          'REST APIs',
+        ],
+        meta: 'Python · updated Oct 2026',
+        links: [
+          {
+            rotulo: 'API source',
+            href: 'https://github.com/Jklimaitis/pimp-my-commander',
+          },
+        ],
       },
       {
         nome: 'Central de Operações',
-        resumo:
-          'Local portal to publish and browse reports, routines and incidents, with search, filters and authentication.',
-        stack: ['HTML, CSS and JS', 'Nginx', 'basic auth', 'Python'],
+        tags: ['devops', 'support'],
+        descricao:
+          'Local portal that centralises technical procedures, publishes reports and tracks operational incidents. Fast search, severity filters and indexing support technical teams in real time. Delivery goes through a reverse proxy on Nginx with access control via basic authentication. The interface uses plain HTML, CSS and JavaScript, avoiding heavy dependencies and prioritising immediate load during incidents.',
+        arquitetura: [
+          'Nginx (proxy and auth)',
+          'Interface (HTML / CSS / JS)',
+          'Python service',
+          'Local parser and logs',
+        ],
+        destaques: [
+          'Edge and security layer on Nginx providing basic user authentication.',
+          'Plain JavaScript frontend built for speed during contingency.',
+          'Local search and reactive filters to find routines and reports quickly.',
+          'Python scripts that read and consolidate incident files.',
+        ],
+        tecnologias: [
+          'Python',
+          'Nginx',
+          'HTML5',
+          'CSS3',
+          'JavaScript',
+          'Basic authentication',
+        ],
+        meta: 'Python',
+        links: [],
         nota: 'private repository',
       },
     ],

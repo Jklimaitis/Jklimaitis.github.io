@@ -34,11 +34,17 @@ export type Curso = {
   instituicao: string;
 };
 
+export type LinkProjeto = { rotulo: string; href: string };
+
 export type Projeto = {
   nome: string;
-  resumo: string;
-  stack: string[];
-  href?: string;
+  tags: string[];
+  descricao: string;
+  arquitetura: string[];
+  destaques: string[];
+  tecnologias: string[];
+  meta?: string;
+  links: LinkProjeto[];
   nota?: string;
 };
 
@@ -55,7 +61,14 @@ export type Dicionario = {
     estudoTitulo: string;
     estudo: string[];
   };
-  projetos: { titulo: string; linkRotulo: string; itens: Projeto[] };
+  projetos: {
+    titulo: string;
+    listaRotulo: string;
+    arquiteturaRotulo: string;
+    destaquesRotulo: string;
+    tecnologiasRotulo: string;
+    itens: Projeto[];
+  };
   github: {
     titulo: string;
     fallback: string;

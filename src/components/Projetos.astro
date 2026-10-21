@@ -1,0 +1,107 @@
+---
+import type { Dicionario } from '../i18n/types';
+
+interface Props {
+  d: Dicionario;
+}
+
+const { d } = Astro.props;
+const itens = d.projetos.itens;
+---
+
+<section id="projetos">
+  <h2>{d.projetos.titulo}</h2>
+
+  <div class="projetos" data-projetos>
+    <div
+      class="projetos__abas"
+      data-abas
+      role="tablist"
+      aria-orientation="vertical"
+      aria-label={d.projetos.listaRotulo}
+      hidden
+    >
+      {itens.map((p, i) => (
+        <button
+          type="button"
+          role="tab"
+          id={`aba-${i}`}
+          aria-controls={`painel-${i}`}
+          aria-selected="false"
+          tabindex="-1"
+        >
+          <span class="aba__nome">{p.nome}</span>
+          {p.tags.length > 0 && (
+            <span class="aba__tags">{p.tags.join(' · ')}</span>
+          )}
+        </button>
+      ))}
+    </div>
+
+    {itens.map((p, i) => (
+      <article
+        class="painel"
+        role="tabpanel"
+        id={`painel-${i}`}
+        aria-labelledby={`aba-${i}`}
+        tabindex="0"
+      >
+        {p.tags.length > 0 && <p class="painel__tags">{p.tags.join(' · ')}</p>}
+        <h3 class="painel__nome">{p.nome}</h3>
+        <p class="painel__descricao">{p.descricao}</p>
+
+        {p.arquitetura.length > 0 && (
+          <div class="painel__bloco">
+            <h4 class="painel__rotulo">{d.projetos.arquiteturaRotulo}</h4>
+            <ol class="fluxo">
+              {p.arquitetura.map((etapa) => (
+                <li class="fluxo__etapa">{etapa}</li>
+              ))}
+            </ol>
+          </div>
+        )}
+
+        {p.destaques.length > 0 && (
+          <div class="painel__bloco">
+            <h4 class="painel__rotulo">{d.projetos.destaquesRotulo}</h4>
+            <ul class="painel__destaques">
+              {p.destaques.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {p.tecnologias.length > 0 && (
+          <div class="painel__bloco">
+            <h4 class="painel__rotulo">{d.projetos.tecnologiasRotulo}</h4>
+            <ul class="chips">
+              {p.tecnologias.map((t) => (
+                <li class="chips__item">{t}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {p.meta && <p class="painel__meta">{p.meta}</p>}
+
+        {p.links.length > 0 && (
+          <div class="painel__links">
+            {p.links.map((l) => (
+              <a
+                class="painel__link"
+                href={l.href}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {l.rotulo}
+              </a>
+            ))}
+          </div>
+        )}
+
+        {p.nota && <p class="painel__nota">{p.nota}</p>}
+      </article>
+    ))}
+  </div>
+</section>
