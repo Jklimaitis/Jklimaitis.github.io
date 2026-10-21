@@ -50,7 +50,7 @@ const { d } = Astro.props;
   import { chaveCache, lerCache } from '../dados/cache.mts';
   import { formatarMesAno } from '../dados/formato.mts';
   import { seloDeDiferenca } from '../dados/motion.mts';
-  import { carregarSecao } from '../dados/secao.mts';
+  import { dadosDaSessao } from '../dados/sessao.mts';
   import { en } from '../i18n/en';
   import { pt } from '../i18n/pt';
 
@@ -108,7 +108,7 @@ const { d } = Astro.props;
   const repos = iniciar('repositorios');
   const calendario = iniciar('calendario');
 
-  const estado = await carregarSecao({
+  const estado = await dadosDaSessao({
     buscar: window.fetch.bind(window),
     armazenamento: window.localStorage,
     agora: () => Date.now(),
