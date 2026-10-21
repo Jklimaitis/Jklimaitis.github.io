@@ -1,0 +1,56 @@
+---
+/**
+ * Terminal com os últimos commits do próprio repositório.
+ *
+ * O log é lido em tempo de build, então o dado é real e verificado: são os
+ * commits deste site, com hash, data e mensagem. Sem JavaScript ele aparece
+ * completo; o que é progressivo é só o efeito de as linhas surgirem.
+ *
+ * No CI o checkout precisa de histórico completo (`fetch-depth: 0` no
+ * workflow), senão o `git log` devolve um único commit.
+ */
+import { execFileSync } from 'node:child_process';
+import { lerCommits, dataCurta } from '../dados/commits.mts';
+
+const LIMITE = 5;
+
+let commits: { sha: string; data: string; mensagem: string }[] = [];
+
+try {
+  const saida = execFileSync(
+    'git',
+    ['log', `--pretty=format:%h|%ad|%s`, '--date=short', `-n`, '12'],
+    { encoding: 'utf8', cwd: process.cwd() },
+  );
+  commits = lerCommits(saida, LIMITE);
+} catch {
+  commits = [];
+}
+
+// Sem commits não há terminal: um build sem git disponível não deve deixar uma
+// caixa vazia na página.
+const temCommits = commits.length > 0;
+---
+
+<div
+  class="terminal"
+  aria-label="Últimos commits do repositório do site"
+  hidden={!temCommits}
+>
+  <p class="terminal__topo">
+    <span>~/portfolio</span>
+    <span>git log -{LIMITE}</span>
+  </p>
+  <ol class="terminal__linhas">
+    {commits.map((commit, indice) => (
+      <li class="terminal__linha" style={`--i: ${indice}`}>
+        <b>{commit.sha}</b>
+        <span title={commit.mensagem}>{commit.mensagem}</span>
+        <i>{dataCurta(commit.data)}</i>
+      </li>
+    ))}
+  </ol>
+  <p class="terminal__prompt" aria-hidden="true">
+    $ <span class="terminal__cursor"></span>
+  </p>
+</div>

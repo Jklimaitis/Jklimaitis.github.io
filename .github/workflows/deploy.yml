@@ -19,6 +19,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+        with:
+          # Histórico completo: o terminal da seção GitHub lê o `git log` em
+          # tempo de build. Com o padrão (raso de 1 commit) ele mostraria uma
+          # linha só.
+          fetch-depth: 0
       - uses: withastro/action@v6
         with:
           node-version: 24

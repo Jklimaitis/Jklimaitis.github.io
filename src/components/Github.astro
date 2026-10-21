@@ -1,4 +1,5 @@
 ---
+import Commits from './Commits.astro';
 import type { Dicionario } from '../i18n/types';
 
 interface Props {
@@ -12,6 +13,17 @@ const { d } = Astro.props;
   <h2 data-revelar>{d.github.titulo}</h2>
 
   <p class="github__fonte">{d.github.fonte}</p>
+
+  <div class="resumo">
+    <div class="resumo__lado">
+      <p class="resumo__total">
+        <strong data-total>—</strong>
+        <span>{d.github.indicadores.contribuicoes}</span>
+      </p>
+      <Commits />
+    </div>
+    <dl class="indicadores" data-indicadores hidden></dl>
+  </div>
 
   <p data-papel="fallback">
     {d.github.fallback}
@@ -235,19 +247,11 @@ const { d } = Astro.props;
       }
       const ind = estado.indicadores;
 
-      const resumo = document.createElement('div');
-      resumo.className = 'resumo';
+      const total = secao.querySelector<HTMLElement>('.resumo__total');
+      const valorTotal = total?.querySelector<HTMLElement>('[data-total]');
+      const dl = secao.querySelector<HTMLDListElement>('[data-indicadores]');
 
-      const total = document.createElement('p');
-      total.className = 'resumo__total';
-      const valorTotal = document.createElement('strong');
-      valorTotal.textContent = String(ind.total);
-      const rotuloTotal = document.createElement('span');
-      rotuloTotal.textContent = t.indicadores.contribuicoes;
-      total.append(valorTotal, rotuloTotal);
-
-      const dl = document.createElement('dl');
-      dl.className = 'indicadores';
+      if (valorTotal) valorTotal.textContent = String(ind.total);
 
       const pares: [string, string][] = [
         [t.indicadores.diasAtivos, String(ind.diasAtivos)],
@@ -261,21 +265,24 @@ const { d } = Astro.props;
         ],
       ];
 
-      for (const [rotulo, valor] of pares) {
-        const div = document.createElement('div');
-        const dt = document.createElement('dt');
-        dt.textContent = rotulo;
-        const dd = document.createElement('dd');
-        dd.textContent = valor;
-        div.append(dt, dd);
-        dl.append(div);
+      if (dl) {
+        for (const [rotulo, valor] of pares) {
+          const div = document.createElement('div');
+          const dt = document.createElement('dt');
+          dt.textContent = rotulo;
+          const dd = document.createElement('dd');
+          dd.textContent = valor;
+          div.append(dt, dd);
+          dl.append(div);
+        }
+        dl.removeAttribute('hidden');
       }
 
       const diferenca = indicadoresAnteriores
         ? seloDeDiferenca(ind.total, indicadoresAnteriores.total)
         : null;
 
-      if (diferenca !== null && !reduzido) {
+      if (diferenca !== null && !reduzido && total) {
         const selo = document.createElement('span');
         selo.className = 'selo';
         selo.setAttribute('aria-hidden', 'true');
@@ -283,7 +290,7 @@ const { d } = Astro.props;
         total.append(selo);
       }
 
-      if (indicadoresAnteriores && !reduzido) {
+      if (indicadoresAnteriores && !reduzido && valorTotal && dl) {
         if (indicadoresAnteriores.total !== ind.total) {
           valorTotal.classList.add('pulso');
         }
@@ -301,12 +308,11 @@ const { d } = Astro.props;
         });
       }
 
-      resumo.append(total, dl);
       const cartaoCalendario = document.createElement('div');
       cartaoCalendario.className = 'calendario__cartao';
       cartaoCalendario.append(periodo, lista);
 
-      calendario.append(resumo, cartaoCalendario);
+      calendario.append(cartaoCalendario);
       lista.scrollLeft = lista.scrollWidth;
     }
     concluir(calendario);

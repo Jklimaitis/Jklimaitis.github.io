@@ -1006,6 +1006,108 @@ footer {
   position: relative;
 }
 
+/* Esquerda do resumo: número e terminal lado a lado. O terminal ocupa o que
+   sobra da coluna, então a faixa mantém a mesma altura de antes. */
+.resumo__lado {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.terminal {
+  height: 7.375rem;
+  display: grid;
+  align-content: start;
+  gap: 1px;
+  padding: 0.5625rem 0.6875rem;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  /* Derivado da paleta: nada de cor nova entrando por fora dos tokens. */
+  background: color-mix(in srgb, var(--raise) 55%, var(--bg));
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1.5;
+}
+
+.terminal__topo {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 0 0.1875rem;
+  font-size: 0.59375rem;
+  color: var(--muted);
+}
+
+.terminal__linhas {
+  display: grid;
+  gap: 1px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* As linhas surgem em sequência, como um log sendo impresso. A mensagem é a
+   coluna elástica: é ela que encurta quando falta espaço, não o hash nem a data. */
+.terminal__linha {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.55em;
+  color: var(--muted);
+  animation: terminal-entra 0.28s ease-out backwards;
+  animation-delay: calc(var(--i) * 90ms);
+}
+
+.terminal__linha span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.terminal__linha b {
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.terminal__linha i {
+  font-style: normal;
+  color: var(--info);
+}
+
+.terminal__prompt {
+  margin: 0;
+  color: var(--muted);
+}
+
+.terminal__cursor {
+  display: inline-block;
+  width: 0.375rem;
+  height: 0.625rem;
+  vertical-align: -1px;
+  background: var(--accent);
+  animation: terminal-pisca 1s steps(2) infinite;
+}
+
+@keyframes terminal-entra {
+  from {
+    opacity: 0;
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes terminal-pisca {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal__linha,
+  .terminal__cursor {
+    animation: none;
+  }
+}
+
 .selo {
   position: absolute;
   top: -0.5rem;
@@ -1452,6 +1554,23 @@ footer {
 @container github (min-width: 30rem) and (max-width: 47.99rem) {
   .cartoes {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container github (max-width: 47.99rem) {
+  /* Número e terminal passam a ocupar a linha inteira, cada um na sua vez */
+  .resumo {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@container github (max-width: 34rem) {
+  .resumo__lado {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .terminal {
+    height: auto;
   }
 }
 
