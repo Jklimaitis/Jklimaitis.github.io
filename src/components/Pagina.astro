@@ -80,7 +80,9 @@ const { d } = Astro.props;
         </div>
 
         <div class="abertura__lado">
-          <p class="lead">{d.inicio.posicao}</p>
+          {d.inicio.posicao.map((texto) => (
+            <p class="lead">{texto}</p>
+          ))}
         </div>
       </div>
 

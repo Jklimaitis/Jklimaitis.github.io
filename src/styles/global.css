@@ -1565,7 +1565,7 @@ nav a[aria-current='true']::after {
 
 .abertura__lado {
   display: grid;
-  gap: 1.5rem;
+  gap: 1rem;
   align-content: start;
 }
 

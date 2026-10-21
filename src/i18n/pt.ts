@@ -20,8 +20,10 @@ export const pt: Dicionario = {
   inicio: {
     nome: 'Jonas Klimaitis',
     oficio: { antes: 'Desenvolvedor', destaque: 'Backend' },
-    posicao:
-      'Construo APIs e automações em Python com foco em previsibilidade e escala. Minha base vem de anos lidando no dia a dia da operação de CRM e MarTech: conectando plataformas legadas, tratando inconsistências de dados e garantindo a continuidade de processos críticos. Hoje, aplico essa vivência de sustentação e engenharia para desenhar sistemas backend que já nascem preparados para o mundo real — pensando no banco, na infraestrutura e no fluxo completo da informação.',
+    posicao: [
+      'Construo APIs e automações em Python com foco em previsibilidade e escala. Minha base vem de anos lidando no dia a dia da operação de CRM e MarTech: conectando plataformas legadas, tratando inconsistências de dados e garantindo a continuidade de processos críticos.',
+      'Hoje, aplico essa vivência de sustentação e engenharia para desenhar sistemas backend que já nascem preparados para o mundo real — pensando no banco, na infraestrutura e no fluxo completo da informação.',
+    ],
     meta: {
       local: 'São Paulo',
       perfilRotulo: 'github.com/Jklimaitis',

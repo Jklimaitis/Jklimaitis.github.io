@@ -65,7 +65,7 @@ export type Dicionario = {
   inicio: {
     nome: string;
     oficio: { antes: string; destaque: string };
-    posicao: string;
+    posicao: string[];
     meta: { local: string; perfilRotulo: string; perfilHref: string };
     rolar: string;
     acoes: Acao[];
