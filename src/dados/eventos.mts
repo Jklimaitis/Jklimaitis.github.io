@@ -1,4 +1,7 @@
 import type { Resultado } from './tipos.mts';
+import type { Armazenamento } from './cache.mts';
+import { chaveCache, gravarCache, lerCache } from './cache.mts';
+import { FONTES, buscarJson } from './buscar.mts';
 
 export const LIMITE_EVENTOS = 8;
 
@@ -56,4 +59,30 @@ export function selecionarEventos(
   }
 
   return { ok: true, dados: eventos.slice(0, limite) };
+}
+
+/**
+ * Consulta o feed público de eventos com cache de 30 minutos.
+ * Falha não é cacheada; resposta inválida também não.
+ */
+export async function carregarEventos(opcoes: {
+  buscar: typeof fetch;
+  armazenamento: Armazenamento;
+  agora: () => number;
+  usuario?: string;
+}): Promise<Resultado<Evento[]>> {
+  const usuario = opcoes.usuario ?? 'Jklimaitis';
+  const chave = chaveCache('eventos', usuario);
+
+  const cache = lerCache<Evento[]>(opcoes.armazenamento, chave, opcoes.agora());
+  if (cache.estado === 'valido') return { ok: true, dados: cache.dados };
+
+  const resposta = await buscarJson(FONTES.eventos, { buscar: opcoes.buscar });
+  if (!resposta.ok) return resposta;
+
+  const validado = selecionarEventos(resposta.json, { usuario });
+  if (validado.ok)
+    gravarCache(opcoes.armazenamento, chave, validado.dados, opcoes.agora());
+
+  return validado;
 }

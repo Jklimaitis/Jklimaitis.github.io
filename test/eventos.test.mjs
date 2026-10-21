@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { selecionarEventos } from '../src/dados/eventos.mts';
+import { carregarEventos, selecionarEventos } from '../src/dados/eventos.mts';
 
 const evento = (type, repo, createdAt = '2026-10-21T01:22:53Z') => ({
   type,
@@ -87,4 +87,91 @@ test('lista vazia é resultado válido', () => {
   const r = selecionarEventos([]);
   assert.equal(r.ok, true);
   assert.deepEqual(r.dados, []);
+});
+
+const mapa = () => {
+  const itens = new Map();
+  return {
+    getItem: (c) => (itens.has(c) ? itens.get(c) : null),
+    setItem: (c, v) => itens.set(c, v),
+    itens,
+  };
+};
+
+const respostaOk = (corpo) => async () => ({
+  ok: true,
+  status: 200,
+  headers: { get: () => null },
+  json: async () => corpo,
+});
+
+test('sem cache consulta, valida e grava', async () => {
+  const armazenamento = mapa();
+  const registro = [];
+  const r = await carregarEventos({
+    buscar: (url) => {
+      registro.push(url);
+      return respostaOk([evento('PushEvent', 'Jklimaitis/a')])();
+    },
+    armazenamento,
+    agora: () => 0,
+  });
+  assert.equal(r.ok, true);
+  assert.equal(registro.length, 1);
+  assert.match(registro[0], /events\/public/);
+  assert.equal(
+    armazenamento.itens.has('portfolio:github:v1:Jklimaitis:eventos'),
+    true,
+  );
+});
+
+test('cache válido evita consulta', async () => {
+  const armazenamento = mapa();
+  await carregarEventos({
+    buscar: respostaOk([evento('PushEvent', 'Jklimaitis/a')]),
+    armazenamento,
+    agora: () => 0,
+  });
+  const registro = [];
+  const r = await carregarEventos({
+    buscar: (u) => {
+      registro.push(u);
+      return respostaOk([])();
+    },
+    armazenamento,
+    agora: () => 60_000,
+  });
+  assert.equal(registro.length, 0);
+  assert.equal(r.dados.length, 1);
+});
+
+test('falha não é cacheada', async () => {
+  const armazenamento = mapa();
+  const buscar = async () => ({
+    ok: false,
+    status: 500,
+    headers: { get: () => null },
+    json: async () => ({}),
+  });
+  const r = await carregarEventos({ buscar, armazenamento, agora: () => 0 });
+  assert.equal(r.ok, false);
+  assert.equal(
+    armazenamento.itens.has('portfolio:github:v1:Jklimaitis:eventos'),
+    false,
+  );
+});
+
+test('resposta inválida também não é cacheada', async () => {
+  const armazenamento = mapa();
+  const r = await carregarEventos({
+    buscar: respostaOk({ nada: true }),
+    armazenamento,
+    agora: () => 0,
+  });
+  assert.equal(r.ok, false);
+  assert.equal(r.motivo, 'resposta-invalida');
+  assert.equal(
+    armazenamento.itens.has('portfolio:github:v1:Jklimaitis:eventos'),
+    false,
+  );
 });

@@ -9,6 +9,7 @@ export const FONTES = {
     'https://api.github.com/users/Jklimaitis/repos?type=owner&sort=pushed&direction=desc&per_page=100',
   calendario:
     'https://github-contributions-api.jogruber.de/v4/Jklimaitis?y=last',
+  eventos: 'https://api.github.com/users/Jklimaitis/events/public?per_page=30',
 } as const;
 
 export type Resposta =
