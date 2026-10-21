@@ -76,6 +76,63 @@
 
     observar();
 
+    // Progresso de leitura e seção ativa do menu
+    const barra = document.querySelector<HTMLElement>('[data-progresso]');
+    const elos = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>('nav a[href^="#"]'),
+    );
+    const secoes = elos
+      .map((elo) => {
+        const alvo = document.querySelector<HTMLElement>(
+          elo.getAttribute('href') ?? '',
+        );
+        return alvo ? { elo, alvo } : null;
+      })
+      .filter(
+        (par): par is { elo: HTMLAnchorElement; alvo: HTMLElement } =>
+          par !== null,
+      );
+
+    let quadroRolagem = 0;
+
+    const atualizarRolagem = () => {
+      quadroRolagem = 0;
+
+      const altura = document.documentElement.scrollHeight - window.innerHeight;
+      const proporcao =
+        altura > 0 ? Math.min(1, Math.max(0, window.scrollY / altura)) : 0;
+      if (barra) barra.style.transform = `scaleX(${proporcao})`;
+
+      if (secoes.length === 0) return;
+
+      const limite = window.innerHeight * 0.35;
+      const raiz = document.documentElement;
+      // A ultima secao pode ser curta demais para cruzar o limiar: no fim
+      // do documento ela assume, senao nunca chega a ficar ativa.
+      const noFim =
+        window.innerHeight + window.scrollY >= raiz.scrollHeight - 2;
+
+      let ativa: (typeof secoes)[number] | null = null;
+      for (const par of secoes) {
+        if (par.alvo.getBoundingClientRect().top <= limite) ativa = par;
+      }
+      if (noFim) ativa = secoes[secoes.length - 1] ?? null;
+
+      for (const par of secoes) {
+        if (par === ativa) par.elo.setAttribute('aria-current', 'true');
+        else par.elo.removeAttribute('aria-current');
+      }
+    };
+
+    const agendarRolagem = () => {
+      if (!quadroRolagem)
+        quadroRolagem = requestAnimationFrame(atualizarRolagem);
+    };
+
+    window.addEventListener('scroll', agendarRolagem, { passive: true });
+    window.addEventListener('resize', agendarRolagem, { passive: true });
+    atualizarRolagem();
+
     // Cursos: o resumo abre no hover, sem tirar o controle nativo do summary
     if (window.matchMedia('(hover: hover)').matches) {
       for (const item of document.querySelectorAll<HTMLDetailsElement>(

@@ -8,6 +8,8 @@
   --line-strong: #6b5f86;
   --accent: #f5a524;
   --accent-strong: #ffbe55;
+  /* Segunda cor de destaque: metadado (data, tempo). Nao e acao. */
+  --info: #6ec5b8;
   --ring: #ffc86b;
   --on-accent: #1a1206;
 
@@ -16,6 +18,8 @@
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
 
   --radius: 12px;
+  --coluna: 60rem;
+  --goteira: clamp(1rem, 4vw, 2.5rem);
   color-scheme: dark;
 }
 
@@ -37,11 +41,14 @@ body {
   line-height: 1.65;
 }
 
+/* Coluna única: todo bloco de conteúdo compartilha a mesma borda esquerda. */
 main,
-footer {
-  max-width: 68ch;
-  margin: 0 auto;
-  padding-inline: 1.25rem;
+footer,
+#inicio {
+  width: 100%;
+  max-width: var(--coluna);
+  margin-inline: auto;
+  padding-inline: var(--goteira);
 }
 
 header {
@@ -53,9 +60,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 10;
-  max-width: 68ch;
-  margin: 0 auto;
-  padding: 0.9rem 1.25rem;
+  padding-block: 0.9rem;
   background: color-mix(in srgb, var(--bg) 88%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
@@ -96,6 +101,28 @@ a {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
   border-radius: 4px;
+}
+
+.faixa {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1.5rem;
+  width: 100%;
+  max-width: var(--coluna);
+  margin-inline: auto;
+  padding-inline: var(--goteira);
+}
+
+.marca {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--fg);
+  text-decoration: none;
+  white-space: nowrap;
 }
 
 nav {
@@ -420,6 +447,10 @@ footer {
   color: var(--muted);
 }
 
+.cartao__meta time {
+  color: var(--info);
+}
+
 .calendario__cartao {
   position: relative;
   isolation: isolate;
@@ -618,6 +649,25 @@ footer {
 /* Foco não é hover: vale também em tela de toque e para quem navega por teclado */
 .cartao__nome a:focus-visible {
   color: var(--accent);
+}
+
+@media (max-width: 720px) {
+  nav {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  nav::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (hover: hover) {
+  .marca:hover {
+    color: var(--accent);
+  }
 }
 
 @media (hover: none) {
@@ -832,10 +882,8 @@ footer {
   }
 }
 
-@media (min-width: 1100px) {
+@media (min-width: 900px) {
   #projetos .projetos {
-    width: min(960px, calc(100vw - 4rem));
-    margin-inline: calc((100% - min(960px, calc(100vw - 4rem))) / 2);
     grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
   }
 }
@@ -1239,5 +1287,201 @@ footer {
 @media (max-width: 640px) {
   .idiomas {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Faixa de números da abertura */
+.numeros {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 2.25rem 0 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+.numeros__item {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 0.1rem;
+  margin: 0;
+}
+
+.numeros__valor {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3.2vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+.numeros__rotulo {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+/* Barra de eventos recentes */
+.eventos {
+  overflow: hidden;
+  margin-block: 0;
+  padding-block: 0.7rem;
+  border-block: 1px solid var(--line);
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 6%,
+    #000 94%,
+    transparent 100%
+  );
+}
+
+.eventos__estado {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.eventos__trilha {
+  display: flex;
+  gap: 2.5rem;
+  width: max-content;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.eventos__trilha[data-duplicada='sim'] {
+  animation: eventos-rolagem 60s linear infinite;
+}
+
+.eventos:hover .eventos__trilha[data-duplicada='sim'] {
+  animation-play-state: paused;
+}
+
+@keyframes eventos-rolagem {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.eventos__item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.eventos__quando {
+  color: var(--info);
+}
+
+.eventos__tipo {
+  color: var(--accent);
+}
+
+.eventos__repo {
+  font-weight: 500;
+  color: var(--fg);
+}
+
+@media (max-width: 640px) {
+  .numeros {
+    gap: 0.75rem;
+  }
+
+  .eventos__trilha {
+    gap: 1.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eventos__trilha[data-duplicada='sim'] {
+    animation: none;
+  }
+
+  .eventos__trilha {
+    flex-wrap: wrap;
+    width: auto;
+  }
+}
+
+/* Container queries: os cartões respondem ao espaço da seção, não ao da janela */
+#github {
+  container-type: inline-size;
+  container-name: github;
+}
+
+@container github (min-width: 48rem) {
+  .cartoes {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@container github (min-width: 30rem) and (max-width: 47.99rem) {
+  .cartoes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container github (max-width: 29.99rem) {
+  .cartoes {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Progresso de leitura no topo e seção ativa no menu */
+.progresso {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 20;
+  height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+nav a {
+  position: relative;
+  padding-bottom: 3px;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.25s ease;
+}
+
+nav a[aria-current='true'] {
+  color: var(--fg);
+}
+
+nav a[aria-current='true']::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  nav a::after {
+    transition: none;
   }
 }

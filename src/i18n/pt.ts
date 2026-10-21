@@ -11,7 +11,6 @@ export const pt: Dicionario = {
   },
   navRotulo: 'Seções',
   nav: [
-    { rotulo: 'Início', href: '#inicio' },
     { rotulo: 'Stack', href: '#stack' },
     { rotulo: 'Projetos', href: '#projetos' },
     { rotulo: 'GitHub', href: '#github' },
@@ -387,6 +386,19 @@ export const pt: Dicionario = {
         variante: 'primary',
       },
     ],
+  },
+  numeros: {
+    anos: '6',
+    anosRotulo: 'anos em tecnologia',
+    repositorios: 'repositórios públicos',
+    contribuicoes: 'contribuições no último ano',
+  },
+  eventos: {
+    rotulo: 'Atividade recente',
+    carregando: 'Carregando atividade…',
+    indisponivel: 'Atividade indisponível agora.',
+    push: 'push',
+    criou: 'criou',
   },
   rodape: 'Portfólio de Jonas Klimaitis.',
   meses: [

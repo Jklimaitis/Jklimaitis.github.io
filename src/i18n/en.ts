@@ -11,7 +11,6 @@ export const en: Dicionario = {
   },
   navRotulo: 'Sections',
   nav: [
-    { rotulo: 'Home', href: '#inicio' },
     { rotulo: 'Stack', href: '#stack' },
     { rotulo: 'Projects', href: '#projetos' },
     { rotulo: 'GitHub', href: '#github' },
@@ -385,6 +384,19 @@ export const en: Dicionario = {
         variante: 'primary',
       },
     ],
+  },
+  numeros: {
+    anos: '6',
+    anosRotulo: 'years in tech',
+    repositorios: 'public repositories',
+    contribuicoes: 'contributions in the last year',
+  },
+  eventos: {
+    rotulo: 'Recent activity',
+    carregando: 'Loading activity…',
+    indisponivel: 'Activity unavailable right now.',
+    push: 'push',
+    criou: 'created',
   },
   rodape: 'Portfolio of Jonas Klimaitis.',
   meses: [
