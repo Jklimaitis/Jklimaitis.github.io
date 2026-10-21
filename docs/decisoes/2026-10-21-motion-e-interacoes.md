@@ -2,7 +2,7 @@
 
 - **Revisão:** r2
 - **Data:** 2026-10-21
-- **Estado:** decisões aprovadas em 2026-10-21; esta r2 aguarda aceite
+- **Estado:** decisões aprovadas em 2026-10-21; aceita em 2026-10-21 e implementada
 - **Tipo:** especificação técnica do incremento de movimento e retorno visual
 - **Alterações da r2:** o holofote alcança também os três blocos da seção GitHub, que passam a ter tratamento de cartão; o critério de deslocamento de layout passa de zero absoluto para abaixo de 0,02, com a origem medida declarada
 

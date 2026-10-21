@@ -2,7 +2,7 @@
 
 - **Revisão:** r1
 - **Data:** 2026-10-20
-- **Estado:** decisões aprovadas em 2026-10-20; esta r1 aguarda aceite
+- **Estado:** decisões aprovadas em 2026-10-20; aceita em 2026-10-21 e implementada
 - **Tipo:** especificação técnica do incremento de projetos
 
 ## Objetivo e escopo aprovado

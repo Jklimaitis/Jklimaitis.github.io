@@ -2,7 +2,7 @@
 
 - **Revisão:** r6
 - **Data:** 2026-10-19
-- **Etapa:** revisão do desenho, antes da implementação
+- **Etapa:** desenho aprovado e implementado; regras de publicação revisadas na r6
 - **Alterações da r6:** a paleta ganha uma segunda cor de destaque, `--info: #6EC5B8` (teal), escolhida por Jonas em 2026-10-21 numa comparação de seis candidatas renderizadas sobre as cores reais da barra. Uso restrito a metadado temporal: data de evento na barra de atividade e data de último envio nos cartões de repositório. O âmbar continua sendo a cor de ação; nenhum botão, link ou verbo de estado usa a cor nova. Medições sobre o fundo `#0C0A12`: 9,69:1 para a cor escolhida, contra 6,84:1 do cinza suave e 9,64:1 do âmbar. Sobre a superfície `#15121D`, mede 9,09:1. A escolha passou por três alternativas antes de fechar: azul dessaturado `#7F9DC0` foi rejeitado por não se separar do cinza, areia `#C9B48F` por ter matiz vizinha ao âmbar e confundir metadado com ação, e lilás acinzentado `#A99FC4` por se aproximar demais do fundo, apesar de a matiz combinar com ele. O teal é o único candidato que mede acima do âmbar e ainda assim mantém matiz claramente oposta, que é o que separa "quando" de "o quê" na barra. Alternativas medidas e não escolhidas: azul saturado `#7EB6FF` (9,39:1) e verde-menta `#8FD4A8` (11,38:1). A variação escura do âmbar, cogitada para o mesmo fim, cai a 2,73:1 e perde legibilidade.
 - **Alterações da r5:** o site passa a ter duas versões, `pt-BR` em `/` e `en-US` em `/en/`, com alternância por link no cabeçalho. O rótulo do menu continua "Stack", por decisão de Jonas.
 - **Alterações da r4:** o destaque passa de roxo (r3) para âmbar `#F5A524`, por decisão de Jonas em 2026-10-19, após comparação de contraste e de tom. Os demais requisitos da r2 seguem válidos.
@@ -63,11 +63,11 @@ Nome em quadradinhos, ilustrações, animações e dados do GitHub serão detalh
 
 ## Sequência de ensino e aprovação
 
-Depois da revisão desta especificação, será apresentado um plano curto para configurar o Astro, criar a primeira página, verificar sua execução e registrar o resultado no Git. O plano também será revisado antes de iniciar esses passos.
+A ordem de execução seguida foi: configurar o Astro, criar a primeira página, verificar o resultado gerado e registrar no Git; cada incremento posterior entrou com especificação própria nesta pasta.
 
 Cada incremento é implementado e revisado antes de avançar para o seguinte. A sequência seguinte será aparência e responsividade, interações, dados externos e publicação, com o escopo de cada incremento definido antes de executá-lo.
 
-Esta revisão não autoriza criação de repositório remoto, push nem publicação.
+A publicação foi autorizada em 2026-10-21 e o site é publicado no GitHub Pages pelo workflow do repositório.
 
 ## Fontes técnicas
 

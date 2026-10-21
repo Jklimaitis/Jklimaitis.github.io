@@ -2,7 +2,7 @@
 
 - **Revisão:** r10
 - **Data:** 2026-10-20
-- **Estado:** decisões aprovadas em 2026-10-20; esta r10 aguarda aceite
+- **Estado:** decisões aprovadas em 2026-10-20; aceita em 2026-10-21 e implementada
 - **Tipo:** especificação técnica do próximo incremento
 - **Alterações da r2:** campos e regras dos cartões de repositório; formato da data do último envio e tratamento de campos ausentes; mensagem própria para limite de consultas; contrato do HTML gerado sem JavaScript; risco da fonte do calendário; formato dos módulos de lógica e comando de teste
 - **Alterações da r3:** estrelas confirmadas como exibição apenas acima de zero; a data do último envio passa a mês e ano, sem dia nem hora, com a data completa preservada no atributo `datetime`
