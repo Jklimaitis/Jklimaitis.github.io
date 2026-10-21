@@ -10,7 +10,7 @@ const itens = d.projetos.itens;
 ---
 
 <section id="projetos">
-  <h2>{d.projetos.titulo}</h2>
+  <h2 data-revelar>{d.projetos.titulo}</h2>
 
   <div class="projetos" data-projetos>
     <div
@@ -41,6 +41,7 @@ const itens = d.projetos.itens;
     {itens.map((p, i) => (
       <article
         class="painel"
+        data-revelar
         role="tabpanel"
         id={`painel-${i}`}
         aria-labelledby={`aba-${i}`}
@@ -132,8 +133,12 @@ const itens = d.projetos.itens;
       });
 
       paineis.forEach((painel, i) => {
-        if (i === indice) painel.removeAttribute('hidden');
-        else painel.setAttribute('hidden', '');
+        if (i === indice) {
+          painel.removeAttribute('hidden');
+          painel.classList.add('in');
+        } else {
+          painel.setAttribute('hidden', '');
+        }
       });
 
       if (focar) abas[indice]?.focus();

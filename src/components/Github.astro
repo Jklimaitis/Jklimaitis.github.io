@@ -9,7 +9,7 @@ const { d } = Astro.props;
 ---
 
 <section id="github">
-  <h2>{d.github.titulo}</h2>
+  <h2 data-revelar>{d.github.titulo}</h2>
 
   <p data-papel="fallback">
     {d.github.fallback}
@@ -114,6 +114,10 @@ const { d } = Astro.props;
       for (const item of estado.repositorios.dados.itens) {
         const artigo = document.createElement('article');
         artigo.className = 'cartao';
+        artigo.dataset.revelar = '';
+        artigo.dataset.atraso = String(
+          estado.repositorios.dados.itens.indexOf(item) * 60,
+        );
 
         const titulo = document.createElement('h3');
         titulo.className = 'cartao__nome';
@@ -162,6 +166,7 @@ const { d } = Astro.props;
       }
 
       repos.append(grade);
+      document.dispatchEvent(new CustomEvent('motion:alvos-novos'));
       if (estado.repositorios.dados.incompleto) aviso(repos, t.incompleto);
     }
     concluir(repos);

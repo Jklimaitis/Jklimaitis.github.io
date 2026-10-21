@@ -53,7 +53,7 @@ const { d } = Astro.props;
       </section>
 
       <section id="stack">
-        <h2>{d.stack.titulo}</h2>
+        <h2 data-revelar>{d.stack.titulo}</h2>
         <div class="stack">
           {d.stack.grupos.map((grupo) => (
             <div class="stack__grupo">
@@ -73,7 +73,7 @@ const { d } = Astro.props;
       <Github d={d} />
 
       <section id="trajetoria">
-        <h2>{d.trajetoria.titulo}</h2>
+        <h2 data-revelar>{d.trajetoria.titulo}</h2>
         <ol class="linha">
           {d.trajetoria.experiencias.map((exp) => (
             <li class="linha__item">
@@ -105,7 +105,7 @@ const { d } = Astro.props;
       </section>
 
       <section id="contato">
-        <h2>{d.contato.titulo}</h2>
+        <h2 data-revelar>{d.contato.titulo}</h2>
         <p>{d.contato.texto}</p>
         <div class="ctas">
           {d.contato.acoes.map((acao) => (

@@ -1,7 +1,7 @@
 ---
-// Componente sem marcação: só liga o modo animado e observa os alvos de revelação.
-// Tudo depende da classe `anim` no <html>, colocada apenas por JavaScript: sem script,
-// nenhum elemento nasce invisível. Com `prefers-reduced-motion`, nada é ligado.
+// Componente sem marcação: liga o modo animado, divide o título em palavras
+// e observa os alvos de revelação. Tudo depende da classe `anim` no <html>,
+// colocada apenas por JavaScript: sem script, nada nasce invisível.
 ---
 
 <script>
@@ -11,30 +11,67 @@
     const raiz = document.documentElement;
     raiz.classList.add('anim');
 
-    const alvos = Array.from(
-      document.querySelectorAll<HTMLElement>('[data-revelar]'),
+    const observados = new Set<Element>();
+
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        for (const entrada of entradas) {
+          if (!entrada.isIntersecting) continue;
+          entrada.target.classList.add('in');
+          observador.unobserve(entrada.target);
+          observados.delete(entrada.target);
+        }
+      },
+      { threshold: 0.15 },
     );
 
-    for (const alvo of alvos) {
-      const atraso = alvo.dataset.atraso;
-      if (atraso && Number.isFinite(Number(atraso))) {
-        alvo.style.setProperty('--d', `${Number(atraso)}ms`);
+    const observar = () => {
+      for (const alvo of document.querySelectorAll<HTMLElement>(
+        '[data-revelar]',
+      )) {
+        if (observados.has(alvo) || alvo.classList.contains('in')) continue;
+
+        const atraso = alvo.dataset.atraso;
+        if (atraso && Number.isFinite(Number(atraso))) {
+          alvo.style.setProperty('--d', `${Number(atraso)}ms`);
+        }
+
+        observados.add(alvo);
+        observador.observe(alvo);
       }
+    };
+
+    // Alvos que nascem depois do carregamento, como os cartões do GitHub
+    document.addEventListener('motion:alvos-novos', observar);
+
+    const titulo = document.querySelector<HTMLElement>('#inicio h1');
+    if (titulo) {
+      const palavras = (titulo.textContent ?? '')
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean);
+
+      titulo.textContent = '';
+      titulo.classList.add('titulo-in');
+
+      palavras.forEach((palavra, i) => {
+        const mascara = document.createElement('span');
+        mascara.className = 'palavra';
+        mascara.style.setProperty('--i', String(i));
+
+        const interna = document.createElement('span');
+        interna.textContent = palavra;
+        mascara.append(interna);
+        titulo.append(mascara);
+
+        if (i < palavras.length - 1) {
+          titulo.append(document.createTextNode(' '));
+        }
+      });
+
+      requestAnimationFrame(() => titulo.classList.add('in'));
     }
 
-    if (alvos.length > 0) {
-      const observador = new IntersectionObserver(
-        (entradas) => {
-          for (const entrada of entradas) {
-            if (!entrada.isIntersecting) continue;
-            entrada.target.classList.add('in');
-            observador.unobserve(entrada.target);
-          }
-        },
-        { threshold: 0.15 },
-      );
-
-      for (const alvo of alvos) observador.observe(alvo);
-    }
+    observar();
   }
 </script>
