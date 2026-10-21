@@ -76,6 +76,20 @@
 
     observar();
 
+    // Cursos: o resumo abre no hover, sem tirar o controle nativo do summary
+    if (window.matchMedia('(hover: hover)').matches) {
+      for (const item of document.querySelectorAll<HTMLDetailsElement>(
+        'details.cursos__item',
+      )) {
+        item.addEventListener('pointerenter', () => {
+          item.open = true;
+        });
+        item.addEventListener('pointerleave', () => {
+          item.open = false;
+        });
+      }
+    }
+
     // Holofote: só onde existe ponteiro fino e de verdade
     const ponteiroFino = window.matchMedia(
       '(hover: hover) and (pointer: fine)',
@@ -110,7 +124,7 @@
           const alvo = (
             evento.target as HTMLElement | null
           )?.closest<HTMLElement>(
-            '.cartao, .painel, .calendario__cartao, .indicadores',
+            '.cartao, .painel, .calendario__cartao, .indicadores, .stack__grupo, .linha__item',
           );
           if (!alvo) {
             soltar();
