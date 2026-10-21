@@ -1,0 +1,367 @@
+---
+/**
+ * Arte do nome na abertura.
+ *
+ * A base é um SVG gerado no build: aparece sem JavaScript e é o que o
+ * navegador pinta no primeiro quadro. O canvas fica por cima e, quando há
+ * script, assume o desenho — é o que permite o campo cintilando, o holofote e
+ * as ondas sem custo de DOM. Os dois caminhos leem a mesma pintura.
+ */
+import {
+  escolherArranjo,
+  desenharNome,
+  preencherLinhas,
+  pintar,
+} from '../dados/nome.mts';
+
+// Base do build: o arranjo que a caixa tem no desktop, para quem não executa
+// script. Com JavaScript, o canvas recalcula o arranjo a cada mudança de caixa.
+const BASE = escolherArranjo(1214, 300);
+const mascara = preencherLinhas(desenharNome(BASE.texto), BASE.linhas);
+const colunas = mascara[0].length;
+const linhas = mascara.length;
+
+const larguraCaixa = colunas + (colunas - 1) * 0.2;
+const alturaCaixa = linhas + (linhas - 1) * 0.2;
+
+const celulasVisiveis = pintar(mascara)
+  .map((celula, indice) => ({ celula, indice }))
+  .filter(({ celula }) => celula.letra || celula.pisca)
+  .map(({ celula, indice }) => ({
+    x: (indice % colunas) * 1.2,
+    y: Math.floor(indice / colunas) * 1.2,
+    classe: celula.letra ? `letra-${celula.tom}` : `fundo-${celula.tom}`,
+  }));
+---
+
+<div class="arte-cartao">
+  <div class="nome-arte" aria-hidden="true">
+    <svg
+      class="nome-arte__base"
+      viewBox={`0 0 ${larguraCaixa.toFixed(2)} ${alturaCaixa.toFixed(2)}`}
+      preserveAspectRatio="xMidYMid meet"
+      shape-rendering="crispEdges"
+      focusable="false"
+    >
+      {celulasVisiveis.map(({ x, y, classe }) => (
+        <rect class={classe} x={x} y={y} width="1" height="1" />
+      ))}
+    </svg>
+    <canvas class="nome-arte__canvas"></canvas>
+  </div>
+</div>
+
+<script>
+  import {
+    escolherArranjo,
+    desenharNome,
+    preencherLinhas,
+    pintar,
+    brilhoDoCintilo,
+    brilhoDaOnda,
+    brilhoDoHolofote,
+    type Celula,
+  } from '../dados/nome.mts';
+
+  const PASSO_ONDA = 45;
+  const RAIO_ONDA = 34;
+  const RAIO_HOLOFOTE = 5.2;
+  const DURACAO_ENTRADA = 400;
+  const ATRASO_COLUNA = 14;
+  const MAXIMO_ONDAS = 6;
+
+  const caixa = document.querySelector<HTMLElement>('.nome-arte');
+  const canvas = caixa?.querySelector<HTMLCanvasElement>('canvas');
+  const contexto = canvas?.getContext('2d');
+
+  if (caixa && canvas && contexto) {
+    const ctx = contexto;
+    const reduzido = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const ponteiroFino = window.matchMedia(
+      '(hover: hover) and (pointer: fine)',
+    );
+
+    // Cores lidas do CSS: a paleta continua tendo um dono só.
+    const estiloRaiz = getComputedStyle(document.documentElement);
+    const ler = (nome: string, alternativa: string) =>
+      estiloRaiz.getPropertyValue(nome).trim() || alternativa;
+
+    const paraRgb = (valor: string): [number, number, number] => {
+      const texto = valor.trim();
+
+      // Aceita o que sai do CSS (`#rrggbb`) e também o que sai de `misturar`
+      // (`rgb(r, g, b)`). Sem isso, misturar uma cor já misturada devolvia NaN
+      // e o `fillStyle` inválido deixava o quadro parado.
+      if (texto.startsWith('rgb')) {
+        const [r, g, b] = texto
+          .replace(/[^0-9.,]/g, ' ')
+          .trim()
+          .split(/[\s,]+/)
+          .map(Number);
+        return [r, g, b];
+      }
+
+      const hex = texto.replace('#', '');
+      return [
+        Number.parseInt(hex.slice(0, 2), 16),
+        Number.parseInt(hex.slice(2, 4), 16),
+        Number.parseInt(hex.slice(4, 6), 16),
+      ];
+    };
+
+    const misturar = (a: string, b: string, peso: number) => {
+      const [r1, g1, b1] = paraRgb(a);
+      const [r2, g2, b2] = paraRgb(b);
+      const tom = (x: number, y: number) => Math.round(x + (y - x) * peso);
+      return `rgb(${tom(r1, r2)}, ${tom(g1, g2)}, ${tom(b1, b2)})`;
+    };
+
+    const erguido = ler('--raise', '#1c1826');
+    const destaque = ler('--accent', '#f5a524');
+
+    // Rampa de tons do destaque, a mesma da base SVG.
+    const letra = [
+      erguido,
+      erguido,
+      misturar(erguido, destaque, 0.68),
+      destaque,
+    ];
+    const fundo = [
+      erguido,
+      misturar(erguido, destaque, 0.22),
+      misturar(erguido, destaque, 0.4),
+      destaque,
+    ];
+
+    let colunas = 0;
+    let linhas = 0;
+    let celula = 0;
+    let intervalo = 0;
+    let deslocX = 0;
+    let deslocY = 0;
+    let largura = 0;
+    let altura = 0;
+    let textoAtual = '';
+    let linhasAtuais = 0;
+    let pintura: Celula[] = [];
+
+    const ponteiro = { x: 0, y: 0, ativo: false };
+    const ondas: { coluna: number; linha: number; inicio: number }[] = [];
+    let inicio = Number.POSITIVE_INFINITY;
+    let quadro = 0;
+
+    /**
+     * Recalcula o arranjo para a caixa atual. O arranjo decide uma ou duas
+     * linhas de texto; a pintura só é refeita quando o arranjo muda de fato.
+     */
+    const medir = () => {
+      const retangulo = canvas.getBoundingClientRect();
+      const densidade = Math.min(window.devicePixelRatio || 1, 2);
+      const arranjo = escolherArranjo(retangulo.width, retangulo.height);
+
+      if (arranjo.texto !== textoAtual || arranjo.linhas !== linhasAtuais) {
+        const mascara = preencherLinhas(
+          desenharNome(arranjo.texto),
+          arranjo.linhas,
+        );
+        pintura = pintar(mascara);
+        colunas = mascara[0].length;
+        linhas = mascara.length;
+        textoAtual = arranjo.texto;
+        linhasAtuais = arranjo.linhas;
+      }
+
+      celula = arranjo.celula;
+      intervalo = arranjo.intervalo;
+
+      const larguraGrade = colunas * celula + (colunas - 1) * intervalo;
+      const alturaGrade = linhas * celula + (linhas - 1) * intervalo;
+
+      largura = retangulo.width;
+      altura = retangulo.height;
+      deslocX = (largura - larguraGrade) / 2;
+      deslocY = (altura - alturaGrade) / 2;
+
+      canvas.width = Math.max(1, Math.round(largura * densidade));
+      canvas.height = Math.max(1, Math.round(altura * densidade));
+      ctx.setTransform(densidade, 0, 0, densidade, 0, 0);
+    };
+
+    const desenhar = (agora: number) => {
+      ctx.clearRect(0, 0, largura, altura);
+
+      for (let indice = 0; indice < pintura.length; indice += 1) {
+        const celulaAtual = pintura[indice];
+        const linha = Math.floor(indice / colunas);
+        const coluna = indice % colunas;
+        const x = deslocX + coluna * (celula + intervalo);
+        const y = deslocY + linha * (celula + intervalo);
+
+        let escala = 1;
+
+        if (!reduzido.matches && Number.isFinite(inicio)) {
+          const comeco = inicio + coluna * ATRASO_COLUNA;
+          const progresso = Math.min(
+            1,
+            Math.max(0, (agora - comeco) / DURACAO_ENTRADA),
+          );
+          escala = progresso;
+          if (escala <= 0) continue;
+        }
+
+        // Base: a grade apagada, que dá o desenho da malha.
+        let cor = erguido;
+
+        if (celulaAtual.letra) {
+          cor = letra[celulaAtual.tom];
+        } else if (celulaAtual.pisca) {
+          const brilho = reduzido.matches
+            ? 0.55
+            : 0.12 + 0.88 * brilhoDoCintilo(celulaAtual.fase, agora);
+          cor = misturar(erguido, fundo[celulaAtual.tom], brilho);
+        }
+
+        if (ponteiro.ativo && !reduzido.matches && ponteiroFino.matches) {
+          const dx = (x + celula / 2 - ponteiro.x) / (celula + intervalo);
+          const dy = (y + celula / 2 - ponteiro.y) / (celula + intervalo);
+          const brilho = brilhoDoHolofote(Math.hypot(dx, dy), RAIO_HOLOFOTE);
+          if (brilho > 0) cor = misturar(cor, destaque, brilho * 0.55);
+        }
+
+        if (!reduzido.matches && ondas.length > 0) {
+          let brilhoOnda = 0;
+          for (const onda of ondas) {
+            const idade = agora - onda.inicio;
+            if (idade < 0 || idade > RAIO_ONDA * PASSO_ONDA) continue;
+            const distancia = Math.hypot(
+              coluna - onda.coluna,
+              linha - onda.linha,
+            );
+            const brilho = brilhoDaOnda(distancia, idade, PASSO_ONDA);
+            if (brilho > brilhoOnda) brilhoOnda = brilho;
+          }
+          if (brilhoOnda > 0) cor = misturar(cor, destaque, brilhoOnda * 0.75);
+        }
+
+        ctx.fillStyle = cor;
+
+        if (escala < 1) {
+          const encolhido = (celula * (1 - escala)) / 2;
+          ctx.fillRect(
+            x + encolhido,
+            y + encolhido,
+            celula * escala,
+            celula * escala,
+          );
+        } else {
+          ctx.fillRect(x, y, celula, celula);
+        }
+      }
+    };
+
+    const laco = (agora: number) => {
+      desenhar(agora);
+
+      for (let i = ondas.length - 1; i >= 0; i -= 1) {
+        if (agora - ondas[i].inicio > RAIO_ONDA * PASSO_ONDA)
+          ondas.splice(i, 1);
+      }
+
+      quadro = requestAnimationFrame(laco);
+    };
+
+    const iniciar = () => {
+      medir();
+
+      if (reduzido.matches) {
+        desenhar(performance.now());
+      } else {
+        inicio = performance.now();
+        quadro = requestAnimationFrame(laco);
+      }
+
+      caixa.classList.add('tem-canvas');
+    };
+
+    caixa.addEventListener('pointermove', (evento) => {
+      if (!ponteiroFino.matches) return;
+      const retangulo = canvas.getBoundingClientRect();
+      ponteiro.x = evento.clientX - retangulo.left;
+      ponteiro.y = evento.clientY - retangulo.top;
+      ponteiro.ativo = true;
+    });
+
+    caixa.addEventListener('pointerleave', () => {
+      ponteiro.ativo = false;
+    });
+
+    caixa.addEventListener('pointerdown', (evento) => {
+      if (reduzido.matches) return;
+
+      const retangulo = canvas.getBoundingClientRect();
+      const x = evento.clientX - retangulo.left;
+      const y = evento.clientY - retangulo.top;
+
+      ondas.push({
+        coluna: Math.max(
+          0,
+          Math.min(
+            colunas - 1,
+            Math.floor((x - deslocX) / (celula + intervalo)),
+          ),
+        ),
+        linha: Math.max(
+          0,
+          Math.min(
+            linhas - 1,
+            Math.floor((y - deslocY) / (celula + intervalo)),
+          ),
+        ),
+        inicio: performance.now(),
+      });
+
+      if (ondas.length > MAXIMO_ONDAS) ondas.shift();
+    });
+
+    // Redimensionar e dar zoom mudam a caixa e/ou a densidade da tela. O
+    // observer cobre a caixa; a consulta de resolução cobre o zoom, que não
+    // dispara `resize` de forma confiável — foi o que deixava o bitmap velho.
+    const remedir = () => {
+      medir();
+      if (reduzido.matches) desenhar(performance.now());
+    };
+
+    if (typeof ResizeObserver === 'function') {
+      new ResizeObserver(remedir).observe(caixa);
+    } else {
+      window.addEventListener('resize', remedir);
+    }
+
+    const vigiarDensidade = () => {
+      const consulta = window.matchMedia(
+        `(resolution: ${window.devicePixelRatio}dppx)`,
+      );
+      consulta.addEventListener(
+        'change',
+        () => {
+          remedir();
+          vigiarDensidade();
+        },
+        { once: true },
+      );
+    };
+    vigiarDensidade();
+
+    reduzido.addEventListener('change', () => {
+      if (reduzido.matches) {
+        cancelAnimationFrame(quadro);
+        desenhar(performance.now());
+      } else {
+        inicio = performance.now();
+        quadro = requestAnimationFrame(laco);
+      }
+    });
+
+    iniciar();
+  }
+</script>

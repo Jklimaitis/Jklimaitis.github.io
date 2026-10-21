@@ -18,7 +18,10 @@
   --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
 
   --radius: 12px;
-  --coluna: 54rem;
+  /* Largura única do site: cabeçalho, abertura, seções e rodapé usam esta
+     mesma faixa. 82,5 rem = 1320 px, o mesmo valor do original
+     (`.wrap{max-width:1320px}`). */
+  --coluna: 82.5rem;
   --goteira: clamp(1rem, 4vw, 2.5rem);
   color-scheme: dark;
 }
@@ -49,11 +52,6 @@ footer,
   max-width: var(--coluna);
   margin-inline: auto;
   padding-inline: var(--goteira);
-}
-
-/* A abertura é a única faixa mais larga: ali só há tipografia de display. */
-#inicio {
-  max-width: 62rem;
 }
 
 header {
@@ -460,7 +458,7 @@ footer {
   position: relative;
   isolation: isolate;
   margin-top: 1rem;
-  padding: 0.9rem 1rem;
+  padding: 0.85rem 0.75rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
@@ -1519,13 +1517,64 @@ nav a[aria-current='true']::after {
   text-decoration: none;
 }
 
-.abertura__nome {
-  margin: 1.25rem 0 0.25rem;
-  max-width: none;
-  font-family: var(--font-mono);
-  font-size: 0.8125rem;
-  letter-spacing: 0.02em;
-  color: var(--muted);
+/* Cartão da arte: a moldura dá respiro em volta da grade e impede que as
+   células encostem nas bordas da janela. */
+.arte-cartao {
+  /* Respiro do cartão: 1,5 rem acima (fecha a faixa de metadados) e 2 rem
+     abaixo (separa a arte do título). Com 0,25 rem o título encostava na
+     moldura — medido em 4 px antes do ajuste. */
+  margin: 1.5rem 0 2rem;
+  padding: 0.85rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: color-mix(in srgb, var(--surface) 40%, transparent);
+}
+
+/* Arte do nome: base SVG gerada no build para quem não executa script, canvas
+   por cima quando há JavaScript.
+
+   Altura fixa, como no original (`.graph { height: 300px }`): a célula se
+   ajusta dentro da caixa e o bloco não muda de altura entre larguras nem entre
+   níveis de zoom — com `aspect-ratio` a altura acompanhava a largura e
+   empurrava o texto abaixo. */
+.nome-arte {
+  position: relative;
+  width: 100%;
+  /* Altura fixa, como no original (`.graph { height: 300px }`). A grade é que
+     se ajusta: célula pela largura e no máximo 20 linhas, o teto do original. */
+  height: clamp(6.5rem, 26vw, 18.75rem);
+}
+
+.nome-arte__base,
+.nome-arte__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* Rampa do destaque, a mesma que o canvas usa: sem JavaScript a base mostra
+   as letras em dois degraus e as células que cintilam no tom médio. */
+.nome-arte__base rect.letra-3 {
+  fill: var(--accent);
+}
+
+.nome-arte__base rect.letra-2 {
+  fill: color-mix(in srgb, var(--accent) 68%, var(--raise));
+}
+
+.nome-arte__base rect.fundo-1 {
+  fill: color-mix(in srgb, var(--accent) 18%, var(--raise));
+}
+
+.nome-arte__base rect.fundo-2 {
+  fill: color-mix(in srgb, var(--accent) 34%, var(--raise));
+}
+
+/* Com o canvas assumindo, a base sai de cena; sem JavaScript ela é a arte. */
+.nome-arte.tem-canvas .nome-arte__base {
+  visibility: hidden;
 }
 
 .abertura__grade {

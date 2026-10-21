@@ -8,6 +8,7 @@ import Motion from './Motion.astro';
 import Numeros from './Numeros.astro';
 import Eventos from './Eventos.astro';
 import Projetos from './Projetos.astro';
+import Nome from './Nome.astro';
 import type { Dicionario } from '../i18n/types';
 
 interface Props {
@@ -61,7 +62,7 @@ const { d } = Astro.props;
         </a>
       </div>
 
-      <p class="abertura__nome">{d.inicio.nome}</p>
+      <Nome />
 
       <div class="abertura__grade">
         <div class="abertura__principal">
