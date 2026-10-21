@@ -4,6 +4,7 @@ import '@fontsource-variable/manrope';
 import '@fontsource-variable/jetbrains-mono';
 import '../styles/global.css';
 import Github from './Github.astro';
+import Motion from './Motion.astro';
 import Projetos from './Projetos.astro';
 import type { Dicionario } from '../i18n/types';
 
@@ -119,5 +120,7 @@ const { d } = Astro.props;
     <footer>
       <p>{d.rodape}</p>
     </footer>
+
+    <Motion />
   </body>
 </html>

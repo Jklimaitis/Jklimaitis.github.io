@@ -1,0 +1,40 @@
+---
+// Componente sem marcação: só liga o modo animado e observa os alvos de revelação.
+// Tudo depende da classe `anim` no <html>, colocada apenas por JavaScript: sem script,
+// nenhum elemento nasce invisível. Com `prefers-reduced-motion`, nada é ligado.
+---
+
+<script>
+  const reduzido = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (!reduzido.matches) {
+    const raiz = document.documentElement;
+    raiz.classList.add('anim');
+
+    const alvos = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-revelar]'),
+    );
+
+    for (const alvo of alvos) {
+      const atraso = alvo.dataset.atraso;
+      if (atraso && Number.isFinite(Number(atraso))) {
+        alvo.style.setProperty('--d', `${Number(atraso)}ms`);
+      }
+    }
+
+    if (alvos.length > 0) {
+      const observador = new IntersectionObserver(
+        (entradas) => {
+          for (const entrada of entradas) {
+            if (!entrada.isIntersecting) continue;
+            entrada.target.classList.add('in');
+            observador.unobserve(entrada.target);
+          }
+        },
+        { threshold: 0.15 },
+      );
+
+      for (const alvo of alvos) observador.observe(alvo);
+    }
+  }
+</script>
