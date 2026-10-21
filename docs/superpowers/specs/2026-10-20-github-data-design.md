@@ -1,13 +1,16 @@
 # Atualizar a atividade do GitHub automaticamente
 
-- **Revisão:** r7
+- **Revisão:** r10
 - **Data:** 2026-10-20
-- **Estado:** decisões aprovadas em 2026-10-20; esta r7 aguarda aceite
+- **Estado:** decisões aprovadas em 2026-10-20; esta r10 aguarda aceite
 - **Tipo:** especificação técnica do próximo incremento
 - **Alterações da r2:** campos e regras dos cartões de repositório; formato da data do último envio e tratamento de campos ausentes; mensagem própria para limite de consultas; contrato do HTML gerado sem JavaScript; risco da fonte do calendário; formato dos módulos de lógica e comando de teste
 - **Alterações da r3:** estrelas confirmadas como exibição apenas acima de zero; a data do último envio passa a mês e ano, sem dia nem hora, com a data completa preservada no atributo `datetime`
 - **Alterações da r4:** o escopo da checagem de formatação passa a incluir `test`, onde vivem os testes automatizados do incremento
 - **Alterações da r5:** a lista de repositórios também exclui o repositório de README de perfil, cujo nome é igual ao do usuário; ele não é um projeto
+- **Alterações da r10:** a contagem de repositórios públicos deixa de ser exibida nesta seção; o dado continua sendo consultado porque alimenta a faixa de números do incremento seguinte
+- **Alterações da r9:** os blocos da seção deixam de ser cartões; o total fica solto ao lado da grade de indicadores, o período e a grade do calendário recebem um cartão próprio, e cada repositório é um cartão individual sem moldura em volta do conjunto
+- **Alterações da r8:** ordem e rótulos da seção — perfil em linha sem moldura, resumo antes do mapa, repositórios com cabeçalho próprio e link para o perfil, e pastilha de origem do dado
 - **Alterações da r7:** o dia de hoje recebe uma marca de contorno na grade e uma legenda "hoje" no rodapé do calendário
 - **Alterações da r6:** o calendário passa a alinhar cada linha da grade a um dia da semana fixo, com células de preenchimento invisíveis no início, e os indicadores passam a um bloco de total destacado sobre uma grade 2×2 separada por linhas de 1 px
 
@@ -19,12 +22,11 @@ O incremento apresenta:
 
 | Parte | Conteúdo |
 |---|---|
-| Perfil | Quantidade de repositórios públicos e link para o perfil |
 | Repositórios | Até 10, excluindo forks e arquivados, ordenados pelo último envio de código (`pushed_at`) |
 | Calendário | Histórico diário do último ano, conforme o período retornado pela fonte |
 | Indicadores | Total de contribuições, dias ativos, sequência atual, maior sequência e melhor dia |
 
-Se houver menos de 10 repositórios elegíveis, exibir apenas os existentes. A contagem do perfil usa `public_repos`, sem aplicar os filtros da lista; por isso ela pode diferir da quantidade de cartões.
+Se houver menos de 10 repositórios elegíveis, exibir apenas os existentes. A consulta do perfil continua sendo feita, mas nenhum número dela aparece nesta seção: `public_repos` alimenta a faixa de números do incremento seguinte. Como a contagem do perfil não aplica os filtros da lista, ela pode diferir da quantidade de cartões.
 
 ## Fontes de dados e atualização
 
@@ -71,6 +73,14 @@ O calendário é uma grade de sete linhas, com cada linha fixa em um dia da sema
 A célula do dia de hoje recebe um contorno visível, para localizar o fim do período na grade. A data é comparada no fuso do visitante, não em UTC, senão à noite no Brasil a marca cairia no dia seguinte. Quando a data de hoje não estiver no período retornado pela fonte, nenhum contorno é aplicado — não se inventa posição. O rodapé do calendário traz a legenda "hoje" acompanhada do mesmo contorno.
 
 Os indicadores são apresentados como um bloco: o total de contribuições em número grande e destacado, e os outros quatro em grade de duas colunas cujas bordas são as linhas de 1 px entre as células. Contagens usam `font-variant-numeric: tabular-nums`, para o valor não mudar de largura ao trocar de dígito.
+
+### Ordem e rótulos da seção
+
+A seção apresenta, nesta ordem: título, pastilha com a origem do dado, o resumo — total solto ao lado de uma grade 2×2 de indicadores que tem moldura própria —, um cartão separado com o período e a grade do calendário, e por último o rótulo dos repositórios com link para o perfil, seguido dos cartões individuais.
+
+Nenhum bloco da seção usa moldura de cartão: a moldura pertence ao artefato que precisa de delimitação — a grade de indicadores, o conjunto período e mapa, e cada cartão de repositório. Assim o total não fica preso dentro de um cartão que também contém o mapa.
+
+O cabeçalho dos repositórios é um dado de uma linha: não usa moldura. O bloco de repositórios mantém estado próprio, mas seu cabeçalho é estático e aparece mesmo sem JavaScript.
 
 ### Cartões de repositório
 

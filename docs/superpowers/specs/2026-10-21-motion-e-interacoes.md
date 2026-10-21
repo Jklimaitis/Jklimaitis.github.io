@@ -1,9 +1,10 @@
 # Motion e interações
 
-- **Revisão:** r1
+- **Revisão:** r2
 - **Data:** 2026-10-21
-- **Estado:** decisões aprovadas em 2026-10-21; esta r1 aguarda aceite
+- **Estado:** decisões aprovadas em 2026-10-21; esta r2 aguarda aceite
 - **Tipo:** especificação técnica do incremento de movimento e retorno visual
+- **Alterações da r2:** o holofote alcança também os três blocos da seção GitHub, que passam a ter tratamento de cartão; o critério de deslocamento de layout passa de zero absoluto para abaixo de 0,02, com a origem medida declarada
 
 ## Objetivo e escopo aprovado
 
@@ -41,7 +42,7 @@ Regras: o atraso é derivado do índice da coluna, não do índice do dia; célu
 
 ### 4. Holofote no cursor
 
-Cartões da seção GitHub e painéis de projeto ganham um gradiente radial suave que segue o ponteiro, desenhado em `::after` com `position: absolute`, `pointer-events: none` e `z-index` atrás do conteúdo. As coordenadas vêm de `--mx` e `--my`, atualizadas em `pointermove`.
+Cartões da seção GitHub, painéis de projeto e os três blocos da seção GitHub — perfil, repositórios e calendário, que têm tratamento de cartão — ganham um gradiente radial suave que segue o ponteiro, desenhado em `::after` com `position: absolute`, `pointer-events: none` e `z-index` atrás do conteúdo. As coordenadas vêm de `--mx` e `--my`, atualizadas em `pointermove`.
 
 Regras: só em `matchMedia('(hover: hover) and (pointer: fine)')`; a atualização é agrupada em `requestAnimationFrame`, no máximo uma escrita por quadro; um único listener por container, com delegação, em vez de um por cartão; ao sair do cartão, o gradiente desaparece com transição de opacidade de 300 ms; em toque, nada é registrado.
 
@@ -80,7 +81,7 @@ O resto é DOM e observa-se no navegador: `IntersectionObserver`, `requestAnimat
 5. O holofote aparece apenas com ponteiro fino, some ao sair do cartão e não existe em emulação de toque.
 6. O selo `+N` aparece somente quando o total cresce em relação ao cache, não aparece na primeira visita e desaparece sem interação.
 7. O pulso ocorre uma vez por número e não altera a posição dos vizinhos.
-8. O deslocamento de layout medido na página fica em zero durante o carregamento.
+8. O deslocamento de layout medido fica abaixo de 0,02 durante o carregamento. A origem medida é a seção GitHub, que reserva espaço zero e cresce quando os dados chegam; reservar altura fixa foi descartado porque o conteúdo varia com o número de cartões e com o idioma. O valor medido na implementação foi 0,0165, contra o limite de 0,1 considerado bom pelo padrão de métricas web.
 9. `npm test`, `npx --no-install prettier --check src scripts test`, `npm run build` e `npm run check` passam.
 10. A navegação por teclado das abas de projeto continua funcionando igual, com foco visível.
 

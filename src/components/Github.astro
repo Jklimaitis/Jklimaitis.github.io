@@ -11,6 +11,8 @@ const { d } = Astro.props;
 <section id="github">
   <h2 data-revelar>{d.github.titulo}</h2>
 
+  <p class="github__fonte">{d.github.fonte}</p>
+
   <p data-papel="fallback">
     {d.github.fallback}
     <a
@@ -22,15 +24,22 @@ const { d } = Astro.props;
     </a>
   </p>
 
-  <div data-bloco="perfil" aria-busy="true" hidden>
+  <div data-bloco="calendario" aria-busy="true" hidden>
     <p data-papel="estado">{d.github.carregando}</p>
   </div>
 
   <div data-bloco="repositorios" aria-busy="true" hidden>
-    <p data-papel="estado">{d.github.carregando}</p>
-  </div>
-
-  <div data-bloco="calendario" aria-busy="true" hidden>
+    <div class="bloco__cabeca">
+      <h3 class="bloco__rotulo">{d.github.recentes}</h3>
+      <a
+        class="bloco__link"
+        href="https://github.com/Jklimaitis"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        {d.github.verTodos}
+      </a>
+    </div>
     <p data-papel="estado">{d.github.carregando}</p>
   </div>
 </section>
@@ -81,16 +90,11 @@ const { d } = Astro.props;
 
   secao.querySelector('[data-papel="fallback"]')?.setAttribute('hidden', '');
 
-  const perfil = iniciar('perfil');
-  const repos = iniciar('repositorios');
-  const calendario = iniciar('calendario');
-
   const reduzido = window.matchMedia(
     '(prefers-reduced-motion: reduce)',
   ).matches;
 
   // Estado da visita anterior, lido antes de o cache ser sobrescrito.
-  // TTL gigante de propósito: interessa o valor guardado, não a validade.
   const chaveAnterior = chaveCache('calendario', 'Jklimaitis');
   const anterior = lerCache<Dia[]>(
     window.localStorage,
@@ -101,25 +105,14 @@ const { d } = Astro.props;
   const indicadoresAnteriores =
     anterior.estado === 'valido' ? calcularIndicadores(anterior.dados) : null;
 
+  const repos = iniciar('repositorios');
+  const calendario = iniciar('calendario');
+
   const estado = await carregarSecao({
     buscar: window.fetch.bind(window),
     armazenamento: window.localStorage,
     agora: () => Date.now(),
   });
-
-  if (perfil) {
-    if (estado.perfil.ok) {
-      const p = document.createElement('p');
-      p.className = 'perfil__numero';
-      const forte = document.createElement('strong');
-      forte.textContent = String(estado.perfil.dados.repositoriosPublicos);
-      p.append(forte, ` ${t.repositoriosPublicos}`);
-      perfil.append(p);
-    } else {
-      aviso(perfil, textoFalha(estado.perfil.motivo));
-    }
-    concluir(perfil);
-  }
 
   if (repos) {
     if (!estado.repositorios.ok) {
@@ -217,7 +210,6 @@ const { d } = Astro.props;
       legenda.append(marca);
 
       periodo.append(`${t.periodo}: `, inicio, ' — ', fim, legenda);
-      calendario.append(periodo);
 
       const hojeLocal = (() => {
         const agora = new Date();
@@ -241,9 +233,6 @@ const { d } = Astro.props;
         }
         lista.append(li);
       }
-      calendario.append(lista);
-      lista.scrollLeft = lista.scrollWidth;
-
       const ind = estado.indicadores;
 
       const resumo = document.createElement('div');
@@ -313,7 +302,12 @@ const { d } = Astro.props;
       }
 
       resumo.append(total, dl);
-      calendario.append(resumo);
+      const cartaoCalendario = document.createElement('div');
+      cartaoCalendario.className = 'calendario__cartao';
+      cartaoCalendario.append(periodo, lista);
+
+      calendario.append(resumo, cartaoCalendario);
+      lista.scrollLeft = lista.scrollWidth;
     }
     concluir(calendario);
   }

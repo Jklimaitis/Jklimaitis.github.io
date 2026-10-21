@@ -109,7 +109,9 @@
         ?.addEventListener('pointermove', (evento) => {
           const alvo = (
             evento.target as HTMLElement | null
-          )?.closest<HTMLElement>('.cartao, .painel');
+          )?.closest<HTMLElement>(
+            '.cartao, .painel, .calendario__cartao, .indicadores',
+          );
           if (!alvo) {
             soltar();
             return;
