@@ -40,6 +40,8 @@ export const en: Dicionario = {
     grupos: [
       {
         nome: 'Backend',
+        descricao:
+          'Python APIs with token authentication and hashed passwords.',
         itens: [
           'Python',
           'FastAPI',
@@ -51,19 +53,25 @@ export const en: Dicionario = {
       },
       {
         nome: 'Architecture',
+        descricao:
+          'Layered code, with business rules kept out of the entry layer.',
         itens: [
-          'layered architecture',
+          'Layered architecture',
           'SOLID',
           'Clean Code',
-          'decoupled services',
+          'Decoupled services',
         ],
       },
       {
         nome: 'Data',
-        itens: ['PostgreSQL', 'MySQL', 'Oracle', 'SQL', 'relational modeling'],
+        descricao:
+          'Relational modelling and queries on PostgreSQL, MySQL and Oracle.',
+        itens: ['PostgreSQL', 'MySQL', 'Oracle', 'SQL', 'Relational modeling'],
       },
       {
         nome: 'Infrastructure and DevOps',
+        descricao:
+          'Containerised services and Linux deploys behind a reverse proxy.',
         itens: [
           'Docker',
           'Linux (WSL and Ubuntu)',
@@ -75,30 +83,37 @@ export const en: Dicionario = {
       },
       {
         nome: 'Testing and quality',
+        descricao: 'Automated tests with pytest and verification by execution.',
         itens: [
           'pytest',
           'API testing',
-          'code review',
-          'verification by execution',
+          'Code review',
+          'Verification by execution',
         ],
       },
       {
         nome: 'Other languages',
+        descricao:
+          'They come in when the task goes beyond the backend: interface, operations script or automation.',
         itens: ['Java', 'JavaScript', 'Node.js', 'React', 'Bash'],
       },
       {
         nome: 'Automation and AI',
+        descricao: 'Automated flows with LLMs used as an engineering tool.',
         itens: [
-          'process automation',
+          'Process automation',
           'API integration',
-          'agent orchestration',
-          'multi-agent on Slack',
+          'Agent orchestration',
+          'Multi-agent on Slack',
           'LLM as an engineering tool',
+          'Hermes Agent',
         ],
       },
     ],
     estudoTitulo: 'Learning',
-    estudo: ['OAuth2', 'MongoDB', 'AWS', 'microservices', 'TDD', 'UiPath'],
+    estudoDescricao:
+      'What I already use while building projects, with study and feasibility work as I learn.',
+    estudo: ['OAuth2', 'MongoDB', 'AWS', 'Microservices', 'TDD', 'UiPath'],
   },
   projetos: {
     titulo: 'Projects',
@@ -314,15 +329,46 @@ export const en: Dicionario = {
       {
         nome: 'Python Master (Logic, Django and Integration)',
         instituicao: 'PyCodeBR',
+        resumo:
+          'Complete package combining four tracks: Python logic and algorithms for beginners, full-stack Django with APIs and AWS deploy, applied AI with LLMs and autonomous agents, and system integration with REST APIs and webhooks.',
       },
-      { nome: 'AI Master', instituicao: 'PyCodeBR' },
-      { nome: 'AI Master Elite, mentoring group 3', instituicao: 'PyCodeBR' },
-      { nome: 'AI Builders', instituicao: 'PyCodeBR' },
-      { nome: 'Autonomous Agents Immersion', instituicao: 'PyCodeBR' },
-      { nome: 'FastAPI Workshop', instituicao: 'PyCodeBR' },
+      {
+        nome: 'AI Master',
+        instituicao: 'PyCodeBR',
+        resumo:
+          'AI applications with LangChain and RAG, autonomous agents and chatbots wired to channels such as WhatsApp.',
+      },
+      {
+        nome: 'AI Master Elite',
+        instituicao: 'PyCodeBR',
+        resumo:
+          'Eight months of live mentoring covering advanced AI deployment, observability, agent architecture and the business side of AI solutions.',
+      },
+      {
+        nome: 'AI Builders',
+        instituicao: 'PyCodeBR',
+        resumo:
+          'Architecting and shipping complex AI flows with OpenAI, LangChain, RAG, autonomous agents and MCP. Also covers Claude Code, Codex and Gemini CLI to plan and build systems, plus the product view: turning this into SaaS or an enterprise solution.',
+      },
+      {
+        nome: 'Autonomous Agents Immersion',
+        instituicao: 'PyCodeBR',
+        resumo:
+          'Infrastructure first: instead of only writing prompts, the structure around the agent — deploy on a Linux VPS, domain, DNS, Cloudflare and SSH access. The goal is continuous operation, with connected tools, long-term memory and context bases.',
+      },
+      {
+        nome: 'FastAPI Workshop',
+        instituicao: 'PyCodeBR',
+        resumo:
+          'High-performance APIs with FastAPI, covering Docker, Kubernetes, tests, CI/CD and scalable deploy on AWS.',
+      },
     ],
     idiomasTitulo: 'Languages',
-    idiomas: 'Portuguese native, English fluent, Spanish basic.',
+    idiomas: [
+      { nome: 'Portuguese', nivel: 'native', bandeira: 'br' },
+      { nome: 'English', nivel: 'fluent', bandeira: 'gb' },
+      { nome: 'Spanish', nivel: 'basic', bandeira: 'es' },
+    ],
   },
   contato: {
     titulo: 'Contact',

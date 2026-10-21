@@ -172,31 +172,32 @@ footer {
 
 .stack {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-  gap: 1.75rem 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+}
+
+.stack__grupo {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: border-color 0.18s ease;
 }
 
 .stack__grupo h3 {
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.4rem;
+  transition: color 0.18s ease;
   font-family: var(--font-display);
   font-size: 0.9375rem;
   font-weight: 600;
   color: var(--fg);
 }
 
-.stack__grupo p {
-  margin: 0;
-  font-size: 0.9375rem;
-  line-height: 1.55;
-}
-
-.stack__grupo--estudando {
-  padding-left: 0.9rem;
-  border-left: 2px solid var(--accent);
-}
-
-.stack__grupo--estudando h3 {
-  color: var(--accent);
+.stack__descricao {
+  margin: 0 0 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--muted);
 }
 
 .idioma {
@@ -223,8 +224,12 @@ footer {
 }
 
 .linha__item {
-  padding-left: 1.1rem;
-  border-left: 2px solid var(--line-strong);
+  padding: 1rem 1.15rem;
+  border: 1px solid var(--line);
+  border-left: 2px solid var(--accent);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: border-color 0.18s ease;
 }
 
 .linha__topo {
@@ -266,9 +271,77 @@ footer {
 
 .bloco__titulo {
   margin: 2.25rem 0 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+
+.cursos {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cursos__item {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem 1rem;
+  padding: 0.55rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  transition: border-color 0.18s ease;
+}
+
+.cursos__nome {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.cursos__instituicao {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.idiomas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.idiomas__item {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  transition: border-color 0.18s ease;
+}
+
+.idiomas__nome {
   font-family: var(--font-display);
   font-size: 0.9375rem;
-  color: var(--muted);
+  color: var(--fg);
+}
+
+.idiomas__nivel {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 .lista {
@@ -315,6 +388,7 @@ footer {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--surface);
+  transition: border-color 0.18s ease;
 }
 
 .cartao__nome {
@@ -523,12 +597,17 @@ footer {
     border-color: var(--accent);
   }
 
-  .projeto:hover {
-    border-color: var(--line-strong);
+  .stack__grupo:hover,
+  .linha__item:hover,
+  .cursos__item:hover,
+  .idiomas__item:hover,
+  .cartao:hover,
+  .painel:hover {
+    border-color: var(--accent);
   }
 
-  .cartao:hover {
-    border-color: var(--line-strong);
+  .stack__grupo:hover h3 {
+    color: var(--accent);
   }
 
   .cartao__nome a:hover {
@@ -834,7 +913,9 @@ footer {
 .cartao,
 .painel,
 .calendario__cartao,
-.indicadores {
+.indicadores,
+.stack__grupo,
+.linha__item {
   position: relative;
   isolation: isolate;
 }
@@ -842,7 +923,9 @@ footer {
 .cartao::after,
 .painel::after,
 .calendario__cartao::after,
-.indicadores::after {
+.indicadores::after,
+.stack__grupo::after,
+.linha__item::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -861,7 +944,9 @@ footer {
 .cartao.ponta::after,
 .painel.ponta::after,
 .calendario__cartao.ponta::after,
-.indicadores.ponta::after {
+.indicadores.ponta::after,
+.stack__grupo.ponta::after,
+.linha__item.ponta::after {
   opacity: 1;
 }
 
@@ -914,6 +999,15 @@ footer {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .stack__grupo,
+  .linha__item,
+  .cursos__item,
+  .idiomas__item,
+  .cartao,
+  .painel {
+    transition: none;
+  }
+
   .selo {
     display: none;
   }
@@ -995,4 +1089,99 @@ footer {
   padding: 0;
   border: 0;
   background: none;
+}
+
+/* Balões de tecnologia respondem ao ponteiro, como os cartões */
+.chips__item {
+  transition:
+    border-color 0.18s ease,
+    color 0.18s ease;
+}
+
+@media (hover: hover) {
+  .chips__item:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .chips__item {
+    transition: none;
+  }
+}
+
+/* Balões da stack: fonte menor para caberem dois por linha */
+.stack__grupo .chips__item {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.6875rem;
+}
+
+/* Cursos: resumo abre no hover (JS), no clique e no teclado (nativo do summary) */
+.cursos__item {
+  padding: 0;
+}
+
+.cursos__topo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  width: 100%;
+  max-width: none;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.cursos__topo::-webkit-details-marker {
+  display: none;
+}
+
+.cursos__topo .cursos__instituicao {
+  margin-left: auto;
+}
+
+.cursos__topo::after {
+  content: '+';
+  margin-left: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  color: var(--accent);
+}
+
+.cursos__item[open] .cursos__topo::after {
+  content: '−';
+}
+
+.cursos__topo:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+}
+
+.cursos__resumo {
+  max-height: 0;
+  margin: 0;
+  padding: 0 0.85rem;
+  overflow: hidden;
+  font-size: 0.875rem;
+  color: var(--muted);
+  opacity: 0;
+  transition:
+    max-height 0.25s ease,
+    opacity 0.2s ease,
+    padding-bottom 0.25s ease;
+}
+
+.cursos__item[open] .cursos__resumo {
+  max-height: 10rem;
+  padding-bottom: 0.7rem;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursos__resumo {
+    transition: none;
+  }
 }

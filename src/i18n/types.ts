@@ -6,6 +6,7 @@ export type Acao = {
 
 export type Grupo = {
   nome: string;
+  descricao?: string;
   itens: string[];
 };
 
@@ -32,6 +33,13 @@ export type Formacao = {
 export type Curso = {
   nome: string;
   instituicao: string;
+  resumo?: string;
+};
+
+export type Idioma = {
+  nome: string;
+  nivel: string;
+  bandeira: string;
 };
 
 export type LinkProjeto = { rotulo: string; href: string };
@@ -59,6 +67,7 @@ export type Dicionario = {
     titulo: string;
     grupos: Grupo[];
     estudoTitulo: string;
+    estudoDescricao: string;
     estudo: string[];
   };
   projetos: {
@@ -101,7 +110,7 @@ export type Dicionario = {
     cursosTitulo: string;
     cursos: Curso[];
     idiomasTitulo: string;
-    idiomas: string;
+    idiomas: Idioma[];
   };
   contato: {
     titulo: string;

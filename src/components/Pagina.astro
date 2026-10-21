@@ -58,12 +58,24 @@ const { d } = Astro.props;
           {d.stack.grupos.map((grupo) => (
             <div class="stack__grupo">
               <h3>{grupo.nome}</h3>
-              <p>{grupo.itens.join(', ')}</p>
+              {grupo.descricao && (
+                <p class="stack__descricao">{grupo.descricao}</p>
+              )}
+              <ul class="chips">
+                {grupo.itens.map((item) => (
+                  <li class="chips__item">{item}</li>
+                ))}
+              </ul>
             </div>
           ))}
           <div class="stack__grupo stack__grupo--estudando">
             <h3>{d.stack.estudoTitulo}</h3>
-            <p>{d.stack.estudo.join(', ')}</p>
+            <p class="stack__descricao">{d.stack.estudoDescricao}</p>
+            <ul class="chips">
+              {d.stack.estudo.map((item) => (
+                <li class="chips__item">{item}</li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
@@ -82,26 +94,46 @@ const { d } = Astro.props;
                 <p class="linha__periodo">{exp.periodo}</p>
               </div>
               <p class="linha__empresa">{exp.empresa}</p>
-              <ul class="linha__itens">
-                {exp.itens.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
+              {exp.itens.length > 0 && (
+                <ul class="linha__itens">
+                  {exp.itens.map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
         </ol>
 
         <h3 class="bloco__titulo">{d.trajetoria.cursosTitulo}</h3>
-        <ul class="lista">
+        <ul class="cursos">
           {d.trajetoria.cursos.map((c) => (
             <li>
-              <strong>{c.nome}</strong>, {c.instituicao}
+              <details class="cursos__item">
+                <summary class="cursos__topo">
+                  <span class="cursos__nome">{c.nome}</span>
+                  <span class="cursos__instituicao">{c.instituicao}</span>
+                </summary>
+                {c.resumo && <p class="cursos__resumo">{c.resumo}</p>}
+              </details>
             </li>
           ))}
         </ul>
 
         <h3 class="bloco__titulo">{d.trajetoria.idiomasTitulo}</h3>
-        <p>{d.trajetoria.idiomas}</p>
+        <ul class="idiomas">
+          {d.trajetoria.idiomas.map((i) => (
+            <li class="idiomas__item">
+              <span
+                class="idiomas__bandeira"
+                data-bandeira={i.bandeira}
+                aria-hidden="true"
+              />
+              <span class="idiomas__nome">{i.nome}</span>
+              <span class="idiomas__nivel">{i.nivel}</span>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section id="contato">
