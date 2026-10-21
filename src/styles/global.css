@@ -1185,3 +1185,59 @@ footer {
     transition: none;
   }
 }
+
+/* Bandeiras dos idiomas: recorte à direita com fade para o texto */
+.idiomas__item {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.idiomas__bandeira {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 62%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.4;
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgb(0 0 0 / 0.35) 35%,
+    #000 85%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    rgb(0 0 0 / 0.35) 35%,
+    #000 85%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.idiomas__bandeira[data-bandeira='br'] {
+  background-image: url('/bandeiras/br.svg');
+}
+
+.idiomas__bandeira[data-bandeira='gb'] {
+  background-image: url('/bandeiras/gb.svg');
+}
+
+.idiomas__bandeira[data-bandeira='es'] {
+  background-image: url('/bandeiras/es.svg');
+}
+
+.idiomas__nome,
+.idiomas__nivel {
+  position: relative;
+  z-index: 1;
+}
+
+/* No celular, os idiomas ficam em uma coluna */
+@media (max-width: 640px) {
+  .idiomas {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
