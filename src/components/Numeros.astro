@@ -1,0 +1,50 @@
+---
+import type { Dicionario } from '../i18n/types';
+
+interface Props {
+  d: Dicionario;
+}
+
+const { d } = Astro.props;
+const n = d.numeros;
+---
+
+<dl class="numeros">
+  <div class="numeros__item">
+    <dt class="numeros__rotulo">{n.anosRotulo}</dt>
+    <dd class="numeros__valor">{n.anos}</dd>
+  </div>
+  <div class="numeros__item" data-numero="repositorios" hidden>
+    <dt class="numeros__rotulo">{n.repositorios}</dt>
+    <dd class="numeros__valor" data-valor></dd>
+  </div>
+  <div class="numeros__item" data-numero="contribuicoes" hidden>
+    <dt class="numeros__rotulo">{n.contribuicoes}</dt>
+    <dd class="numeros__valor" data-valor></dd>
+  </div>
+</dl>
+
+<script>
+  import { dadosDaSessao } from '../dados/sessao.mts';
+
+  const preencher = (chave: string, valor: number) => {
+    const item = document.querySelector<HTMLElement>(
+      `[data-numero="${chave}"]`,
+    );
+    const alvo = item?.querySelector<HTMLElement>('[data-valor]');
+    if (!item || !alvo) return;
+    alvo.textContent = String(valor);
+    item.removeAttribute('hidden');
+  };
+
+  const estado = await dadosDaSessao({
+    buscar: window.fetch.bind(window),
+    armazenamento: window.localStorage,
+    agora: () => Date.now(),
+  });
+
+  if (estado.perfil.ok)
+    preencher('repositorios', estado.perfil.dados.repositoriosPublicos);
+  if (estado.calendario.ok && estado.indicadores)
+    preencher('contribuicoes', estado.indicadores.total);
+</script>

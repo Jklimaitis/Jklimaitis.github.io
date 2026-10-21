@@ -1,0 +1,85 @@
+---
+import type { Dicionario } from '../i18n/types';
+
+interface Props {
+  d: Dicionario;
+}
+
+const { d } = Astro.props;
+const t = d.eventos;
+---
+
+<aside class="eventos" aria-label={t.rotulo} data-eventos hidden>
+  <p class="eventos__estado" data-estado>
+    {t.carregando}
+  </p>
+  <ol class="eventos__trilha" data-trilha></ol>
+</aside>
+
+<script>
+  import { carregarEventos } from '../dados/eventos.mts';
+  import { formatarDiaMes } from '../dados/formato.mts';
+  import { en } from '../i18n/en';
+  import { pt } from '../i18n/pt';
+
+  const textos = document.documentElement.lang.startsWith('en') ? en : pt;
+  const t = textos.eventos;
+
+  const caixa = document.querySelector<HTMLElement>('[data-eventos]');
+  const trilha = caixa?.querySelector<HTMLElement>('[data-trilha]');
+  const aviso = caixa?.querySelector<HTMLElement>('[data-estado]');
+
+  if (caixa && trilha && aviso) {
+    const resultado = await carregarEventos({
+      buscar: window.fetch.bind(window),
+      armazenamento: window.localStorage,
+      agora: () => Date.now(),
+    });
+
+    if (!resultado.ok || resultado.dados.length === 0) {
+      aviso.textContent = t.indisponivel;
+      caixa.removeAttribute('hidden');
+    } else {
+      aviso.remove();
+
+      const itens = resultado.dados.map((evento) => {
+        const li = document.createElement('li');
+        li.className = 'eventos__item';
+
+        const quando = document.createElement('span');
+        quando.className = 'eventos__quando';
+        quando.textContent = formatarDiaMes(evento.quando, textos.meses) ?? '';
+
+        const tipo = document.createElement('span');
+        tipo.className = 'eventos__tipo';
+        tipo.textContent = evento.tipo === 'push' ? t.push : t.criou;
+
+        const repo = document.createElement('span');
+        repo.className = 'eventos__repo';
+        repo.textContent = evento.repositorio;
+
+        li.append(quando, tipo, repo);
+        return li;
+      });
+
+      for (const item of itens) trilha.append(item);
+
+      // A rolagem contínua precisa da lista duplicada; com movimento reduzido,
+      // a barra fica estática e a cópia seria conteúdo repetido na tela.
+      const reduzido = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches;
+
+      if (!reduzido) {
+        trilha.dataset.duplicada = 'sim';
+        for (const item of itens) {
+          const copia = item.cloneNode(true) as HTMLElement;
+          copia.setAttribute('aria-hidden', 'true');
+          trilha.append(copia);
+        }
+      }
+
+      caixa.removeAttribute('hidden');
+    }
+  }
+</script>
