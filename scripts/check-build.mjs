@@ -6,7 +6,7 @@ import { readFileSync } from 'node:fs';
 const required = process.argv.slice(2);
 
 const paginas = [
-  { arquivo: 'index.html', outroIdioma: 'en' },
+  { arquivo: 'index.html', outroIdioma: 'en-GB' },
   { arquivo: 'en/index.html', outroIdioma: 'pt-BR' },
 ];
 

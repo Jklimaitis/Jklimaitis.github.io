@@ -6,7 +6,7 @@ export const pt: Dicionario = {
   troca: {
     rotulo: 'EN',
     href: '/en/',
-    idioma: 'en',
+    idioma: 'en-GB',
     rotuloAcessivel: 'Mudar para inglês',
   },
   navRotulo: 'Seções',
@@ -170,8 +170,13 @@ export const pt: Dicionario = {
           'AsyncIO',
         ],
         meta: 'Python',
-        links: [],
-        nota: 'repositório privado',
+        links: [
+          {
+            rotulo: 'Repositório público',
+            href: 'https://github.com/Jklimaitis/home-shopper',
+          },
+        ],
+        nota: 'versão pública com licença MIT; desenvolvimento principal em repositório privado',
       },
       {
         nome: 'Pimp My Commander',
@@ -234,8 +239,13 @@ export const pt: Dicionario = {
           'Autenticação básica',
         ],
         meta: 'Python',
-        links: [],
-        nota: 'repositório privado',
+        links: [
+          {
+            rotulo: 'Template público',
+            href: 'https://github.com/Jklimaitis/central-operacoes-template',
+          },
+        ],
+        nota: 'template reutilizável, sem histórico; a instalação em uso é privada',
       },
     ],
   },

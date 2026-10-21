@@ -55,7 +55,9 @@ const itens = d.projetos.itens;
             <h4 class="painel__rotulo">{d.projetos.arquiteturaRotulo}</h4>
             <ol class="fluxo">
               {p.arquitetura.map((etapa) => (
-                <li class="fluxo__etapa">{etapa}</li>
+                <li class="fluxo__etapa">
+                  <span>{etapa}</span>
+                </li>
               ))}
             </ol>
           </div>
@@ -105,3 +107,50 @@ const itens = d.projetos.itens;
     ))}
   </div>
 </section>
+
+<script>
+  import { indiceDaTecla } from '../dados/tabs.mts';
+
+  const lista = document.querySelector<HTMLElement>('[data-abas]');
+  const abas = lista
+    ? Array.from(lista.querySelectorAll<HTMLButtonElement>('[role="tab"]'))
+    : [];
+  const paineis = Array.from(
+    document.querySelectorAll<HTMLElement>('[role="tabpanel"]'),
+  );
+
+  if (lista && abas.length > 0 && abas.length === paineis.length) {
+    let selecionada = 0;
+
+    const mostrar = (indice: number, focar = false) => {
+      selecionada = indice;
+
+      abas.forEach((aba, i) => {
+        const ativo = i === indice;
+        aba.setAttribute('aria-selected', ativo ? 'true' : 'false');
+        aba.tabIndex = ativo ? 0 : -1;
+      });
+
+      paineis.forEach((painel, i) => {
+        if (i === indice) painel.removeAttribute('hidden');
+        else painel.setAttribute('hidden', '');
+      });
+
+      if (focar) abas[indice]?.focus();
+    };
+
+    abas.forEach((aba, i) => {
+      aba.addEventListener('click', () => mostrar(i));
+    });
+
+    lista.addEventListener('keydown', (evento) => {
+      const alvo = indiceDaTecla(selecionada, abas.length, evento.key);
+      if (alvo === null) return;
+      evento.preventDefault();
+      mostrar(alvo, true);
+    });
+
+    lista.removeAttribute('hidden');
+    mostrar(0);
+  }
+</script>

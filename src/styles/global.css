@@ -275,67 +275,6 @@ footer {
   font-size: 0.9375rem;
 }
 
-.projetos {
-  display: grid;
-  gap: 1rem;
-}
-
-.projeto {
-  padding: 1.25rem 1.35rem;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-}
-
-.projeto__topo {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 0.35rem 1rem;
-}
-
-.projeto__nome {
-  margin: 0;
-  font-family: var(--font-display);
-  font-size: 1.1rem;
-}
-
-.projeto__nota {
-  margin: 0;
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--muted);
-}
-
-.projeto__resumo {
-  margin: 0.5rem 0 0.9rem;
-  color: var(--muted);
-  font-size: 0.9375rem;
-}
-
-.projeto__stack {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.projeto__stack li {
-  padding: 0.15rem 0.5rem;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  font-size: 0.75rem;
-  color: var(--muted);
-}
-
-.projeto__link {
-  display: inline-block;
-  margin-top: 0.9rem;
-  font-size: 0.875rem;
-}
-
 /* Seção GitHub */
 #github [data-bloco] {
   margin-top: 1.25rem;
@@ -601,5 +540,232 @@ footer {
 
   .cta {
     transition: none;
+  }
+}
+
+/* Projetos em master-detail */
+#projetos .projetos {
+  display: grid;
+  grid-template-columns: minmax(0, 14rem) minmax(0, 1fr);
+  gap: 1.25rem;
+  align-items: start;
+  margin-top: 1.5rem;
+}
+
+.projetos__abas {
+  display: grid;
+  gap: 0.25rem;
+  align-content: start;
+}
+
+.projetos__abas button {
+  display: grid;
+  gap: 0.15rem;
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.aba__nome {
+  font-family: var(--font-display);
+  font-size: 0.9375rem;
+  color: var(--fg);
+}
+
+.aba__tags {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--muted);
+}
+
+.projetos__abas button[aria-selected='true'] {
+  border-color: var(--accent);
+  background: var(--surface);
+}
+
+.projetos__abas button[aria-selected='true'] .aba__tags {
+  color: var(--accent);
+}
+
+.painel {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.25rem 1.35rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  min-width: 0;
+}
+
+.painel__tags {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+.painel__nome {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  overflow-wrap: anywhere;
+}
+
+.painel__descricao {
+  margin: 0;
+  max-width: 60ch;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+.painel__bloco {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.painel__rotulo {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.fluxo {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fluxo__etapa {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.fluxo__etapa > span {
+  padding: 0.25rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--raise);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--fg);
+}
+
+.fluxo__etapa:not(:last-child)::after {
+  content: '→';
+  margin-inline: 0.45rem;
+  color: var(--muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips__item {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--raise);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.painel__destaques {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.9375rem;
+  color: var(--muted);
+}
+
+.painel__meta {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.painel__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.painel__link {
+  display: inline-flex;
+  align-items: center;
+  height: 36px;
+  padding-inline: 0.85rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 8px;
+  font-size: 0.8125rem;
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.painel__nota {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+@media (hover: hover) {
+  .painel__link:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+}
+
+@media (min-width: 1100px) {
+  #projetos .projetos {
+    width: min(960px, calc(100vw - 4rem));
+    margin-inline: calc((100% - min(960px, calc(100vw - 4rem))) / 2);
+    grid-template-columns: minmax(0, 15rem) minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  #projetos .projetos {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .projetos__abas {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    scrollbar-width: none;
+  }
+
+  .projetos__abas::-webkit-scrollbar {
+    display: none;
+  }
+
+  .projetos__abas button {
+    width: auto;
+    white-space: nowrap;
+    border-color: var(--line);
   }
 }

@@ -1,7 +1,7 @@
 import type { Dicionario } from './types';
 
 export const en: Dicionario = {
-  idioma: 'en',
+  idioma: 'en-GB',
   titulo: 'Portfolio · Jonas Klimaitis',
   troca: {
     rotulo: 'PT',
@@ -123,7 +123,7 @@ export const en: Dicionario = {
           'Python and Django backend with the MVT pattern, separating presentation from models and rules.',
           'Native authentication flow that restricts access and protects the editing forms.',
           'Static file upload and management tied to the model lifecycle.',
-          'Search and filtering backed by optimized Django ORM queries.',
+          'Search and filtering backed by optimised Django ORM queries.',
         ],
         tecnologias: [
           'Python',
@@ -170,8 +170,13 @@ export const en: Dicionario = {
           'AsyncIO',
         ],
         meta: 'Python',
-        links: [],
-        nota: 'private repository',
+        links: [
+          {
+            rotulo: 'Public repository',
+            href: 'https://github.com/Jklimaitis/home-shopper',
+          },
+        ],
+        nota: 'public MIT-licensed version; main development in a private repository',
       },
       {
         nome: 'Pimp My Commander',
@@ -234,8 +239,13 @@ export const en: Dicionario = {
           'Basic authentication',
         ],
         meta: 'Python',
-        links: [],
-        nota: 'private repository',
+        links: [
+          {
+            rotulo: 'Public template',
+            href: 'https://github.com/Jklimaitis/central-operacoes-template',
+          },
+        ],
+        nota: 'reusable template with no history; the running installation is private',
       },
     ],
   },
@@ -271,7 +281,7 @@ export const en: Dicionario = {
           'Customer journeys and marketing automation with segmentation, personalization and campaign rules.',
           'Communication channels: email, SMS, push notifications and social media.',
           'Integrations with Customer Data Platforms (CDP) and CRM systems.',
-          'Worked with Marketing, CRM and Technology teams to organize customer data and campaign requirements.',
+          'Worked with Marketing, CRM and Technology teams to organise customer data and campaign requirements.',
         ],
       },
       {
