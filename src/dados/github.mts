@@ -1,6 +1,7 @@
 import type { Resultado } from './tipos.mts';
 
 export const LIMITE_REPOSITORIOS = 10;
+export const USUARIO_GITHUB = 'Jklimaitis';
 
 export type Perfil = { repositoriosPublicos: number; urlPerfil: string };
 
@@ -63,6 +64,7 @@ export function selecionarRepositorios(
     const r = bruto as Record<string, unknown>;
 
     if (r.fork === true || r.archived === true) continue;
+    if (r.name === USUARIO_GITHUB) continue;
     if (typeof r.name !== 'string' || r.name.trim() === '') continue;
     if (!linkGithub(r.html_url)) continue;
     if (

@@ -127,3 +127,14 @@ test('recusa corpo que não é lista', () => {
     assert.equal(r.motivo, 'resposta-invalida');
   }
 });
+
+test('exclui o repositório de README de perfil', () => {
+  const r = selecionarRepositorios([
+    repo('Jklimaitis'),
+    repo('Projeto_Carros'),
+  ]);
+  assert.deepEqual(
+    r.dados.itens.map((i) => i.nome),
+    ['Projeto_Carros'],
+  );
+});
