@@ -42,7 +42,7 @@ Regras técnicas que decorrem de erros medidos em 2026-10-21:
 - **Hora local calculada no navegador** com `Intl.DateTimeFormat` e o fuso `America/Sao_Paulo`, atualizada a cada 30 segundos. Sem JavaScript o campo fica vazio e é escondido por `:empty`; nenhum horário fixo é escrito no HTML, porque envelheceria.
 - **O título não quebra dentro da palavra.** A herança de `overflow-wrap: anywhere` produzia "Desenvolve/dor"; as duas partes usam `white-space: nowrap` e o tamanho da fonte é dimensionado para a palavra mais longa caber. O tamanho é `clamp(2.4rem, 7.4vw, 5.9rem)`, medido em 390, 900, 1024 e 1440 px sem transbordo.
 - **A abertura usa faixa de `72rem`**, e não os `60rem` do resto da página. É a única exceção de largura, admitida porque ali só há tipografia de display: o parágrafo continua limitado a 62ch.
-- **Título na largura toda, texto e ações na linha de baixo.** Com título e parágrafo em colunas lado a lado, a diferença de altura entre eles abria 131 px de vazio sob o título; a composição em duas linhas elimina o vazio sem inventar conteúdo.
+- **Duas colunas, com as ações sob o título.** Título e botões à esquerda, parágrafo à direita. Com as ações na coluna do texto, a esquerda ficava 131 px mais baixa que a direita e o vazio sob o título parecia defeito; levando os botões para a esquerda, a diferença caiu para 29 px, medida em 1440 px. O título ocupa 96% da largura da coluna, dimensionado para a palavra mais longa caber sem quebra.
 
 ## Base técnica e organização
 

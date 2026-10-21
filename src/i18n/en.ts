@@ -21,7 +21,7 @@ export const en: Dicionario = {
     nome: 'Jonas Klimaitis',
     oficio: { antes: 'Backend', destaque: 'Developer' },
     posicao:
-      'I build Python APIs and automations: system integration, data handling and processes that run on their own. I come from CRM and MarTech, where I spent years connecting tools and fixing what broke between them — a background I now use to think about the whole flow, not just the endpoint.',
+      'I build Python APIs and automations with a focus on predictability and scale. My foundation comes from years inside CRM and MarTech operations: connecting legacy platforms, handling data inconsistencies and keeping critical processes running. Today I apply that support and engineering background to design backend systems that are ready for the real world from the start — thinking about the database, the infrastructure and the whole flow of information.',
     meta: {
       local: 'São Paulo',
       perfilRotulo: 'github.com/Jklimaitis',

@@ -1533,7 +1533,7 @@ nav a[aria-current='true']::after {
   margin: 0;
   /* Tamanho limitado pela largura da coluna: a palavra mais longa do título
      precisa caber inteira, e `anywhere` herdado quebrava no meio da palavra. */
-  font-size: clamp(2.4rem, 7.4vw, 5.9rem);
+  font-size: clamp(2.4rem, 5.2vw, 4.6rem);
   line-height: 0.98;
   letter-spacing: -0.035em;
   overflow-wrap: normal;
@@ -1550,6 +1550,12 @@ nav a[aria-current='true']::after {
 .abertura__grade h1 .palavra {
   display: block;
   white-space: nowrap;
+}
+
+.abertura__principal {
+  display: grid;
+  gap: 1.75rem;
+  align-content: start;
 }
 
 .abertura__lado {
@@ -1585,16 +1591,13 @@ nav a[aria-current='true']::after {
   }
 }
 
-/* Título na largura toda e, abaixo, texto e ações lado a lado: assim a
-   diferença de altura entre as colunas não abre vazio em nenhuma delas. */
+/* Duas colunas: título à esquerda, texto e ações à direita. O título é
+   centralizado na altura da coluna vizinha para o vazio não se acumular
+   só embaixo dele, onde parece falha de layout. */
 @media (min-width: 900px) {
-  .abertura__lado {
-    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
-    align-items: end;
-  }
-
-  .abertura__lado .ctas {
-    justify-content: flex-end;
+  .abertura__grade {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
   }
 }
 

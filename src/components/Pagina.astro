@@ -64,13 +64,12 @@ const { d } = Astro.props;
       <p class="abertura__nome">{d.inicio.nome}</p>
 
       <div class="abertura__grade">
-        <h1>
-          <span class="abertura__antes">{d.inicio.oficio.antes}</span>{' '}
-          <span class="ambar">{d.inicio.oficio.destaque}</span>
-        </h1>
+        <div class="abertura__principal">
+          <h1>
+            <span class="abertura__antes">{d.inicio.oficio.antes}</span>{' '}
+            <span class="ambar">{d.inicio.oficio.destaque}</span>
+          </h1>
 
-        <div class="abertura__lado">
-          <p class="lead">{d.inicio.posicao}</p>
           <div class="ctas">
             {d.inicio.acoes.map((acao) => (
               <a class={`cta cta--${acao.variante}`} href={acao.href}>
@@ -78,6 +77,10 @@ const { d } = Astro.props;
               </a>
             ))}
           </div>
+        </div>
+
+        <div class="abertura__lado">
+          <p class="lead">{d.inicio.posicao}</p>
         </div>
       </div>
 
