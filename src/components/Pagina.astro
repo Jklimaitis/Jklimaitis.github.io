@@ -50,17 +50,43 @@ const { d } = Astro.props;
     </header>
 
     <section id="inicio">
-      <h1>{d.inicio.nome}</h1>
-      <p class="lead">{d.inicio.lead}</p>
-      <div class="ctas">
-        {d.inicio.acoes.map((acao) => (
-          <a class={`cta cta--${acao.variante}`} href={acao.href}>
-            {acao.rotulo}
-          </a>
-        ))}
+      <div class="abertura__meta">
+        <p class="abertura__local">
+          {d.inicio.meta.local}
+          <span class="abertura__hora" data-hora></span>
+        </p>
+        <a class="abertura__perfil" href={d.inicio.meta.perfilHref}>
+          {d.inicio.meta.perfilRotulo}
+          <span aria-hidden="true"> ↗</span>
+        </a>
+      </div>
+
+      <p class="abertura__nome">{d.inicio.nome}</p>
+
+      <div class="abertura__grade">
+        <h1>
+          <span class="abertura__antes">{d.inicio.oficio.antes}</span>{' '}
+          <span class="ambar">{d.inicio.oficio.destaque}</span>
+        </h1>
+
+        <div class="abertura__lado">
+          <p class="lead">{d.inicio.posicao}</p>
+          <div class="ctas">
+            {d.inicio.acoes.map((acao) => (
+              <a class={`cta cta--${acao.variante}`} href={acao.href}>
+                {acao.rotulo}
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
 
       <Numeros d={d} />
+
+      <p class="abertura__rolar" aria-hidden="true">
+        {d.inicio.rolar}
+        <span class="abertura__seta">↓</span>
+      </p>
     </section>
 
     <Eventos d={d} />

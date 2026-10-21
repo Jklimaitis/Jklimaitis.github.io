@@ -48,25 +48,35 @@
 
     const titulo = document.querySelector<HTMLElement>('#inicio h1');
     if (titulo) {
-      const palavras = (titulo.textContent ?? '')
-        .trim()
-        .split(/\s+/)
-        .filter(Boolean);
+      // Cada parte é uma palavra de texto ou um elemento já marcado (destaque).
+      // Elementos são preservados: reconstruir tudo como texto apagaria o destaque.
+      const partes: (string | Node)[] = [];
+      for (const no of Array.from(titulo.childNodes)) {
+        if (no.nodeType === Node.TEXT_NODE) {
+          const texto = (no.textContent ?? '').trim();
+          if (texto) partes.push(...texto.split(/\s+/));
+        } else if (no.nodeType === Node.ELEMENT_NODE) {
+          partes.push(no);
+        }
+      }
 
       titulo.textContent = '';
       titulo.classList.add('titulo-in');
 
-      palavras.forEach((palavra, i) => {
+      partes.forEach((parte, i) => {
         const mascara = document.createElement('span');
         mascara.className = 'palavra';
         mascara.style.setProperty('--i', String(i));
 
         const interna = document.createElement('span');
-        interna.textContent = palavra;
+        if (typeof parte === 'string') interna.textContent = parte;
+        else interna.append(parte);
         mascara.append(interna);
         titulo.append(mascara);
 
-        if (i < palavras.length - 1) {
+        // Separador textual entra entre quaisquer partes: com `display: block`
+        // ele não aparece na tela, mas mantém a leitura e a cópia corretas.
+        if (i < partes.length - 1) {
           titulo.append(document.createTextNode(' '));
         }
       });
@@ -75,6 +85,22 @@
     }
 
     observar();
+
+    // Hora local de São Paulo, calculada no fuso do visitante
+    const hora = document.querySelector<HTMLElement>('[data-hora]');
+    if (hora) {
+      const formato = new Intl.DateTimeFormat('pt-BR', {
+        timeZone: 'America/Sao_Paulo',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      });
+      const escreverHora = () => {
+        hora.textContent = ` · ${formato.format(new Date())}`;
+      };
+      escreverHora();
+      setInterval(escreverHora, 30000);
+    }
 
     // Progresso de leitura e seção ativa do menu
     const barra = document.querySelector<HTMLElement>('[data-progresso]');

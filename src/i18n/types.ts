@@ -62,7 +62,14 @@ export type Dicionario = {
   troca: Troca;
   navRotulo: string;
   nav: { rotulo: string; href: string }[];
-  inicio: { nome: string; lead: string; acoes: Acao[] };
+  inicio: {
+    nome: string;
+    oficio: { antes: string; destaque: string };
+    posicao: string;
+    meta: { local: string; perfilRotulo: string; perfilHref: string };
+    rolar: string;
+    acoes: Acao[];
+  };
   stack: {
     titulo: string;
     grupos: Grupo[];

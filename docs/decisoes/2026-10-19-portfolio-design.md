@@ -1,8 +1,9 @@
 # Portfólio pessoal: especificação inicial
 
-- **Revisão:** r6
+- **Revisão:** r7
 - **Data:** 2026-10-19
-- **Etapa:** desenho aprovado e implementado; regras de publicação revisadas na r6
+- **Etapa:** desenho aprovado e implementado; abertura revista na r7
+- **Alterações da r7:** a abertura deixa de ser nome e uma linha e passa a ter faixa de meta, ofício em duas linhas e posicionamento em parágrafo (detalhado adiante). A seção `#trajetoria` manteve o nome "Trajetória" depois de uma troca para "Jornada" em 2026-10-21, revertida no mesmo dia: "Trajetória" é o termo convencional de currículo e não colide com "jornada do usuário", expressão de UX.
 - **Alterações da r6:** a paleta ganha uma segunda cor de destaque, `--info: #6EC5B8` (teal), escolhida por Jonas em 2026-10-21 numa comparação de seis candidatas renderizadas sobre as cores reais da barra. Uso restrito a metadado temporal: data de evento na barra de atividade e data de último envio nos cartões de repositório. O âmbar continua sendo a cor de ação; nenhum botão, link ou verbo de estado usa a cor nova. Medições sobre o fundo `#0C0A12`: 9,69:1 para a cor escolhida, contra 6,84:1 do cinza suave e 9,64:1 do âmbar. Sobre a superfície `#15121D`, mede 9,09:1. A escolha passou por três alternativas antes de fechar: azul dessaturado `#7F9DC0` foi rejeitado por não se separar do cinza, areia `#C9B48F` por ter matiz vizinha ao âmbar e confundir metadado com ação, e lilás acinzentado `#A99FC4` por se aproximar demais do fundo, apesar de a matiz combinar com ele. O teal é o único candidato que mede acima do âmbar e ainda assim mantém matiz claramente oposta, que é o que separa "quando" de "o quê" na barra. Alternativas medidas e não escolhidas: azul saturado `#7EB6FF` (9,39:1) e verde-menta `#8FD4A8` (11,38:1). A variação escura do âmbar, cogitada para o mesmo fim, cai a 2,73:1 e perde legibilidade.
 - **Alterações da r5:** o site passa a ter duas versões, `pt-BR` em `/` e `en-US` em `/en/`, com alternância por link no cabeçalho. O rótulo do menu continua "Stack", por decisão de Jonas.
 - **Alterações da r4:** o destaque passa de roxo (r3) para âmbar `#F5A524`, por decisão de Jonas em 2026-10-19, após comparação de contraste e de tom. Os demais requisitos da r2 seguem válidos.
@@ -25,6 +26,23 @@ O primeiro marco entrega uma página local em português com estas partes:
 O conteúdo ainda não revisado fica marcado como “Em construção”. A biografia, os projetos e as métricas devem corresponder à experiência de Jonas. Links externos só ficam ativos quando seu destino estiver confirmado; não simular um currículo disponível ou um formulário funcionando.
 
 Este primeiro marco comprova a estrutura e a execução do site. A composição visual será construída na etapa de CSS; animações não são necessárias para aprovar a estrutura.
+
+## Abertura
+
+A abertura tem cinco blocos, na ordem:
+
+1. **Faixa de meta**, com a borda inferior como divisória: à esquerda `São Paulo` e a hora local; à direita `github.com/Jklimaitis` com seta, ligando ao perfil.
+2. **Nome** em linha pequena, monoespaçada, acima do título.
+3. **Ofício em duas linhas**: `Desenvolvedor` e `Backend`, com a segunda palavra em âmbar. É o único título `h1` da página.
+4. **Posicionamento**: um parágrafo, e as três ações ao lado, na mesma faixa.
+5. **Faixa de números** e o convite `role para explorar`.
+
+Regras técnicas que decorrem de erros medidos em 2026-10-21:
+
+- **Hora local calculada no navegador** com `Intl.DateTimeFormat` e o fuso `America/Sao_Paulo`, atualizada a cada 30 segundos. Sem JavaScript o campo fica vazio e é escondido por `:empty`; nenhum horário fixo é escrito no HTML, porque envelheceria.
+- **O título não quebra dentro da palavra.** A herança de `overflow-wrap: anywhere` produzia "Desenvolve/dor"; as duas partes usam `white-space: nowrap` e o tamanho da fonte é dimensionado para a palavra mais longa caber. O tamanho é `clamp(2.4rem, 7.4vw, 5.9rem)`, medido em 390, 900, 1024 e 1440 px sem transbordo.
+- **A abertura usa faixa de `72rem`**, e não os `60rem` do resto da página. É a única exceção de largura, admitida porque ali só há tipografia de display: o parágrafo continua limitado a 62ch.
+- **Título na largura toda, texto e ações na linha de baixo.** Com título e parágrafo em colunas lado a lado, a diferença de altura entre eles abria 131 px de vazio sob o título; a composição em duas linhas elimina o vazio sem inventar conteúdo.
 
 ## Base técnica e organização
 

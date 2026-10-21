@@ -46,7 +46,7 @@ main,
 footer,
 #inicio {
   width: 100%;
-  max-width: var(--coluna);
+  max-width: 72rem;
   margin-inline: auto;
   padding-inline: var(--goteira);
 }
@@ -155,7 +155,7 @@ footer {
 }
 
 #inicio {
-  padding-block: 4rem 3rem;
+  padding-block: 3rem 2.5rem;
   border-bottom: 0;
 }
 
@@ -1483,5 +1483,123 @@ nav a[aria-current='true']::after {
 @media (prefers-reduced-motion: reduce) {
   nav a::after {
     transition: none;
+  }
+}
+
+/* Abertura em duas colunas: chamada à esquerda, posicionamento à direita */
+.abertura__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.abertura__local {
+  margin: 0;
+  max-width: none;
+}
+
+.abertura__hora:empty {
+  display: none;
+}
+
+.abertura__perfil {
+  color: var(--info);
+  text-decoration: none;
+}
+
+.abertura__nome {
+  margin: 1.25rem 0 0.25rem;
+  max-width: none;
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+
+.abertura__grade {
+  display: grid;
+  gap: 1.5rem 3rem;
+  align-items: start;
+}
+
+.abertura__grade h1 {
+  margin: 0;
+  /* Tamanho limitado pela largura da coluna: a palavra mais longa do título
+     precisa caber inteira, e `anywhere` herdado quebrava no meio da palavra. */
+  font-size: clamp(2.4rem, 7.4vw, 5.9rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  overflow-wrap: normal;
+  hyphens: none;
+}
+
+.ambar {
+  color: var(--accent);
+}
+
+/* As duas partes do título ocupam linhas próprias, com e sem script.
+   `nowrap` impede a quebra dentro da palavra: o tamanho é calculado para caber. */
+.abertura__grade h1 span,
+.abertura__grade h1 .palavra {
+  display: block;
+  white-space: nowrap;
+}
+
+.abertura__lado {
+  display: grid;
+  gap: 1.5rem;
+  align-content: start;
+}
+
+.abertura__lado .lead {
+  margin: 0;
+}
+
+.abertura__rolar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  margin: 2.25rem 0 0;
+  max-width: none;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.abertura__seta {
+  display: inline-block;
+  animation: abertura-seta 1.9s ease-in-out infinite;
+}
+
+@keyframes abertura-seta {
+  50% {
+    transform: translateY(3px);
+  }
+}
+
+/* Título na largura toda e, abaixo, texto e ações lado a lado: assim a
+   diferença de altura entre as colunas não abre vazio em nenhuma delas. */
+@media (min-width: 900px) {
+  .abertura__lado {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    align-items: end;
+  }
+
+  .abertura__lado .ctas {
+    justify-content: flex-end;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .abertura__seta {
+    animation: none;
   }
 }
