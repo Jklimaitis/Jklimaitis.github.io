@@ -1601,7 +1601,10 @@ nav a[aria-current='true']::after {
   margin: 0;
   /* Tamanho limitado pela largura da coluna: a palavra mais longa do título
      precisa caber inteira, e `anywhere` herdado quebrava no meio da palavra. */
-  font-size: clamp(2.3rem, 4.7vw, 4rem);
+  /* Dimensionado pela largura da janela para o texto ocupar ~88% da coluna do
+     título em qualquer tela. Medido: com 4,7vw a palavra mais longa ocupava 70%
+     da coluna em 1440 px, e sobrava um vão de 253 px até o texto à direita. */
+  font-size: clamp(2.3rem, 6.5vw, 5.8rem);
   line-height: 0.98;
   letter-spacing: -0.035em;
   overflow-wrap: normal;
@@ -1664,7 +1667,10 @@ nav a[aria-current='true']::after {
    só embaixo dele, onde parece falha de layout. */
 @media (min-width: 900px) {
   .abertura__grade {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    /* O título fica com mais largura que o texto: é o que permite a fonte maior
+       sem a palavra encostar na coluna vizinha. O texto mantém a medida de
+       leitura por `max-width`, então a coluna menor não encurta a linha. */
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
     align-items: center;
   }
 }
