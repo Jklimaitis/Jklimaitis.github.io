@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { formatarMesAno } from '../src/dados/formato.mts';
+import { formatarDiaMes, formatarMesAno } from '../src/dados/formato.mts';
 
 const PT = [
   'jan',
@@ -66,4 +66,23 @@ test('devolve nulo quando a abreviação do mês não existe no dicionário', ()
   const comBuraco = [...PT];
   comBuraco[9] = '';
   assert.equal(formatarMesAno('2026-10-20T06:41:44Z', comBuraco), null);
+});
+
+test('formatarDiaMes devolve dia e mês abreviado', () => {
+  assert.equal(formatarDiaMes('2026-10-21T01:22:53Z', PT), '21 out');
+  assert.equal(formatarDiaMes('2026-03-05T23:00:00Z', PT), '05 mar');
+});
+
+test('formatarDiaMes não desloca o dia em horário de madrugada UTC', () => {
+  assert.equal(formatarDiaMes('2026-10-21T01:00:00Z', PT), '21 out');
+});
+
+test('formatarDiaMes devolve nulo para valor inválido ou mês sem abreviação', () => {
+  for (const entrada of [null, '', 'lixo', '2026-13-01', '2026-02-30']) {
+    assert.equal(formatarDiaMes(entrada, PT), null);
+  }
+
+  const comBuraco = [...PT];
+  comBuraco[2] = '';
+  assert.equal(formatarDiaMes('2026-03-05T23:00:00Z', comBuraco), null);
 });

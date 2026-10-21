@@ -29,3 +29,34 @@ export function formatarMesAno(
     datetime: `${ano}-${partes[2]}-${partes[3]}`,
   };
 }
+
+/**
+ * Data curta para a barra de eventos: dia com dois dígitos e mês abreviado.
+ * Monta a string a partir dos componentes, sem conversão de fuso.
+ */
+export function formatarDiaMes(
+  iso: string | null,
+  meses: readonly string[],
+): string | null {
+  if (typeof iso !== 'string' || iso === '') return null;
+
+  const partes = PADRAO_DATA.exec(iso);
+  if (!partes) return null;
+
+  const ano = Number(partes[1]);
+  const mes = Number(partes[2]);
+  const dia = Number(partes[3]);
+
+  const data = new Date(Date.UTC(ano, mes - 1, dia));
+  if (
+    data.getUTCFullYear() !== ano ||
+    data.getUTCMonth() !== mes - 1 ||
+    data.getUTCDate() !== dia
+  )
+    return null;
+
+  const nome = meses[mes - 1];
+  if (typeof nome !== 'string' || nome.trim() === '') return null;
+
+  return `${partes[3]} ${nome}`;
+}
