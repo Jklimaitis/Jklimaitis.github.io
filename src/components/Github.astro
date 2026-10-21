@@ -36,8 +36,11 @@ const { d } = Astro.props;
 </section>
 
 <script>
-  import { alinharSemana } from '../dados/calendario.mts';
+  import { alinharSemana, calcularIndicadores } from '../dados/calendario.mts';
+  import type { Dia } from '../dados/tipos.mts';
+  import { chaveCache, lerCache } from '../dados/cache.mts';
   import { formatarMesAno } from '../dados/formato.mts';
+  import { seloDeDiferenca } from '../dados/motion.mts';
   import { carregarSecao } from '../dados/secao.mts';
   import { en } from '../i18n/en';
   import { pt } from '../i18n/pt';
@@ -81,6 +84,22 @@ const { d } = Astro.props;
   const perfil = iniciar('perfil');
   const repos = iniciar('repositorios');
   const calendario = iniciar('calendario');
+
+  const reduzido = window.matchMedia(
+    '(prefers-reduced-motion: reduce)',
+  ).matches;
+
+  // Estado da visita anterior, lido antes de o cache ser sobrescrito.
+  // TTL gigante de propósito: interessa o valor guardado, não a validade.
+  const chaveAnterior = chaveCache('calendario', 'Jklimaitis');
+  const anterior = lerCache<Dia[]>(
+    window.localStorage,
+    chaveAnterior,
+    Date.now(),
+    Number.MAX_SAFE_INTEGER,
+  );
+  const indicadoresAnteriores =
+    anterior.estado === 'valido' ? calcularIndicadores(anterior.dados) : null;
 
   const estado = await carregarSecao({
     buscar: window.fetch.bind(window),
@@ -245,6 +264,36 @@ const { d } = Astro.props;
         dd.textContent = valor;
         div.append(dt, dd);
         dl.append(div);
+      }
+
+      const diferenca = indicadoresAnteriores
+        ? seloDeDiferenca(ind.total, indicadoresAnteriores.total)
+        : null;
+
+      if (diferenca !== null && !reduzido) {
+        const selo = document.createElement('span');
+        selo.className = 'selo';
+        selo.setAttribute('aria-hidden', 'true');
+        selo.textContent = `+${diferenca}`;
+        total.append(selo);
+      }
+
+      if (indicadoresAnteriores && !reduzido) {
+        if (indicadoresAnteriores.total !== ind.total) {
+          valorTotal.classList.add('pulso');
+        }
+
+        const mudou = [
+          indicadoresAnteriores.diasAtivos !== ind.diasAtivos,
+          indicadoresAnteriores.sequenciaAtual !== ind.sequenciaAtual,
+          indicadoresAnteriores.maiorSequencia !== ind.maiorSequencia,
+          String(indicadoresAnteriores.melhorDia?.data) !==
+            String(ind.melhorDia?.data),
+        ];
+
+        [...dl.querySelectorAll('dd')].forEach((dd, i) => {
+          if (mudou[i]) dd.classList.add('pulso');
+        });
       }
 
       resumo.append(total, dl);
