@@ -23,6 +23,11 @@
   box-sizing: border-box;
 }
 
+/* O atributo hidden precisa vencer qualquer display definido em regra de classe */
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   background: var(--bg);
