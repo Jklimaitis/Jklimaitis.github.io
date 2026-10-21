@@ -87,10 +87,6 @@ a {
   text-underline-offset: 3px;
 }
 
-a:hover {
-  color: var(--accent-strong);
-}
-
 :focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
@@ -107,10 +103,6 @@ nav a {
   color: var(--muted);
   font-size: 0.9375rem;
   text-decoration: none;
-}
-
-nav a:hover {
-  color: var(--accent);
 }
 
 section {
@@ -168,18 +160,9 @@ footer {
   color: var(--on-accent);
 }
 
-.cta--primary:hover {
-  background: var(--accent-strong);
-}
-
 .cta--ghost {
   border: 1px solid var(--line-strong);
   color: var(--fg);
-}
-
-.cta--ghost:hover {
-  border-color: var(--accent);
-  color: var(--accent);
 }
 
 .stack {
@@ -224,11 +207,6 @@ footer {
   letter-spacing: 0.06em;
   color: var(--muted);
   text-decoration: none;
-}
-
-.idioma:hover {
-  color: var(--accent);
-  border-color: var(--accent);
 }
 
 .linha {
@@ -306,10 +284,6 @@ footer {
   padding: 1.25rem 1.35rem;
   border: 1px solid var(--line);
   border-radius: var(--radius);
-}
-
-.projeto:hover {
-  border-color: var(--line-strong);
 }
 
 .projeto__topo {
@@ -399,10 +373,6 @@ footer {
   background: var(--surface);
 }
 
-.cartao:hover {
-  border-color: var(--line-strong);
-}
-
 .cartao__nome {
   margin: 0;
   font-family: var(--font-display);
@@ -413,11 +383,6 @@ footer {
 .cartao__nome a {
   color: var(--fg);
   text-decoration: none;
-}
-
-.cartao__nome a:hover,
-.cartao__nome a:focus-visible {
-  color: var(--accent);
 }
 
 .cartao__resumo {
@@ -465,6 +430,11 @@ footer {
   background: var(--raise);
 }
 
+/* Células de preenchimento: ocupam o lugar do dia da semana, não são dias */
+.calendario__dia[data-vazio] {
+  visibility: hidden;
+}
+
 .calendario__dia[data-nivel='1'] {
   border-color: transparent;
   background: color-mix(in srgb, var(--accent) 30%, var(--raise));
@@ -501,17 +471,50 @@ footer {
   }
 }
 
+.resumo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  align-items: end;
+  gap: 1.25rem 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.resumo__total {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.resumo__total strong {
+  display: block;
+  margin-bottom: 0.15rem;
+  font-family: var(--font-display);
+  font-size: clamp(2.75rem, 6.4vw, 4.5rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
 .indicadores {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-  gap: 0.75rem;
-  margin: 1rem 0 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  margin: 0;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .indicadores div {
   display: flex;
   flex-direction: column-reverse;
+  gap: 0.1rem;
   margin: 0;
+  padding: 0.7rem 0.9rem;
+  background: var(--surface);
 }
 
 .indicadores dt {
@@ -523,5 +526,80 @@ footer {
   margin: 0;
   font-family: var(--font-display);
   font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+}
+
+/* "melhor dia" leva data e contagem: fonte menor, mono, sem quebra */
+.indicadores div:last-child dd {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .resumo {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* Hover só com ponteiro real: em tela de toque o :hover gruda depois do toque */
+@media (hover: hover) {
+  a:hover {
+    color: var(--accent-strong);
+  }
+
+  nav a:hover {
+    color: var(--accent);
+  }
+
+  .cta--primary:hover {
+    background: var(--accent-strong);
+  }
+
+  .cta--ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .idioma:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .projeto:hover {
+    border-color: var(--line-strong);
+  }
+
+  .cartao:hover {
+    border-color: var(--line-strong);
+  }
+
+  .cartao__nome a:hover {
+    color: var(--accent);
+  }
+}
+
+/* Foco não é hover: vale também em tela de toque e para quem navega por teclado */
+.cartao__nome a:focus-visible {
   color: var(--accent);
+}
+
+@media (hover: none) {
+  header {
+    background: color-mix(in srgb, var(--bg) 96%, transparent);
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .cta {
+    transition: none;
+  }
 }

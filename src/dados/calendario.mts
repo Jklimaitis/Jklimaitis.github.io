@@ -110,3 +110,15 @@ export function calcularIndicadores(dias: Dia[]): Indicadores {
     melhorDia,
   };
 }
+
+/**
+ * Alinha a lista de dias a uma grade de sete linhas que começa no domingo.
+ * Células nulas no início são preenchimento: ocupam espaço, não são dias.
+ */
+export function alinharSemana(dias: Dia[]): (Dia | null)[] {
+  if (dias.length === 0) return [];
+  const ms = Date.parse(`${dias[0].data}T00:00:00Z`);
+  const deslocamento = new Date(ms).getUTCDay();
+  const preenchimento = Array.from({ length: deslocamento }, () => null);
+  return [...preenchimento, ...dias];
+}

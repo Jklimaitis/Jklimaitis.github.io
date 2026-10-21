@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { validarCalendario } from '../src/dados/calendario.mts';
+import { alinharSemana, validarCalendario } from '../src/dados/calendario.mts';
 
 const dia = (date, count, level = 0) => ({ date, count, level });
 
@@ -57,4 +57,25 @@ test('recusa contagem ou nível fora do contrato', () => {
     assert.equal(r.ok, false);
     assert.equal(r.motivo, 'resposta-invalida');
   }
+});
+
+test('alinhamento não desloca quando o período começa no domingo', () => {
+  const grade = alinharSemana([{ data: '2025-10-19', contagem: 0, nivel: 0 }]);
+  assert.equal(grade.length, 1);
+  assert.equal(grade[0].data, '2025-10-19');
+});
+
+test('alinhamento desloca quando o período começa no meio da semana', () => {
+  const grade = alinharSemana([
+    { data: '2026-10-19', contagem: 1, nivel: 0 },
+    { data: '2026-10-20', contagem: 2, nivel: 1 },
+  ]);
+  assert.equal(grade.length, 3);
+  assert.equal(grade[0], null);
+  assert.equal(grade[1].data, '2026-10-19');
+  assert.equal(grade[2].data, '2026-10-20');
+});
+
+test('alinhamento de lista vazia não cria preenchimento', () => {
+  assert.deepEqual(alinharSemana([]), []);
 });

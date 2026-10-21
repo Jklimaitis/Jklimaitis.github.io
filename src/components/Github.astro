@@ -36,6 +36,7 @@ const { d } = Astro.props;
 </section>
 
 <script>
+  import { alinharSemana } from '../dados/calendario.mts';
   import { formatarMesAno } from '../dados/formato.mts';
   import { carregarSecao } from '../dados/secao.mts';
   import { en } from '../i18n/en';
@@ -188,21 +189,38 @@ const { d } = Astro.props;
 
       const lista = document.createElement('ol');
       lista.className = 'calendario';
-      for (const dia of dias) {
+      for (const dia of alinharSemana(dias)) {
         const li = document.createElement('li');
         li.className = 'calendario__dia';
-        li.dataset.nivel = String(dia.nivel);
-        li.setAttribute('aria-label', `${dia.data}: ${dia.contagem}`);
+        if (dia === null) {
+          li.dataset.vazio = 'sim';
+          li.setAttribute('aria-hidden', 'true');
+        } else {
+          li.dataset.nivel = String(dia.nivel);
+          li.setAttribute('aria-label', `${dia.data}: ${dia.contagem}`);
+        }
         lista.append(li);
       }
       calendario.append(lista);
+      lista.scrollLeft = lista.scrollWidth;
 
       const ind = estado.indicadores;
+
+      const resumo = document.createElement('div');
+      resumo.className = 'resumo';
+
+      const total = document.createElement('p');
+      total.className = 'resumo__total';
+      const valorTotal = document.createElement('strong');
+      valorTotal.textContent = String(ind.total);
+      const rotuloTotal = document.createElement('span');
+      rotuloTotal.textContent = t.indicadores.contribuicoes;
+      total.append(valorTotal, rotuloTotal);
+
       const dl = document.createElement('dl');
       dl.className = 'indicadores';
 
       const pares: [string, string][] = [
-        [t.indicadores.contribuicoes, String(ind.total)],
         [t.indicadores.diasAtivos, String(ind.diasAtivos)],
         [t.indicadores.sequenciaAtual, String(ind.sequenciaAtual)],
         [t.indicadores.maiorSequencia, String(ind.maiorSequencia)],
@@ -224,7 +242,8 @@ const { d } = Astro.props;
         dl.append(div);
       }
 
-      calendario.append(dl);
+      resumo.append(total, dl);
+      calendario.append(resumo);
     }
     concluir(calendario);
   }
