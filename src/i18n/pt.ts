@@ -15,8 +15,8 @@ export const pt: Dicionario = {
     { rotulo: 'Projetos', href: '#projetos' },
     { rotulo: 'GitHub', href: '#github' },
     { rotulo: 'Trajetória', href: '#trajetoria' },
-    { rotulo: 'Contato', href: '#contato' },
     { rotulo: 'Casos', href: '#casos' },
+    { rotulo: 'Contato', href: '#contato' },
   ],
   inicio: {
     nome: 'Jonas Klimaitis',
