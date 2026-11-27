@@ -1,10 +1,7 @@
 ---
-import '@fontsource-variable/space-grotesk';
-import '@fontsource-variable/manrope';
-import '@fontsource-variable/jetbrains-mono';
-import '../styles/global.css';
-import type { Caso } from '../dados/caso-multiagente.mts';
+import Moldura from './Moldura.astro';
 import CasoDiagrama from './CasoDiagrama.astro';
+import type { Caso } from '../dados/caso-multiagente.mts';
 
 interface Props {
   caso: Caso;
@@ -13,138 +10,53 @@ interface Props {
 const { caso } = Astro.props;
 ---
 
-<html lang={caso.idioma}>
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{caso.titulo} — {caso.marca}</title>
-    <meta name="description" content={caso.lead} />
-  </head>
-  <body>
-    <main class="caso">
-      <header class="topo">
-        <a class="marca" href={caso.voltar.href}>
-          {caso.marca}
-        </a>
-        <a
-          class="idioma"
-          href={caso.troca.href}
-          aria-label={caso.troca.rotuloAcessivel}
-        >
-          {caso.troca.rotulo}
-        </a>
-      </header>
-
-      <a class="voltar" href={caso.voltar.href}>
-        ← {caso.voltar.rotulo}
-      </a>
-
-      <article>
-        <header class="cabeca">
-          <h1>{caso.titulo}</h1>
-          <p class="lead">{caso.lead}</p>
-          <ul class="meta">
-            {caso.meta.map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
-        </header>
-
-        {caso.blocos.map((bloco) => (
-          <section>
-            <h2>{bloco.titulo}</h2>
-            {bloco.paragrafos.map((texto) => (
-              <p>{texto}</p>
-            ))}
-            {bloco.diagrama && <CasoDiagrama idioma={caso.idioma} />}
-            {bloco.lista && (
-              <dl class="itens">
-                {bloco.lista.map((item) => (
-                  <div>
-                    <dt>{item.titulo}</dt>
-                    <dd>{item.texto}</dd>
-                  </div>
-                ))}
-              </dl>
-            )}
-          </section>
+<Moldura
+  idioma={caso.idioma}
+  titulo={caso.titulo}
+  descricao={caso.lead}
+  marca={caso.marca}
+  voltar={caso.voltar}
+  troca={caso.troca}
+>
+  <article>
+    <header class="cabeca">
+      <h1>{caso.titulo}</h1>
+      <p class="lead">{caso.lead}</p>
+      <ul class="meta">
+        {caso.meta.map((item) => (
+          <li>{item}</li>
         ))}
+      </ul>
+    </header>
 
-        <aside class="fecho">
-          <h2>{caso.fecho.titulo}</h2>
-          <p>{caso.fecho.texto}</p>
-        </aside>
-      </article>
-    </main>
-  </body>
-</html>
+    {caso.blocos.map((bloco) => (
+      <section class="bloco">
+        <h2>{bloco.titulo}</h2>
+        {bloco.paragrafos.map((texto) => (
+          <p>{texto}</p>
+        ))}
+        {bloco.diagrama && <CasoDiagrama idioma={caso.idioma} />}
+        {bloco.lista && (
+          <dl class="itens">
+            {bloco.lista.map((item) => (
+              <div>
+                <dt>{item.titulo}</dt>
+                <dd>{item.texto}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </section>
+    ))}
+
+    <aside class="fecho">
+      <h2>{caso.fecho.titulo}</h2>
+      <p>{caso.fecho.texto}</p>
+    </aside>
+  </article>
+</Moldura>
 
 <style>
-  .caso {
-    width: 100%;
-    max-width: 44rem;
-    margin-inline: auto;
-    padding: 2.5rem var(--goteira) 6rem;
-  }
-
-  .topo {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 1rem;
-    padding-bottom: 1rem;
-    margin-bottom: 2.5rem;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .marca {
-    font-family: var(--font-display);
-    font-size: 0.9375rem;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    color: var(--fg);
-    text-decoration: none;
-  }
-
-  .marca:hover,
-  .marca:focus-visible {
-    color: var(--accent);
-  }
-
-  .idioma {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    color: var(--fg);
-    text-decoration: none;
-    border: 1px solid var(--line-strong);
-    border-radius: 999px;
-    padding: 0.2rem 0.6rem;
-  }
-
-  .idioma:hover,
-  .idioma:focus-visible {
-    color: var(--accent);
-    border-color: var(--accent);
-  }
-
-  .voltar {
-    display: inline-block;
-    margin-bottom: 2rem;
-    padding: 0.25rem 0;
-    font-family: var(--font-mono);
-    font-size: 0.8125rem;
-    letter-spacing: 0.03em;
-    color: var(--fg);
-    opacity: 0.88;
-    text-decoration: none;
-  }
-
-  .voltar:hover,
-  .voltar:focus-visible {
-    color: var(--accent);
-  }
-
   .cabeca {
     padding-bottom: 2rem;
     margin-bottom: 2.5rem;
@@ -186,7 +98,7 @@ const { caso } = Astro.props;
     padding: 0.25rem 0.625rem;
   }
 
-  section {
+  .bloco {
     margin-bottom: 2.75rem;
   }
 

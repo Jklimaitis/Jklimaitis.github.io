@@ -1,0 +1,49 @@
+---
+import Moldura from '../../components/Moldura.astro';
+import CasosLista from '../../components/CasosLista.astro';
+import { casosPt } from '../../dados/casos.mts';
+
+const descricao =
+  'Casos técnicos: decisões de arquitetura, o que quebrou em produção e como a entrega foi verificada.';
+---
+
+<Moldura
+  idioma="pt-BR"
+  titulo="Casos"
+  descricao={descricao}
+  marca="Jonas Klimaitis"
+  voltar={{ href: '/', rotulo: 'Voltar ao portfólio' }}
+  troca={{
+    href: '/en/casos/',
+    rotulo: 'EN',
+    rotuloAcessivel: 'Read the cases in English',
+  }}
+>
+  <header class="cabeca">
+    <h1>Casos</h1>
+    <p class="lead">{descricao}</p>
+  </header>
+
+  <CasosLista casos={casosPt} rotuloAcao="Ler o caso" />
+</Moldura>
+
+<style>
+  .cabeca {
+    padding-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  h1 {
+    margin: 0 0 0.75rem;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 2.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+
+  .lead {
+    margin: 0;
+    color: var(--muted);
+  }
+</style>

@@ -1,0 +1,115 @@
+---
+/**
+ * Moldura comum das páginas internas (case e índice de casos).
+ * Mantém cabeçalho, troca de idioma e largura de leitura num lugar só.
+ */
+interface Props {
+  idioma: string;
+  titulo: string;
+  descricao: string;
+  marca: string;
+  voltar: { href: string; rotulo: string };
+  troca: { href: string; rotulo: string; rotuloAcessivel: string };
+}
+
+import '@fontsource-variable/space-grotesk';
+import '@fontsource-variable/manrope';
+import '@fontsource-variable/jetbrains-mono';
+import '../styles/global.css';
+
+const { idioma, titulo, descricao, marca, voltar, troca } = Astro.props;
+---
+
+<html lang={idioma}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo} — {marca}</title>
+    <meta name="description" content={descricao} />
+  </head>
+  <body>
+    <main class="pagina">
+      <header class="topo">
+        <a class="marca" href={voltar.href}>
+          {marca}
+        </a>
+        <a class="idioma" href={troca.href} aria-label={troca.rotuloAcessivel}>
+          {troca.rotulo}
+        </a>
+      </header>
+
+      <a class="voltar" href={voltar.href}>
+        ← {voltar.rotulo}
+      </a>
+
+      <slot />
+    </main>
+  </body>
+</html>
+
+<style>
+  .pagina {
+    width: 100%;
+    max-width: 44rem;
+    margin-inline: auto;
+    padding: 2.5rem var(--goteira) 6rem;
+  }
+
+  .topo {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 2.5rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .marca {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--fg);
+    text-decoration: none;
+  }
+
+  .marca:hover,
+  .marca:focus-visible {
+    color: var(--accent);
+  }
+
+  .idioma {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    color: var(--fg);
+    text-decoration: none;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    padding: 0.2rem 0.6rem;
+  }
+
+  .idioma:hover,
+  .idioma:focus-visible {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .voltar {
+    display: inline-block;
+    margin-bottom: 2rem;
+    padding: 0.25rem 0;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.03em;
+    color: var(--fg);
+    opacity: 0.88;
+    text-decoration: none;
+  }
+
+  .voltar:hover,
+  .voltar:focus-visible {
+    color: var(--accent);
+  }
+</style>

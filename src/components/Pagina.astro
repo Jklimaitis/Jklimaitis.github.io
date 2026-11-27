@@ -8,6 +8,7 @@ import Motion from './Motion.astro';
 import Numeros from './Numeros.astro';
 import Eventos from './Eventos.astro';
 import Projetos from './Projetos.astro';
+import Casos from './Casos.astro';
 import Nome from './Nome.astro';
 import type { Dicionario } from '../i18n/types';
 
@@ -181,6 +182,8 @@ const { d } = Astro.props;
           ))}
         </ul>
       </section>
+
+      <Casos idioma={d.idioma} />
 
       <section id="contato">
         <h2 data-revelar>{d.contato.titulo}</h2>

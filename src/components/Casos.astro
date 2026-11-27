@@ -1,0 +1,60 @@
+---
+import CasosLista from './CasosLista.astro';
+import { casosPt, casosEn } from '../dados/casos.mts';
+
+interface Props {
+  idioma: string;
+}
+
+const { idioma } = Astro.props;
+const pt = idioma !== 'en';
+const casos = pt ? casosPt : casosEn;
+const titulo = pt ? 'Casos' : 'Cases';
+const intro = pt
+  ? 'Como sistemas se comportam fora do laboratório: decisões, o que quebrou e como a entrega foi verificada.'
+  : 'How systems behave outside the lab: decisions, what broke, and how delivery was verified.';
+const verTodos = pt
+  ? { href: '/casos/', rotulo: 'Ver todos os casos' }
+  : { href: '/en/casos/', rotulo: 'See all cases' };
+---
+
+<section id="casos">
+  <h2 data-revelar>{titulo}</h2>
+  <p class="intro">{intro}</p>
+
+  <div data-revelar>
+    <CasosLista
+      casos={casos}
+      rotuloAcao={pt ? 'Ler o caso' : 'Read the case'}
+    />
+  </div>
+
+  <p class="mais">
+    <a href={verTodos.href}>{verTodos.rotulo} →</a>
+  </p>
+</section>
+
+<style>
+  .intro {
+    max-width: 46rem;
+    margin: 0.5rem 0 0;
+    color: var(--muted);
+  }
+
+  .mais {
+    margin: 1.25rem 0 0;
+  }
+
+  .mais a {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    letter-spacing: 0.03em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .mais a:hover,
+  .mais a:focus-visible {
+    text-decoration: underline;
+  }
+</style>
