@@ -2,6 +2,7 @@ export type Bloco = {
   titulo: string;
   paragrafos: string[];
   lista?: { titulo: string; texto: string }[];
+  diagrama?: boolean;
 };
 
 export type Caso = {
@@ -37,6 +38,7 @@ export const casoPt: Caso = {
     },
     {
       titulo: 'A arquitetura',
+      diagrama: true,
       paragrafos: [
         'Um container LXC no Proxmox (Ubuntu 24.04, 8 GB) hospeda o cérebro: sessões, memórias, skills e a base de conhecimento. Cinco perfis rodam ali — um coordenador e quatro especialistas (backend, produto, frontend e processo), cada um com banco de estado, memórias e skills próprios.',
         'A entrada é por Slack, Telegram e Discord. O trabalho anda num Kanban: o worker entrega a mudança não commitada, e o merge é uma etapa separada, explicitamente autorizada.',
@@ -120,6 +122,7 @@ export const casoEn: Caso = {
     },
     {
       titulo: 'The architecture',
+      diagrama: true,
       paragrafos: [
         'One LXC container on Proxmox (Ubuntu 24.04, 8 GB) holds the brain: sessions, memories, skills and the knowledge base. Five profiles run there — a coordinator and four specialists (backend, product, frontend and process), each with its own state database, memories and skills.',
         'Work arrives through Slack, Telegram and Discord, and moves on a Kanban board: a worker delivers an uncommitted change, and merging is a separate, explicitly authorised step.',

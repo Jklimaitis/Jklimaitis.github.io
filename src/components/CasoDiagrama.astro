@@ -1,0 +1,344 @@
+---
+/**
+ * Diagrama da arquitetura do laboratório multiagente.
+ * SVG inline: sem dependência, herda as variáveis de cor do site e escala
+ * com o container. Leitor de tela recebe <title> + <desc>.
+ */
+interface Props {
+  idioma: string;
+}
+
+const { idioma } = Astro.props;
+const pt = idioma !== 'en';
+
+const t = pt
+  ? {
+      titulo: 'Diagrama da arquitetura do laboratório',
+      descricao:
+        'Três zonas: entrada pelos canais de conversa, núcleo com cinco perfis dentro de um container LXC, e evidência com Kanban e backup cifrado.',
+      legenda:
+        'Entrada pelos canais, núcleo de cinco perfis, saída de evidência.',
+      entrada: 'Entrada',
+      canais: ['Slack', 'Telegram', 'Discord'],
+      gateway: 'gateway único',
+      nucleo: 'LXC · Ubuntu 24.04 · 8 GB',
+      hospede: 'Proxmox',
+      coordenador: 'coordenador',
+      especialistas: ['backend', 'produto', 'frontend', 'processo'],
+      estado: 'estado, memórias e skills por perfil',
+      evidencia: 'Evidência',
+      kanban: 'Kanban',
+      kanbanPassos: ['worker entrega', 'autorização', 'merge'],
+      backup: 'Backup',
+      backupPassos: ['cifrado (age)', 'restore + integridade'],
+    }
+  : {
+      titulo: 'Lab architecture diagram',
+      descricao:
+        'Three zones: entry through chat channels, a core with five profiles inside one LXC container, and evidence with Kanban and encrypted backup.',
+      legenda:
+        'Entry through channels, core of five profiles, evidence output.',
+      entrada: 'Entry',
+      canais: ['Slack', 'Telegram', 'Discord'],
+      gateway: 'single gateway',
+      nucleo: 'LXC · Ubuntu 24.04 · 8 GB',
+      hospede: 'Proxmox',
+      coordenador: 'coordinator',
+      especialistas: ['backend', 'product', 'frontend', 'process'],
+      estado: 'state, memories and skills per profile',
+      evidencia: 'Evidence',
+      kanban: 'Kanban',
+      kanbanPassos: ['worker delivers', 'authorisation', 'merge'],
+      backup: 'Backup',
+      backupPassos: ['encrypted (age)', 'restore + integrity'],
+    };
+---
+
+<figure class="diagrama">
+  <svg viewBox="0 0 680 580" role="img" aria-labelledby="dg-titulo dg-desc">
+    <title id="dg-titulo">{t.titulo}</title>
+    <desc id="dg-desc">{t.descricao}</desc>
+
+    <defs>
+      <marker
+        id="seta"
+        viewBox="0 0 10 10"
+        refX="9"
+        refY="5"
+        markerWidth="7"
+        markerHeight="7"
+        orient="auto"
+      >
+        <path d="M0 0 L10 5 L0 10 z" class="ponta" />
+      </marker>
+    </defs>
+
+    <!-- Zona 1: entrada -->
+    <text class="rotulo" x="340" y="14" text-anchor="middle">
+      {t.entrada}
+    </text>
+
+    {t.canais.map((canal, i) => (
+      <g>
+        <rect
+          class="caixa"
+          x={182 + i * 110}
+          y="26"
+          width="96"
+          height="34"
+          rx="8"
+        />
+        <text class="texto" x={182 + i * 110 + 48} y="48">
+          {canal}
+        </text>
+      </g>
+    ))}
+
+    <line
+      class="fluxo"
+      x1="340"
+      y1="60"
+      x2="340"
+      y2="86"
+      marker-end="url(#seta)"
+    />
+    <rect
+      class="caixa caixa--forte"
+      x="262"
+      y="90"
+      width="156"
+      height="32"
+      rx="16"
+    />
+    <text class="texto" x="340" y="111">
+      {t.gateway}
+    </text>
+
+    <line
+      class="fluxo"
+      x1="340"
+      y1="122"
+      x2="340"
+      y2="150"
+      marker-end="url(#seta)"
+    />
+
+    <!-- Zona 2: núcleo -->
+    <rect class="nucleo" x="40" y="154" width="600" height="196" rx="14" />
+    <text class="rotulo" x="58" y="176">
+      {t.nucleo}
+    </text>
+    <text class="rotulo rotulo--fraco" x="622" y="176" text-anchor="end">
+      {t.hospede}
+    </text>
+
+    <rect
+      class="caixa caixa--acento"
+      x="248"
+      y="190"
+      width="184"
+      height="40"
+      rx="10"
+    />
+    <text class="texto texto--acento" x="340" y="215">
+      {t.coordenador}
+    </text>
+
+    {t.especialistas.map((nome, i) => {
+      const x = 70 + i * 145;
+      return (
+        <g>
+          <line
+            class="fluxo"
+            x1="340"
+            y1="230"
+            x2={x + 60}
+            y2="258"
+            marker-end="url(#seta)"
+          />
+          <rect class="caixa" x={x} y="262" width="120" height="36" rx="9" />
+          <text class="texto" x={x + 60} y="285">
+            {nome}
+          </text>
+        </g>
+      );
+    })}
+
+    <text class="rotulo rotulo--fraco" x="340" y="328" text-anchor="middle">
+      {t.estado}
+    </text>
+
+    <line
+      class="fluxo"
+      x1="340"
+      y1="350"
+      x2="340"
+      y2="382"
+      marker-end="url(#seta)"
+    />
+
+    <!-- Zona 3: evidência -->
+    <text class="rotulo" x="0" y="400">
+      {t.evidencia}
+    </text>
+
+    <!-- Kanban -->
+    <rect class="caixa" x="0" y="410" width="680" height="70" rx="10" />
+    <text class="texto texto--titulo" x="18" y="432">
+      {t.kanban}
+    </text>
+    {t.kanbanPassos.map((passo, i) => {
+      const x = 110 + i * 190;
+      return (
+        <g>
+          <rect
+            class="caixa caixa--passo"
+            x={x}
+            y="424"
+            width="150"
+            height="30"
+            rx="7"
+          />
+          <text class="texto texto--passo" x={x + 75} y="443">
+            {passo}
+          </text>
+          {i < 2 && (
+            <text class="seta" x={x + 162} y="444">
+              →
+            </text>
+          )}
+        </g>
+      );
+    })}
+
+    <!-- Backup -->
+    <rect class="caixa" x="0" y="496" width="680" height="70" rx="10" />
+    <text class="texto texto--titulo" x="18" y="518">
+      {t.backup}
+    </text>
+    {t.backupPassos.map((passo, i) => {
+      const x = 110 + i * 250;
+      return (
+        <g>
+          <rect
+            class="caixa caixa--passo"
+            x={x}
+            y="510"
+            width="210"
+            height="30"
+            rx="7"
+          />
+          <text class="texto texto--passo" x={x + 105} y="529">
+            {passo}
+          </text>
+          {i === 0 && (
+            <text class="seta" x={x + 220} y="530">
+              →
+            </text>
+          )}
+        </g>
+      );
+    })}
+  </svg>
+  <figcaption>{t.legenda}</figcaption>
+</figure>
+
+<style>
+  .diagrama {
+    margin: 1.5rem 0 2rem;
+  }
+
+  svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 680px;
+  }
+
+  .caixa {
+    fill: var(--surface);
+    stroke: var(--line-strong);
+    stroke-width: 1;
+  }
+
+  .caixa--forte {
+    fill: var(--raise);
+  }
+
+  .caixa--acento {
+    fill: transparent;
+    stroke: var(--accent);
+    stroke-width: 1.5;
+  }
+
+  .caixa--passo {
+    fill: var(--raise);
+    stroke: var(--line);
+  }
+
+  .nucleo {
+    fill: rgba(255, 255, 255, 0.025);
+    stroke: var(--line);
+    stroke-width: 1;
+    stroke-dasharray: 4 4;
+  }
+
+  .fluxo {
+    stroke: var(--line-strong);
+    stroke-width: 1.25;
+    fill: none;
+  }
+
+  .ponta {
+    fill: var(--line-strong);
+  }
+
+  .texto {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    fill: var(--fg);
+    text-anchor: middle;
+  }
+
+  .texto--acento {
+    fill: var(--accent);
+  }
+
+  .texto--titulo {
+    font-size: 11.5px;
+    text-anchor: start;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    fill: var(--muted);
+  }
+
+  .texto--passo {
+    font-size: 12px;
+  }
+
+  .seta {
+    font-family: var(--font-mono);
+    font-size: 14px;
+    fill: var(--line-strong);
+    text-anchor: middle;
+  }
+
+  .rotulo {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    fill: var(--muted);
+  }
+
+  .rotulo--fraco {
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+</style>
